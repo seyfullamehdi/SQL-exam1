@@ -1654,6 +1654,41 @@ function submitExam(){
   buildResult(elapsed);
   showScreen('resultScreen');
   window.scrollTo(0,0);
+  sendToSheets(elapsed);
+}
+
+function sendToSheets(elapsed){
+  const real = questions.filter(q=>!q.skip);
+  let correct=0, wrong=0, unanswered=0;
+  real.forEach((q)=>{
+    const qi = questions.indexOf(q);
+    const ua = userAnswers[qi];
+    if(!ua||ua.length===0) unanswered++;
+    else if(answersMatch(ua,q.answer)) correct++;
+    else wrong++;
+  });
+  const score = correct;
+  const passed = score >= PASS_SCORE;
+  const mins = Math.floor(elapsed/60), secs = elapsed%60;
+  const timeStr = mins+':'+String(secs).padStart(2,'0');
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTIK1Kf2v21b6kDnjNTIQeQjGLYticlZrM5D6udGmKXzGKOsGGx1y-kZ6ewjxIGZPy/exec';
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      name: studentName,
+      email: studentEmail,
+      score: score,
+      passed: passed,
+      correct: correct,
+      wrong: wrong,
+      unanswered: unanswered,
+      time: timeStr
+    })
+  }).catch(function(){});
 }
 
 // ═══════════════════════════════════════════════════════════════
