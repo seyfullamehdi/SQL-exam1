@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oracle SQL İmtahan — Dərs 1-7</title>
+<title>Oracle SQL İmtahan - JOIN'ə qədər</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -11,8 +11,8 @@
   --surface: #111827;
   --surface2: #1a2236;
   --border: #1e2d45;
-  --accent: #00d4ff;
-  --accent2: #ff6b35;
+  --accent: #a78bfa;
+  --accent2: #f472b6;
   --success: #00e676;
   --danger: #ff4d6d;
   --warning: #ffd166;
@@ -20,367 +20,116 @@
   --text2: #8899aa;
   --radius: 12px;
 }
-
 * { margin:0; padding:0; box-sizing:border-box; }
-
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Syne', sans-serif;
   min-height: 100vh;
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(255,107,53,0.05) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(167,139,250,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(244,114,182,0.05) 0%, transparent 50%);
 }
-
 .screen { display:none; }
 .screen.active { display:block; }
 
 /* LOGIN */
-#loginScreen {
-  min-height: 100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding: 20px;
-}
+#loginScreen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
 #loginScreen.active { display:flex; }
-
 .login-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 48px 40px;
-  width: 100%;
-  max-width: 480px;
-  position: relative;
-  overflow: hidden;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:48px 40px; width:100%; max-width:480px; position:relative; overflow:hidden;
 }
-.login-card::before {
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0;
-  height:3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-}
-
-.logo-area { text-align:center; margin-bottom: 36px; }
-.logo-icon {
-  width: 64px; height:64px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border-radius: 16px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 28px;
-  margin-bottom:16px;
-}
-.logo-area h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-.logo-area p { color: var(--text2); font-size: 13px; margin-top: 6px; font-family: 'Space Mono', monospace; }
-
-.form-group { margin-bottom: 20px; }
-.form-group label {
-  display:block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text2);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 8px;
-}
-.form-group input {
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--text);
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  outline:none;
-  transition: border-color 0.2s;
-}
-.form-group input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
-}
-
-.info-bar { display:flex; gap:12px; margin-bottom: 28px; }
-.info-chip {
-  flex:1;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px;
-  text-align:center;
-}
-.info-chip .val { font-size:20px; font-weight:800; color: var(--accent); font-family: 'Space Mono', monospace; }
-.info-chip .lbl { font-size:11px; color: var(--text2); margin-top:2px; }
-
-.topics-preview {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 24px;
-}
-.topics-preview h3 { font-size:13px; color:var(--text2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; }
-.topic-tag {
-  display:inline-block;
-  background: rgba(0,212,255,0.08);
-  border: 1px solid rgba(0,212,255,0.2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  font-size:12px;
-  color: var(--accent);
-  margin: 3px 3px 3px 0;
-  font-family: 'Space Mono', monospace;
-}
-
-.btn-start {
-  width:100%;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--accent), #0099bb);
-  border: none;
-  border-radius: var(--radius);
-  color: #000;
-  font-family: 'Syne', sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  letter-spacing: 0.5px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.3); }
-
-.err-msg { color: var(--danger); font-size: 13px; margin-top:6px; display:none; }
+.login-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+.logo-area { text-align:center; margin-bottom:36px; }
+.logo-icon { width:64px;height:64px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:16px; display:inline-flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:16px; }
+.logo-area h1 { font-size:26px; font-weight:800; letter-spacing:-0.5px; }
+.logo-area p { color:var(--text2); font-size:14px; margin-top:6px; font-family:'Space Mono',monospace; }
+.form-group { margin-bottom:20px; }
+.form-group label { display:block; font-size:13px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; }
+.form-group input { width:100%; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-family:'Syne',sans-serif; font-size:15px; outline:none; transition:border-color 0.2s; }
+.form-group input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(167,139,250,0.1); }
+.info-bar { display:flex; gap:12px; margin-bottom:28px; }
+.info-chip { flex:1; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px; text-align:center; }
+.info-chip .val { font-size:20px; font-weight:800; color:var(--accent); font-family:'Space Mono',monospace; }
+.info-chip .lbl { font-size:11px; color:var(--text2); margin-top:2px; }
+.btn-start { width:100%; padding:16px; background:linear-gradient(135deg,var(--accent),#7c3aed); border:none; border-radius:var(--radius); color:#fff; font-family:'Syne',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s; }
+.btn-start:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(167,139,250,0.3); }
+.err-msg { color:var(--danger); font-size:13px; margin-top:6px; display:none; }
 
 /* EXAM */
-#examScreen { padding: 0; }
+#examScreen { padding:0; }
 #examScreen.active { display:block; }
-
-.exam-header {
-  position: sticky;
-  top:0;
-  z-index:100;
-  background: rgba(10,14,26,0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 24px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-}
-
-.exam-title-sm { font-weight: 700; font-size: 15px; color: var(--accent); }
-
-.timer-block {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px 16px;
-}
-.timer-val {
-  font-family: 'Space Mono', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--accent);
-  min-width: 80px;
-  transition: color 0.3s;
-}
-.timer-val.warn { color: var(--warning); }
-.timer-val.danger { color: var(--danger); animation: pulse 1s infinite; }
-
-@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
-
-.progress-wrap { flex:1; max-width: 300px; }
-.progress-info { display:flex; justify-content:space-between; font-size:12px; color: var(--text2); margin-bottom:4px; font-family: 'Space Mono', monospace; }
-.progress-bar { height: 6px; background: var(--surface2); border-radius: 99px; overflow:hidden; }
-.progress-fill { height:100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width 0.4s; }
-
-.exam-body { max-width: 820px; margin: 0 auto; padding: 32px 20px 80px; }
-
-.question-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  margin-bottom: 24px;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-.question-card:hover { border-color: rgba(0,212,255,0.3); }
-
-.q-header { display:flex; align-items:flex-start; gap:14px; padding: 20px 20px 0; }
-.q-num {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color:#000;
-  font-weight:800;
-  font-size:12px;
-  padding: 4px 10px;
-  border-radius:6px;
-  white-space:nowrap;
-  font-family: 'Space Mono', monospace;
-  flex-shrink:0;
-  margin-top:2px;
-}
-.q-topic {
-  font-size:11px;
-  color: var(--accent2);
-  font-family: 'Space Mono', monospace;
-  background: rgba(255,107,53,0.08);
-  border: 1px solid rgba(255,107,53,0.2);
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-top: 2px;
-  display:inline-block;
-}
-.q-text { font-size: 15px; line-height: 1.65; font-weight: 500; }
-.q-note { font-size: 12px; color: var(--accent2); font-style: italic; margin-top:4px; }
-
-.options { padding: 16px 20px 20px; display:flex; flex-direction:column; gap:10px; }
-
-.opt-label {
-  display:flex;
-  align-items:flex-start;
-  gap:12px;
-  padding: 12px 16px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  cursor:pointer;
-  transition: all 0.15s;
-  font-size: 14px;
-  line-height: 1.5;
-}
-.opt-label:hover { border-color: rgba(0,212,255,0.4); background: rgba(0,212,255,0.05); }
-.opt-label input[type=radio], .opt-label input[type=checkbox] {
-  accent-color: var(--accent);
-  width:16px; height:16px;
-  flex-shrink:0;
-  margin-top:2px;
-}
-.opt-label.selected { border-color: var(--accent); background: rgba(0,212,255,0.08); }
-
-pre {
-  background: #0d1117;
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:10px 12px;
-  font-size:12px;
-  overflow-x:auto;
-  margin-top:8px;
-  font-family:'Space Mono',monospace;
-  white-space:pre-wrap;
-  word-break:break-word;
-  color:#cdd9e5;
-}
-
-.submit-area { text-align:center; padding: 20px; }
-.btn-submit {
-  padding: 16px 48px;
-  background: linear-gradient(135deg, var(--accent2), #cc4400);
-  border:none;
-  border-radius: var(--radius);
-  color:#fff;
-  font-family:'Syne',sans-serif;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,107,53,0.4); }
+.exam-header { position:sticky; top:0; z-index:100; background:rgba(10,14,26,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.exam-title-sm { font-weight:700; font-size:15px; color:var(--accent); }
+.timer-block { display:flex; align-items:center; gap:10px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:8px 16px; }
+.timer-val { font-family:'Space Mono',monospace; font-size:22px; font-weight:700; color:var(--accent); min-width:80px; transition:color 0.3s; }
+.timer-val.warn { color:var(--warning); }
+.timer-val.danger { color:var(--danger); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.5;} }
+.progress-wrap { flex:1; max-width:300px; }
+.progress-info { display:flex; justify-content:space-between; font-size:12px; color:var(--text2); margin-bottom:4px; font-family:'Space Mono',monospace; }
+.progress-bar { height:6px; background:var(--surface2); border-radius:99px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:99px; transition:width 0.4s; }
+.exam-body { max-width:820px; margin:0 auto; padding:32px 20px 80px; }
+.question-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-bottom:24px; overflow:hidden; transition:border-color 0.2s; }
+.question-card:hover { border-color:rgba(167,139,250,0.3); }
+.q-header { display:flex; align-items:flex-start; gap:14px; padding:20px 20px 0; }
+.q-num { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-weight:800; font-size:12px; padding:4px 10px; border-radius:6px; white-space:nowrap; font-family:'Space Mono',monospace; flex-shrink:0; margin-top:2px; }
+.q-text { font-size:15px; line-height:1.65; font-weight:500; }
+.q-note { font-size:12px; color:var(--accent2); font-style:italic; margin-top:4px; }
+.options { padding:16px 20px 20px; display:flex; flex-direction:column; gap:10px; }
+.opt-label { display:flex; align-items:flex-start; gap:12px; padding:12px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:10px; cursor:pointer; transition:all 0.15s; font-size:14px; line-height:1.5; }
+.opt-label:hover { border-color:rgba(167,139,250,0.4); background:rgba(167,139,250,0.05); }
+.opt-label input { accent-color:var(--accent); width:16px; height:16px; flex-shrink:0; margin-top:2px; }
+.opt-label.selected { border-color:var(--accent); background:rgba(167,139,250,0.08); }
+.submit-area { text-align:center; padding:20px; }
+.btn-submit { padding:16px 48px; background:linear-gradient(135deg,var(--accent2),#be185d); border:none; border-radius:var(--radius); color:#fff; font-family:'Syne',sans-serif; font-size:17px; font-weight:800; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s; }
+.btn-submit:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(244,114,182,0.4); }
 
 /* RESULT */
-#resultScreen { padding: 0; }
+#resultScreen { padding:0; }
 #resultScreen.active { display:block; }
-
-.result-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 32px 24px;
-  text-align:center;
-  position: relative;
-  overflow: hidden;
-}
-.result-header::before {
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--success));
-}
-
-.student-info-res { font-size:14px; color: var(--text2); margin-bottom:8px; font-family: 'Space Mono', monospace; }
-
-.score-circle {
-  width: 140px; height:140px;
-  border-radius: 50%;
-  margin: 20px auto;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  position: relative;
-}
-.score-circle.pass { background: conic-gradient(var(--success) calc(var(--pct) * 1%), var(--surface2) 0); box-shadow: 0 0 40px rgba(0,230,118,0.3); }
-.score-circle.fail { background: conic-gradient(var(--danger) calc(var(--pct) * 1%), var(--surface2) 0); box-shadow: 0 0 40px rgba(255,77,109,0.3); }
-.score-inner {
-  background: var(--bg);
-  width:110px; height:110px;
-  border-radius:50%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-}
+.result-header { background:var(--surface); border-bottom:1px solid var(--border); padding:32px 24px; text-align:center; position:relative; overflow:hidden; }
+.result-header::before { content:''; position:absolute; top:0;left:0;right:0; height:4px; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--success)); }
+.student-info-res { font-size:14px; color:var(--text2); margin-bottom:8px; font-family:'Space Mono',monospace; }
+.score-circle { width:140px;height:140px; border-radius:50%; margin:20px auto; display:flex; flex-direction:column; align-items:center; justify-content:center; font-weight:800; position:relative; }
+.score-circle.pass { background:conic-gradient(var(--success) calc(var(--pct)*1%),var(--surface2) 0); box-shadow:0 0 40px rgba(0,230,118,0.3); }
+.score-circle.fail { background:conic-gradient(var(--danger) calc(var(--pct)*1%),var(--surface2) 0); box-shadow:0 0 40px rgba(255,77,109,0.3); }
+.score-inner { background:var(--bg); width:110px;height:110px; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
 .score-num { font-size:30px; font-family:'Space Mono',monospace; }
 .score-label { font-size:11px; color:var(--text2); }
-
-.verdict { font-size: 28px; font-weight:800; margin:8px 0 4px; }
-.verdict.pass { color: var(--success); }
-.verdict.fail { color: var(--danger); }
-
-.motivate { font-size:15px; color: var(--text2); max-width: 420px; margin: 0 auto 8px; }
-
+.verdict { font-size:28px; font-weight:800; margin:8px 0 4px; }
+.verdict.pass { color:var(--success); }
+.verdict.fail { color:var(--danger); }
+.motivate { font-size:15px; color:var(--text2); max-width:420px; margin:0 auto 8px; }
 .stats-row { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:16px; }
-.stat-chip { background: var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 20px; text-align:center; }
+.stat-chip { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:12px 20px; text-align:center; }
 .stat-chip .sv { font-size:22px; font-weight:800; font-family:'Space Mono',monospace; }
 .stat-chip .sl { font-size:11px; color:var(--text2); margin-top:2px; }
-
-.result-body { max-width:900px; margin:0 auto; padding: 32px 20px 60px; }
-
+.result-body { max-width:900px; margin:0 auto; padding:32px 20px 60px; }
 .section-title { font-size:20px; font-weight:800; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
-
-.topics-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap:12px; margin-bottom:40px; }
-.topic-chip { background: rgba(255,77,109,0.08); border:1px solid rgba(255,77,109,0.3); border-radius:10px; padding:14px; }
+.topics-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; margin-bottom:40px; }
+.topic-chip { background:rgba(255,77,109,0.08); border:1px solid rgba(255,77,109,0.3); border-radius:10px; padding:14px; }
 .topic-chip .tc-name { font-weight:700; font-size:14px; margin-bottom:4px; }
 .topic-chip .tc-count { font-size:12px; color:var(--danger); font-family:'Space Mono',monospace; }
-
-.review-card { background: var(--surface); border-radius:14px; margin-bottom:16px; overflow:hidden; border:1px solid var(--border); }
+.review-card { background:var(--surface); border-radius:14px; margin-bottom:16px; overflow:hidden; border:1px solid var(--border); }
 .review-card.correct { border-left:4px solid var(--success); }
 .review-card.wrong { border-left:4px solid var(--danger); }
 .review-card.unanswered { border-left:4px solid var(--text2); }
-
 .review-q-head { display:flex; align-items:center; gap:10px; padding:14px 16px 10px; }
 .review-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:6px; font-family:'Space Mono',monospace; }
 .badge-correct { background:rgba(0,230,118,0.15); color:var(--success); }
 .badge-wrong { background:rgba(255,77,109,0.15); color:var(--danger); }
 .badge-unanswered { background:rgba(136,153,170,0.15); color:var(--text2); }
-
 .review-q-text { font-size:14px; font-weight:600; line-height:1.5; }
-
 .review-opts { padding:0 16px 14px; display:flex; flex-direction:column; gap:6px; }
-.review-opt { font-size:13px; padding:8px 12px; border-radius:8px; line-height:1.4; background: var(--surface2); border:1px solid transparent; }
-.review-opt.r-correct { background:rgba(0,230,118,0.1); border-color: rgba(0,230,118,0.4); color: var(--success); }
-.review-opt.r-wrong-sel { background:rgba(255,77,109,0.1); border-color: rgba(255,77,109,0.4); color: var(--danger); }
-
-.btn-top { position:fixed; bottom:24px; right:24px; background: var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 16px; cursor:pointer; font-family:'Syne',sans-serif; font-size:13px; color:var(--text); font-weight:700; z-index:200; }
+.review-opt { font-size:13px; padding:8px 12px; border-radius:8px; line-height:1.4; background:var(--surface2); border:1px solid transparent; }
+.review-opt.r-correct { background:rgba(0,230,118,0.1); border-color:rgba(0,230,118,0.4); color:var(--success); }
+.review-opt.r-wrong-sel { background:rgba(255,77,109,0.1); border-color:rgba(255,77,109,0.4); color:var(--danger); }
+.btn-top { position:fixed; bottom:24px; right:24px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 16px; cursor:pointer; font-family:'Syne',sans-serif; font-size:13px; color:var(--text); font-weight:700; z-index:200; }
 .btn-top:hover { border-color:var(--accent); color:var(--accent); }
+pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; padding:10px 12px; font-size:12px; overflow-x:auto; margin-top:8px; font-family:'Space Mono',monospace; white-space:pre-wrap; word-break:break-word; color:#cdd9e5; }
 </style>
 </head>
 <body>
@@ -391,29 +140,13 @@ pre {
     <div class="logo-area">
       <div class="logo-icon">🗄️</div>
       <h1>Oracle SQL İmtahan</h1>
-      <p>Dərs 1–7 · SQL Əsasları</p>
+      <p>JOIN'ə qədər · Əsas mövzular</p>
     </div>
-
     <div class="info-bar">
-      <div class="info-chip"><div class="val">30</div><div class="lbl">Sual</div></div>
-      <div class="info-chip"><div class="val">60</div><div class="lbl">Dəqiqə</div></div>
-      <div class="info-chip"><div class="val">21</div><div class="lbl">Keçid balı</div></div>
+      <div class="info-chip"><div class="val">60</div><div class="lbl">Sual</div></div>
+      <div class="info-chip"><div class="val">120</div><div class="lbl">Dəqiqə</div></div>
+      <div class="info-chip"><div class="val">36</div><div class="lbl">Keçid balı</div></div>
     </div>
-
-    <div class="topics-preview">
-      <h3>Mövzular</h3>
-      <span class="topic-tag">DDL</span>
-      <span class="topic-tag">Constraints</span>
-      <span class="topic-tag">SEQUENCE</span>
-      <span class="topic-tag">DML</span>
-      <span class="topic-tag">TCL</span>
-      <span class="topic-tag">SELECT / WHERE</span>
-      <span class="topic-tag">ORDER BY / FETCH</span>
-      <span class="topic-tag">ROW_NUMBER / RANK</span>
-      <span class="topic-tag">CASE / DECODE</span>
-      <span class="topic-tag">NVL / COALESCE</span>
-    </div>
-
     <div class="form-group">
       <label>Ad</label>
       <input type="text" id="inp-name" placeholder="Adınızı daxil edin">
@@ -429,7 +162,6 @@ pre {
       <input type="email" id="inp-email" placeholder="email@example.com">
       <div class="err-msg" id="err-email">Düzgün email daxil edin</div>
     </div>
-
     <button class="btn-start" onclick="startExam()">🚀 İmtahana Başla</button>
   </div>
 </div>
@@ -437,17 +169,17 @@ pre {
 <!-- EXAM -->
 <div id="examScreen" class="screen">
   <div class="exam-header">
-    <div class="exam-title-sm">Oracle SQL · Dərs 1–7</div>
+    <div class="exam-title-sm">Oracle SQL</div>
     <div class="progress-wrap">
       <div class="progress-info">
-        <span id="prog-text">0 / 30 cavablandı</span>
+        <span id="prog-text">0 / 60 cavablandı</span>
         <span id="prog-pct">0%</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
     <div class="timer-block">
       <span>⏱</span>
-      <span class="timer-val" id="timer">60:00</span>
+      <span class="timer-val" id="timer">120:00</span>
     </div>
   </div>
   <div class="exam-body" id="examBody"></div>
@@ -462,7 +194,7 @@ pre {
     <div class="student-info-res" id="resStudentInfo"></div>
     <div class="score-circle" id="scoreCircle">
       <div class="score-inner">
-        <div class="score-num" id="scoreNum">0/30</div>
+        <div class="score-num" id="scoreNum">0/60</div>
         <div class="score-label">NƏTİCƏ</div>
       </div>
     </div>
@@ -485,660 +217,835 @@ pre {
 </div>
 
 <script>
+// ═══════════════════════════════════════════
+// 60 SUAL - JOIN'Ə QƏDƏR MÖVZULAR
+// ═══════════════════════════════════════════
 const questions = [
-  // ── DDL ──
   {
-    n:1,
-    text:"Aşağıdakılardan hansı DDL əmridir?",
-    type:"single",
-    topic:"DDL",
+    n:1, type:'single', topic:'SELECT / FROM / WHERE',
+    text:'Employees cədvəlində salary 5000-dən çox olan işçilərin adlarını göstər. Hansı SELECT işçidir düzgün?',
     opts:[
-      "A: INSERT",
-      "B: UPDATE",
-      "C: ALTER TABLE",
-      "D: COMMIT"
+      'A. SELECT * FROM employees WHERE salary > 5000;',
+      'B. SELECT first_name, salary FROM employees WHERE salary > 5000;',
+      'C. SELECT last_name FROM employees WHERE salary > 5000;',
+      'D. SELECT all columns FROM employees WHERE salary > 5000;'
+    ],
+    answer:[1]
+  },
+  {
+    n:2, type:'single', topic:'ORDER BY / ASC / DESC',
+    text:'Təlimçiləri maaş əsasında azalan qaydada sıralamaq üçün hansı clause istifadə olunur?',
+    opts:[
+      'A. SELECT * FROM employees ORDER BY salary;',
+      'B. SELECT * FROM employees ORDER BY salary DESC;',
+      'C. SELECT * FROM employees DESC BY salary;',
+      'D. SELECT * FROM employees SORT BY salary DESC;'
+    ],
+    answer:[1]
+  },
+  {
+    n:3, type:'single', topic:'DISTINCT',
+    text:'Departments cədvəlində neçə fərqli şəhər var? Hansı sorğu düzgündür?',
+    opts:[
+      'A. SELECT * FROM departments;',
+      'B. SELECT city FROM departments;',
+      'C. SELECT DISTINCT city FROM departments;',
+      'D. SELECT city FROM departments DISTINCT;'
     ],
     answer:[2]
   },
   {
-    n:2,
-    text:"Mövcud cədvəlin adını dəyişdirmək üçün hansı əmr istifadə edilir?",
-    type:"single",
-    topic:"DDL",
+    n:4, type:'single', topic:'NULL / NVL',
+    text:'Commission NULL ola biləcəyi ehtimalına qarşı, maaş + komisyon hesablamaq üçün düzgün ifadə hansıdır?',
     opts:[
-      "A: ALTER TABLE emps RENAME emps TO employees;",
-      "B: ALTER TABLE emps RENAME TO employees;",
-      "C: RENAME TABLE emps TO employees;",
-      "D: MODIFY TABLE emps RENAME TO employees;"
+      'A. SELECT salary + commission FROM employees;',
+      'B. SELECT salary + NVL(commission, 0) FROM employees;',
+      'C. SELECT salary + ISNULL(commission, 0) FROM employees;',
+      'D. SELECT salary + COALESCE(commission) FROM employees;'
     ],
     answer:[1]
   },
   {
-    n:3,
-    text:"DDL əmrləri haqqında hansı iki ifadə doğrudur? (İki seçin)",
-    type:"multi",
-    topic:"DDL",
+    n:5, type:'single', topic:'String Functions / UPPER / LOWER',
+    text:'Əmployee adlarını böyük hərflərlə göstərmək üçün hansı funksiya istifadə olunur?',
     opts:[
-      "A: DDL əmrləri avtomatik COMMIT edir.",
-      "B: DDL əmrlərini ROLLBACK ilə geri qaytarmaq olar.",
-      "C: CREATE TABLE DDL əmridir.",
-      "D: INSERT DDL əmridir.",
-      "E: TRUNCATE TABLE DDL əmridir."
+      'A. SELECT UPPERCASE(name) FROM employees;',
+      'B. SELECT UPPER(name) FROM employees;',
+      'C. SELECT TO_UPPER(name) FROM employees;',
+      'D. SELECT name UPPER FROM employees;'
     ],
-    answer:[0,2]
+    answer:[1]
   },
-  // ── CONSTRAINTS ──
   {
-    n:4,
-    text:"PRIMARY KEY constraint haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"Constraints",
+    n:6, type:'single', topic:'String Functions / LENGTH / SUBSTR',
+    text:'\'Oracle\' sözünün uzunluğu nədir? LENGTH(\\'Oracle\\') nəticə verər?',
     opts:[
-      "A: Bir cədvəldə birdən çox PRIMARY KEY ola bilər.",
-      "B: PRIMARY KEY sütunu NULL dəyər qəbul edə bilər.",
-      "C: PRIMARY KEY = UNIQUE + NOT NULL.",
-      "D: PRIMARY KEY yalnız NUMBER tipli sütunlara tətbiq edilə bilər."
+      'A. 5',
+      'B. 6',
+      'C. 7',
+      'D. ERROR'
+    ],
+    answer:[1]
+  },
+  {
+    n:7, type:'single', topic:'String Functions / CONCAT / ||',
+    text:'First_name və last_name birləşdirmək üçün düzgün sintaksis hansıdır?',
+    opts:[
+      'A. SELECT first_name || last_name FROM employees;',
+      'B. SELECT first_name + last_name FROM employees;',
+      'C. SELECT CONCAT(first_name, last_name) FROM employees;',
+      'D. SELECT first_name + \\' \\' + last_name FROM employees;'
+    ],
+    answer:[0]
+  },
+  {
+    n:8, type:'single', topic:'Number Functions / ROUND / TRUNC',
+    text:'155.567 sayını 2 onluğa qədər yuvarlaqlaşdırmaq üçün nəticə nə olur?',
+    opts:[
+      'A. ROUND(155.567, 2) = 155.56',
+      'B. ROUND(155.567, 2) = 155.57',
+      'C. TRUNC(155.567, 2) = 155.57',
+      'D. MOD(155.567, 2) = 155.57'
+    ],
+    answer:[1]
+  },
+  {
+    n:9, type:'single', topic:'Number Functions / MOD / ABS',
+    text:'MOD(17, 5) nəticə nədir?',
+    opts:[
+      'A. 2',
+      'B. 3',
+      'C. 4',
+      'D. 5'
+    ],
+    answer:[0]
+  },
+  {
+    n:10, type:'single', topic:'Date Functions / SYSDATE / TRUNC',
+    text:'Bugünün tarixini (vaxt olmadan) almaq üçün hansı funksiya istifadə olunur?',
+    opts:[
+      'A. SELECT SYSDATE FROM DUAL;',
+      'B. SELECT TODAY FROM DUAL;',
+      'C. SELECT TRUNC(SYSDATE) FROM DUAL;',
+      'D. SELECT CURRENT_DATE FROM DUAL;'
     ],
     answer:[2]
   },
   {
-    n:5,
-    text:"Aşağıdakı CREATE TABLE əmri icra edildikdə hansı INSERT uğurlu olacaq?\nCREATE TABLE vendors (id NUMBER, status NUMBER(1) CHECK (status IN (1,2,3)), salary NUMBER CHECK (salary BETWEEN 500 AND 5000));",
-    type:"single",
-    topic:"Constraints",
+    n:11, type:'single', topic:'Date Functions / MONTHS_BETWEEN',
+    text:'İki tarix arasındakı ayları hesablamaq üçün hansı funksiya istifadə olunur?',
     opts:[
-      "A: INSERT INTO vendors VALUES (1, 5, 1000);",
-      "B: INSERT INTO vendors VALUES (2, 2, 300);",
-      "C: INSERT INTO vendors VALUES (3, 1, 2000);",
-      "D: INSERT INTO vendors VALUES (4, 4, 4000);"
+      'A. SELECT DATE_DIFF(hire_date, SYSDATE) FROM employees;',
+      'B. SELECT DATEDIFF(MONTH, hire_date, SYSDATE) FROM employees;',
+      'C. SELECT MONTHS_BETWEEN(SYSDATE, hire_date) FROM employees;',
+      'D. SELECT DAYS(SYSDATE, hire_date) FROM employees;'
     ],
     answer:[2]
   },
   {
-    n:6,
-    text:"FOREIGN KEY haqqında hansı iki ifadə doğrudur? (İki seçin)",
-    type:"multi",
-    topic:"Constraints",
+    n:12, type:'single', topic:'Date Functions / ADD_MONTHS / TO_DATE',
+    text:'Tarixə 6 ay əlavə etmək üçün düzgün funksiya hansıdır?',
     opts:[
-      "A: FOREIGN KEY sütunu NULL dəyər qəbul edə bilər.",
-      "B: Bir cədvəldə yalnız bir FOREIGN KEY ola bilər.",
-      "C: FOREIGN KEY, başqa cədvəlin PRIMARY KEY-inə istinad edir.",
-      "D: FOREIGN KEY olan cədvəl child cədvəl adlanır.",
-      "E: ON DELETE CASCADE olmadan parent sətri silmək həmişə mümkündür."
-    ],
-    answer:[0,2]
-  },
-  {
-    n:7,
-    text:"NOT NULL constraint haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"Constraints",
-    opts:[
-      "A: NOT NULL constraint outline sintaksisi ilə əlavə edilə bilər.",
-      "B: NOT NULL constraint yalnız inline sintaksisi ilə yazılır.",
-      "C: NOT NULL constraint PRIMARY KEY ilə birlikdə istifadə edilə bilməz.",
-      "D: NOT NULL constraint ALTER TABLE ADD ilə əlavə edilə bilər."
+      'A. SELECT ADD_DATE(hire_date, 6) FROM employees;',
+      'B. SELECT ADD_MONTHS(hire_date, 6) FROM employees;',
+      'C. SELECT hire_date + 6 FROM employees;',
+      'D. SELECT DATEADD(month, 6, hire_date) FROM employees;'
     ],
     answer:[1]
   },
   {
-    n:8,
-    text:"Aşağıdakı əmr icra edildikdən sonra FOREIGN KEY EMP_MGR_FK-nin vəziyyəti nə olacaq?\nALTER TABLE emp DISABLE CONSTRAINT emp_emp_no_pk CASCADE;\nALTER TABLE emp ENABLE CONSTRAINT emp_emp_no_pk;",
-    type:"single",
-    topic:"Constraints",
+    n:13, type:'single', topic:'TO_CHAR / Date Formatting',
+    text:'Tarix \'15-JAN-2023\' formatında göstərmək üçün düzgün kod hansıdır?',
     opts:[
-      "A: Avtomatik aktiv olacaq.",
-      "B: Deaktiv qalacaq, əl ilə aktiv etmək lazımdır.",
-      "C: Silinəcək.",
-      "D: Xəta verəcək."
+      'A. SELECT TO_CHAR(hire_date, \'DD-MON-YYYY\') FROM employees;',
+      'B. SELECT TO_DATE(hire_date, \'DD-MON-YYYY\') FROM employees;',
+      'C. SELECT FORMAT(hire_date, \'DD-MON-YYYY\') FROM employees;',
+      'D. SELECT hire_date AS \'DD-MON-YYYY\' FROM employees;'
     ],
-    answer:[1]
-  },
-  // ── SEQUENCE + DML ──
-  {
-    n:9,
-    text:"Aşağıdakı SEQUENCE yaradıldıqdan sonra ilk üç NEXTVAL çağırışının nəticəsi nə olacaq?\nCREATE SEQUENCE seq1 START WITH 10 INCREMENT BY 5 MAXVALUE 100;",
-    type:"single",
-    topic:"SEQUENCE",
-    opts:[
-      "A: 1, 2, 3",
-      "B: 5, 10, 15",
-      "C: 10, 15, 20",
-      "D: 10, 20, 30"
-    ],
-    answer:[2]
+    answer:[0]
   },
   {
-    n:10,
-    text:"SEQUENCE haqqında hansı iki ifadə doğrudur? (İki seçin)",
-    type:"multi",
-    topic:"SEQUENCE",
+    n:14, type:'single', topic:'TO_NUMBER / Conversion',
+    text:'Mətn \'12345\' -ı rəqəmə çevirmək üçün hansı funksiya istifadə olunur?',
     opts:[
-      "A: ROLLBACK ediləndə SEQUENCE dəyəri geri qaytarılır.",
-      "B: CURRVAL-ı işlətmək üçün əvvəlcə həmin sessiyada NEXTVAL çağırılmalıdır.",
-      "C: SEQUENCE-i silmək üçün DELETE SEQUENCE istifadə edilir.",
-      "D: SEQUENCE-in maksimum dəyərinə çatdıqda CYCLE varsa yenidən başlayır.",
-      "E: SEQUENCE yalnız PRIMARY KEY sütunlarına istifadə edilə bilər."
-    ],
-    answer:[1,3]
-  },
-  {
-    n:11,
-    text:"Aşağıdakı UPDATE əmri haqqında hansı ifadə doğrudur?\nUPDATE employees SET salary = salary * 1.10;",
-    type:"single",
-    topic:"DML",
-    opts:[
-      "A: Yalnız bir sətir dəyişəcək.",
-      "B: Bütün sətirlərin maaşı 10% artacaq.",
-      "C: Xəta verəcək, çünki WHERE yoxdur.",
-      "D: Xəta verəcək, çünki hesablama SELECT-də olmalıdır."
-    ],
-    answer:[1]
-  },
-  {
-    n:12,
-    text:"DELETE və TRUNCATE arasındakı fərq haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"DML / DDL",
-    opts:[
-      "A: Hər ikisini ROLLBACK ilə geri qaytarmaq olar.",
-      "B: TRUNCATE DML, DELETE DDL əmridir.",
-      "C: DELETE WHERE şərti ilə müəyyən sətirləri silə bilər, TRUNCATE isə yalnız hamısını silir.",
-      "D: TRUNCATE trigger-ləri işlədir, DELETE isə işlətmir."
-    ],
-    answer:[2]
-  },
-  {
-    n:13,
-    text:"Aşağıdakı CTAS əmri nə edir?\nCREATE TABLE emp_backup AS SELECT * FROM employees WHERE 1=2;",
-    type:"single",
-    topic:"DDL / DML",
-    opts:[
-      "A: employees cədvəlinin bütün datası ilə birlikdə kopyasını yaradır.",
-      "B: Yalnız strukturu kopyalayır, data olmadan boş cədvəl yaradır.",
-      "C: Xəta verir, çünki WHERE şərtli CTAS olmaz.",
-      "D: employees cədvəlini silir və yenidən yaradır."
-    ],
-    answer:[1]
-  },
-  // ── TCL ──
-  {
-    n:14,
-    text:"Hansı üç halda tranzaksiya tamamlanır? (Üç seçin)",
-    type:"multi",
-    topic:"TCL",
-    opts:[
-      "A: DELETE əmri icra edildikdə.",
-      "B: ROLLBACK əmri icra edildikdə.",
-      "C: DDL əmri (CREATE, ALTER, DROP) icra edildikdə.",
-      "D: SAVEPOINT yaradıldıqda.",
-      "E: TRUNCATE əmri pending tranzaksiyadan sonra icra edildikdə."
-    ],
-    answer:[1,2,4]
-  },
-  {
-    n:15,
-    text:"Aşağıdakı kodun sonunda cədvəldə nə var?\nINSERT INTO t VALUES (1,'a');\nSAVEPOINT sp1;\nINSERT INTO t VALUES (2,'b');\nSAVEPOINT sp2;\nDELETE FROM t WHERE id=1;\nROLLBACK TO sp1;\nCOMMIT;",
-    type:"single",
-    topic:"TCL",
-    opts:[
-      "A: Cədvəl boşdur.",
-      "B: Yalnız id=1 olan sətir var.",
-      "C: Yalnız id=2 olan sətir var.",
-      "D: Həm id=1, həm id=2 olan sətir var."
-    ],
-    answer:[1]
-  },
-  {
-    n:16,
-    text:"SAVEPOINT haqqında hansı iki ifadə doğrudur? (İki seçin)",
-    type:"multi",
-    topic:"TCL",
-    opts:[
-      "A: SAVEPOINT yalnız DML əmrləri üçün istifadə edilə bilər.",
-      "B: COMMIT baş verəndə bütün SAVEPOINT-lər silinir.",
-      "C: SAVEPOINT həm COMMIT, həm ROLLBACK üçün effektivdir.",
-      "D: ROLLBACK TO SAVEPOINT əmri ilə müəyyən nöqtəyə qayıtmaq olar.",
-      "E: DDL əmrindən sonra ROLLBACK TO sp1 işləyir."
-    ],
-    answer:[0,3]
-  },
-  // ── SELECT / WHERE ──
-  {
-    n:17,
-    text:"Aşağıdakı sorğu hansı sətirləri qaytarır?\nSELECT * FROM loan_contract WHERE currency_id NOT IN (944, 840, NULL);",
-    type:"single",
-    topic:"SELECT / WHERE",
-    opts:[
-      "A: currency_id 944 və 840 olmayanları qaytarır.",
-      "B: Heç bir sətir qaytarmır.",
-      "C: currency_id NULL olanları qaytarır.",
-      "D: Bütün sətirləri qaytarır."
-    ],
-    answer:[1]
-  },
-  {
-    n:18,
-    text:"LIKE operatoru haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"SELECT / WHERE / LIKE",
-    opts:[
-      "A: LIKE 'Baba%' — index işləmir.",
-      "B: LIKE '%yeva' — index işləyir.",
-      "C: _ simvolu istənilən sayda simvolu təmsil edir.",
-      "D: LIKE 'Baba%' — index işləyir, LIKE '%yeva' — işləmir."
+      'A. SELECT CAST(\'12345\' AS NUMBER) FROM DUAL;',
+      'B. SELECT TO_NUMBER(\'12345\') FROM DUAL;',
+      'C. SELECT CONVERT(\'12345\', NUMBER) FROM DUAL;',
+      'D. A və B hər ikisi düzgündür'
     ],
     answer:[3]
   },
   {
-    n:19,
-    text:"Aşağıdakı sorğuların hansı FƏRQLI nəticə verər?\nSELECT * FROM loan_contract ORDER BY amount_azn DESC FETCH FIRST 3 ROWS ONLY;\nSELECT * FROM loan_contract ORDER BY amount_azn DESC FETCH FIRST 3 ROWS WITH TIES;",
-    type:"single",
-    topic:"SELECT / FETCH",
+    n:15, type:'single', topic:'COUNT / Aggregate Functions',
+    text:'Employees cədvəlində neçə işçi var? Düzgün sorğu hansıdır?',
     opts:[
-      "A: Hər zaman eyni nəticə verirlər.",
-      "B: 3-cü sırada bərabər dəyərlər olduqda WITH TIES daha çox sətir qaytarır.",
-      "C: ONLY həmişə daha çox sətir qaytarır.",
-      "D: WITH TIES xəta verir."
-    ],
-    answer:[1]
-  },
-  {
-    n:20,
-    text:"Aşağıdakı sorğunun nəticəsi nə olacaq?\nSELECT * FROM employees ORDER BY salary DESC FETCH FIRST 50 PERCENT ROWS ONLY;",
-    type:"single",
-    topic:"SELECT / FETCH",
-    opts:[
-      "A: Ən yüksək maaşlı 50% işçiləri göstərir.",
-      "B: Ən aşağı maaşlı 50% işçiləri göstərir.",
-      "C: Xəta verir, çünki ORDER BY son olmalıdır.",
-      "D: Yalnız ilk 50 sətiri göstərir."
+      'A. SELECT COUNT(*) FROM employees;',
+      'B. SELECT COUNT(employee_id) FROM employees;',
+      'C. SELECT SUM(*) FROM employees;',
+      'D. SELECT TOTAL(*) FROM employees;'
     ],
     answer:[0]
   },
   {
-    n:21,
-    text:"WHERE şərti olmadan UPDATE icra edildikdə nə baş verir?",
-    type:"single",
-    topic:"DML / WHERE",
+    n:16, type:'single', topic:'SUM / AVG / Aggregate Functions',
+    text:'Employees cədvəlində ortaya maaş nədir? Düzgün sorğu hansıdır?',
     opts:[
-      "A: Xəta verir.",
-      "B: Yalnız birinci sətir dəyişir.",
-      "C: Cədvəldəki bütün sətirlar dəyişir.",
-      "D: Heç bir sətir dəyişmir."
+      'A. SELECT AVG(salary) FROM employees;',
+      'B. SELECT AVERAGE(salary) FROM employees;',
+      'C. SELECT SUM(salary)/COUNT(*) FROM employees;',
+      'D. A və C hər ikisi düzgündür'
     ],
-    answer:[2]
+    answer:[3]
   },
   {
-    n:22,
-    text:"ORDER BY haqqında hansı iki ifadə doğrudur? (İki seçin)",
-    type:"multi",
-    topic:"SELECT / ORDER BY",
+    n:17, type:'single', topic:'MIN / MAX / Aggregate Functions',
+    text:'Ən yüksək maaş nədir?',
     opts:[
-      "A: ASC sıralamada NULL dəyərlər ən sona gedir.",
-      "B: DESC sıralamada NULL dəyərlər ən əvvələ gəlir.",
-      "C: ORDER BY-da sütun adı yerinə pozisiya nömrəsi istifadə edilə bilməz.",
-      "D: ORDER BY-da alias istifadə etmək olar.",
-      "E: ORDER BY yalnız bir sütuna görə sıralaya bilər."
-    ],
-    answer:[0,1]
-  },
-  // ── ROW_NUMBER / RANK / DENSE_RANK ──
-  {
-    n:23,
-    text:"ROW_NUMBER, RANK və DENSE_RANK arasındakı fərq haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"Analitik Funksiyalar",
-    opts:[
-      "A: RANK bərabər dəyərlərdə eyni nömrə verir və boşluq buraxır.",
-      "B: DENSE_RANK bərabər dəyərlərdə eyni nömrə verir və boşluq buraxır.",
-      "C: ROW_NUMBER bərabər dəyərlərdə eyni nömrə verir.",
-      "D: RANK və DENSE_RANK arasında heç bir fərq yoxdur."
+      'A. SELECT MAX(salary) FROM employees;',
+      'B. SELECT HIGHEST(salary) FROM employees;',
+      'C. SELECT TOP(1) salary FROM employees ORDER BY salary DESC;',
+      'D. SELECT salary FROM employees ORDER BY salary DESC LIMIT 1;'
     ],
     answer:[0]
   },
   {
-    n:24,
-    text:"Aşağıdakı sorğuda xəta haradır?\nSELECT employee_id, salary, RANK() OVER (ORDER BY salary DESC) AS rnk FROM employees WHERE rnk <= 5;",
-    type:"single",
-    topic:"Analitik Funksiyalar",
+    n:18, type:'single', topic:'GROUP BY',
+    text:'Departament üzrə işçi sayını göstərmək üçün düzgün sorğu hansıdır?',
     opts:[
-      "A: RANK() funksiyası WHERE-də istifadə edilə bilməz.",
-      "B: WHERE şərtində analitik funksiya alias-ı istifadə edilə bilməz.",
-      "C: ORDER BY DESC olmaz.",
-      "D: Xəta yoxdur, sorğu düzgündür."
+      'A. SELECT department_id, COUNT(*) FROM employees;',
+      'B. SELECT department_id, COUNT(*) FROM employees GROUP BY department_id;',
+      'C. SELECT department_id FROM employees GROUP BY COUNT(*);',
+      'D. SELECT COUNT(*) FROM employees BY department_id;'
     ],
     answer:[1]
   },
   {
-    n:25,
-    text:"Hər departament üzrə ən yüksək maaşlı ilk 2 işçini gətirmək üçün hansı analitik funksiya ən uyğundur — bərabər maaşlı işçilərin hamısı gəlsin?",
-    type:"single",
-    topic:"Analitik Funksiyalar",
+    n:19, type:'single', topic:'GROUP BY / HAVING',
+    text:'100-dən çox işçisi olan departamentləri göstərmək üçün hansı clause istifadə olunur?',
     opts:[
-      "A: ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY salary DESC)",
-      "B: RANK() OVER (PARTITION BY department_id ORDER BY salary DESC)",
-      "C: DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC)",
-      "D: COUNT() OVER (PARTITION BY department_id ORDER BY salary DESC)"
-    ],
-    answer:[2]
-  },
-  // ── CASE / DECODE / NVL ──
-  {
-    n:26,
-    text:"CASE və DECODE arasındakı fərq haqqında hansı ifadə doğrudur?",
-    type:"single",
-    topic:"CASE / DECODE",
-    opts:[
-      "A: DECODE BETWEEN, LIKE şərtlərini dəstəkləyir, CASE isə dəstəkləmir.",
-      "B: CASE yalnız bərabərlik şərtini yoxlaya bilər.",
-      "C: DECODE yalnız bərabərlik üçündür, CASE isə mürəkkəb şərtləri dəstəkləyir.",
-      "D: CASE-in END açar sözü yoxdur."
-    ],
-    answer:[2]
-  },
-  {
-    n:27,
-    text:"Aşağıdakı sorğunun nəticəsi nə olacaq?\nSELECT NVL(NULL, NVL(NULL, 'son')) FROM DUAL;",
-    type:"single",
-    topic:"NVL / COALESCE",
-    opts:[
-      "A: NULL",
-      "B: 'son'",
-      "C: Xəta verir",
-      "D: Boş sətir"
+      'A. SELECT department_id, COUNT(*) FROM employees GROUP BY department_id WHERE COUNT(*) > 100;',
+      'B. SELECT department_id, COUNT(*) FROM employees GROUP BY department_id HAVING COUNT(*) > 100;',
+      'C. SELECT department_id FROM employees HAVING COUNT(*) > 100 GROUP BY department_id;',
+      'D. SELECT department_id FROM employees WHERE COUNT(*) > 100 GROUP BY department_id;'
     ],
     answer:[1]
   },
   {
-    n:28,
-    text:"COALESCE(NULL, NULL, 5, NULL, 10) sorğusunun nəticəsi nədir?",
-    type:"single",
-    topic:"NVL / COALESCE",
+    n:20, type:'single', topic:'GROUP BY / Multiple Columns',
+    text:'Department və job üzrə işçi sayını göstərmək üçün GROUP BY hissə necə olmalıdır?',
     opts:[
-      "A: NULL",
-      "B: 10",
-      "C: 5",
-      "D: 15"
-    ],
-    answer:[2]
-  },
-  {
-    n:29,
-    text:"Aşağıdakı sorğular haqqında hansı ifadə doğrudur?\nSorğu 1: SELECT AVG(salary) FROM employees;\nSorğu 2: SELECT AVG(NVL(salary,0)) FROM employees;",
-    type:"single",
-    topic:"NVL / Aqreqat",
-    opts:[
-      "A: Hər iki sorğu həmişə eyni nəticə verir.",
-      "B: Sorğu 1 NULL olan maaşları saymır, Sorğu 2 NULL-ları 0 kimi sayır — nəticə fərqli ola bilər.",
-      "C: Sorğu 2 xəta verir.",
-      "D: NVL aqreqat funksiyaların içindən istifadə edilə bilməz."
+      'A. GROUP BY department_id;',
+      'B. GROUP BY department_id, job_id;',
+      'C. GROUP BY department_id OR job_id;',
+      'D. GROUP BY department_id AND job_id;'
     ],
     answer:[1]
   },
   {
-    n:30,
-    text:"Aşağıdakı CASE sorğusunun nəticəsi nə olacaq?\nSELECT CASE WHEN 1=1 THEN 'birinci' WHEN 2=2 THEN 'ikinci' ELSE 'diger' END FROM DUAL;",
-    type:"single",
-    topic:"CASE / DECODE",
+    n:21, type:'single', topic:'INNER JOIN',
+    text:'Employees və departments cədvəlləri birləşdirmək üçün (yalnız uyğun satırlar) hansı JOIN istifadə olunur?',
     opts:[
-      "A: 'diger'",
-      "B: 'ikinci'",
-      "C: 'birinci'",
-      "D: Xəta verir"
+      'A. SELECT * FROM employees LEFT JOIN departments ...;',
+      'B. SELECT * FROM employees INNER JOIN departments ...;',
+      'C. SELECT * FROM employees FULL OUTER JOIN departments ...;',
+      'D. SELECT * FROM employees RIGHT JOIN departments ...;'
+    ],
+    answer:[1]
+  },
+  {
+    n:22, type:'single', topic:'INNER JOIN / Syntax',
+    text:'Düzgün INNER JOIN sintaksı hansıdır?',
+    opts:[
+      'A. SELECT * FROM employees e INNER JOIN departments d ON e.department_id = d.department_id;',
+      'B. SELECT * FROM employees e, departments d WHERE e.department_id = d.department_id;',
+      'C. Hər ikisi düzgündür',
+      'D. Heç biri düzgün deyil'
     ],
     answer:[2]
+  },
+  {
+    n:23, type:'single', topic:'LEFT OUTER JOIN',
+    text:'Bütün departamentləri və onlara aid işçiləri göstərmək üçün (işçisiz departamentlər də daxil) hansı JOIN istifadə olunur?',
+    opts:[
+      'A. SELECT * FROM employees INNER JOIN departments ...;',
+      'B. SELECT * FROM departments LEFT OUTER JOIN employees ...;',
+      'C. SELECT * FROM employees RIGHT OUTER JOIN departments ...;',
+      'D. B və C ekvivalentdir'
+    ],
+    answer:[3]
+  },
+  {
+    n:24, type:'single', topic:'RIGHT OUTER JOIN',
+    text:'RIGHT OUTER JOIN nə üçün istifadə olunur?',
+    opts:[
+      'A. Sağ cədvəldən bütün satırları göstərmək üçün',
+      'B. Sol cədvəldən bütün satırları göstərmək üçün',
+      'C. Hər iki cədvəldən bütün satırları göstərmək üçün',
+      'D. Yalnız uyğun satırları göstərmək üçün'
+    ],
+    answer:[0]
+  },
+  {
+    n:25, type:'single', topic:'FULL OUTER JOIN',
+    text:'Hər iki cədvəldən bütün satırları göstərmək üçün (uyğun və uyğun olmayan) hansı JOIN istifadə olunur?',
+    opts:[
+      'A. INNER JOIN',
+      'B. LEFT OUTER JOIN',
+      'C. FULL OUTER JOIN',
+      'D. CROSS JOIN'
+    ],
+    answer:[2]
+  },
+  {
+    n:26, type:'single', topic:'CROSS JOIN / Cartesian Product',
+    text:'Zwei cədvəlin CROSS JOIN-i nəyi nəticə verir?',
+    opts:[
+      'A. Dekart məhsulu (hər satırın hər satırla kombinasiyası)',
+      'B. Uyğun satırlar',
+      'C. Sol cədvəlin bütün satırları',
+      'D. Boş nəticə'
+    ],
+    answer:[0]
+  },
+  {
+    n:27, type:'single', topic:'Self Join',
+    text:'Employees cədvəlində işçinin mənajerini göstərmək üçün (hər iki işçi də aynı cədvəldə) hansı JOIN istifadə olunur?',
+    opts:[
+      'A. INNER JOIN',
+      'B. SELF JOIN (cədvəlin özü ilə JOIN)',
+      'C. LEFT JOIN',
+      'D. CROSS JOIN'
+    ],
+    answer:[1]
+  },
+  {
+    n:28, type:'single', topic:'Self Join / Alias',
+    text:'Self JOIN-də cədvəl neçə dəfə qeyd olunmalıdır?',
+    opts:[
+      'A. Bir dəfə',
+      'B. İki dəfə (fərqli alias ilə)',
+      'C. Üç dəfə',
+      'D. Mühüm deyil'
+    ],
+    answer:[1]
+  },
+  {
+    n:29, type:'single', topic:'UNION / Set Operator',
+    text:'İki SELECT-in nəticəsini birləşdirmək və dublikatları silmək üçün hansı operator istifadə olunur?',
+    opts:[
+      'A. UNION',
+      'B. UNION ALL',
+      'C. EXCEPT',
+      'D. INTERSECT'
+    ],
+    answer:[0]
+  },
+  {
+    n:30, type:'single', topic:'UNION ALL',
+    text:'UNION və UNION ALL arasındakı fərq nədir?',
+    opts:[
+      'A. UNION bütün satırları qaytarır, UNION ALL dublikatları silir',
+      'B. UNION dublikatları silir, UNION ALL bütün satırları qaytarır',
+      'C. Fərq yoxdur',
+      'D. UNION ALL ədədlər üçün, UNION mətn üçün istifadə olunur'
+    ],
+    answer:[1]
+  },
+  {
+    n:31, type:'single', topic:'EXCEPT / INTERSECT',
+    text:'Birinci SELECT-in nəticəsində olan amma ikinci SELECT-in nəticəsində olmayan satırları göstərmək üçün hansı operator istifadə olunur?',
+    opts:[
+      'A. UNION',
+      'B. EXCEPT',
+      'C. INTERSECT',
+      'D. DIFFERENCE'
+    ],
+    answer:[1]
+  },
+  {
+    n:32, type:'single', topic:'Data Types / VARCHAR2 / CHAR',
+    text:'Mətin məlumatı üçün hansı data type istifadə olunur?',
+    opts:[
+      'A. NUMBER',
+      'B. VARCHAR2',
+      'C. DATE',
+      'D. DECIMAL'
+    ],
+    answer:[1]
+  },
+  {
+    n:33, type:'single', topic:'Data Types / NUMBER',
+    text:'NUMBER(10,2) nə demək?',
+    opts:[
+      'A. 10 rəqəm, 2 onluq yeri',
+      'B. 2 rəqəm, 10 onluq yeri',
+      'C. Maksimal 10 bayt, 2 bayt onluq',
+      'D. Maksimal 2 bayt, 10 bayt onluq'
+    ],
+    answer:[0]
+  },
+  {
+    n:34, type:'single', topic:'Data Types / DATE / TIMESTAMP',
+    text:'Tarix və vaxt məlumatı üçün hansı data type istifadə olunur?',
+    opts:[
+      'A. VARCHAR2',
+      'B. DATE',
+      'C. TIME',
+      'D. DATETIME'
+    ],
+    answer:[1]
+  },
+  {
+    n:35, type:'single', topic:'WHERE / AND / OR',
+    text:'Maaş 3000-dən çox VƏ department_id 10 olan işçiləri göstərmək üçün hansı condition istifadə olunur?',
+    opts:[
+      'A. WHERE salary > 3000 OR department_id = 10',
+      'B. WHERE salary > 3000 AND department_id = 10',
+      'C. WHERE salary > 3000, department_id = 10',
+      'D. WHERE salary > 3000 XOR department_id = 10'
+    ],
+    answer:[1]
+  },
+  {
+    n:36, type:'single', topic:'WHERE / IN / BETWEEN',
+    text:'Department_id 10, 20 və 30 olan işçiləri göstərmək üçün hansı condition istifadə olunur?',
+    opts:[
+      'A. WHERE department_id = 10 OR 20 OR 30',
+      'B. WHERE department_id IN (10, 20, 30)',
+      'C. WHERE department_id BETWEEN 10 AND 30',
+      'D. WHERE department_id = (10, 20, 30)'
+    ],
+    answer:[1]
+  },
+  {
+    n:37, type:'single', topic:'WHERE / BETWEEN',
+    text:'Maaş 3000 ilə 5000 arasında olan işçiləri göstərmək üçün hansı condition istifadə olunur?',
+    opts:[
+      'A. WHERE salary > 3000 AND salary < 5000',
+      'B. WHERE salary BETWEEN 3000 AND 5000',
+      'C. WHERE salary >= 3000 AND salary <= 5000',
+      'D. B və C hər ikisi düzgündür'
+    ],
+    answer:[3]
+  },
+  {
+    n:38, type:'single', topic:'WHERE / LIKE / Pattern Matching',
+    text:'Adı A hərfi ilə başlayan işçiləri göstərmək üçün hansı condition istifadə olunur?',
+    opts:[
+      'A. WHERE first_name LIKE \'A*\'',
+      'B. WHERE first_name LIKE \'A%\'',
+      'C. WHERE first_name LIKE \'%A\'',
+      'D. WHERE first_name STARTS WITH \'A\''
+    ],
+    answer:[1]
+  },
+  {
+    n:39, type:'single', topic:'WHERE / IS NULL / IS NOT NULL',
+    text:'Commission NULL olan işçiləri göstərmək üçün hansı condition istifadə olunur?',
+    opts:[
+      'A. WHERE commission = NULL',
+      'B. WHERE commission IS NULL',
+      'C. WHERE commission <> NULL',
+      'D. WHERE NULL(commission)'
+    ],
+    answer:[1]
+  },
+  {
+    n:40, type:'single', topic:'INSERT / DML',
+    text:'Yeni işçi əlavə etmək üçün düzgün SQL ifadə hansıdır?',
+    opts:[
+      'A. ADD INTO employees VALUES (100, \'John\');',
+      'B. INSERT INTO employees VALUES (100, \'John\');',
+      'C. INSERT employees VALUES (100, \'John\');',
+      'D. APPEND INTO employees VALUES (100, \'John\');'
+    ],
+    answer:[1]
+  },
+  {
+    n:41, type:'single', topic:'INSERT / Column List',
+    text:'Spesifik sütunlara dəyər daxil etmək üçün düzgün sintaksis hansıdır?',
+    opts:[
+      'A. INSERT employees (employee_id, first_name) VALUES (100, \'John\');',
+      'B. INSERT INTO employees (employee_id, first_name) VALUES (100, \'John\');',
+      'C. INSERT INTO employees columns (employee_id, first_name) VALUES (100, \'John\');',
+      'D. INSERT INTO employees [employee_id, first_name] VALUES (100, \'John\');'
+    ],
+    answer:[1]
+  },
+  {
+    n:42, type:'single', topic:'UPDATE / DML',
+    text:'Işçinin maaşını yeniləmək üçün düzgün SQL ifadə hansıdır?',
+    opts:[
+      'A. UPDATE employees SET salary = 5000 WHERE employee_id = 100;',
+      'B. EDIT employees SET salary = 5000 WHERE employee_id = 100;',
+      'C. MODIFY employees SET salary = 5000 WHERE employee_id = 100;',
+      'D. UPDATE employees salary = 5000 WHERE employee_id = 100;'
+    ],
+    answer:[0]
+  },
+  {
+    n:43, type:'single', topic:'DELETE / DML',
+    text:'Işçi silmək üçün düzgün SQL ifadə hansıdır?',
+    opts:[
+      'A. DELETE FROM employees WHERE employee_id = 100;',
+      'B. DELETE employees WHERE employee_id = 100;',
+      'C. REMOVE FROM employees WHERE employee_id = 100;',
+      'D. DROP FROM employees WHERE employee_id = 100;'
+    ],
+    answer:[0]
+  },
+  {
+    n:44, type:'single', topic:'COMMIT / Transactions',
+    text:'Dəyişiklikləri bazaya saxlamaq üçün hansı komanda istifadə olunur?',
+    opts:[
+      'A. SAVE;',
+      'B. COMMIT;',
+      'C. WRITE;',
+      'D. FLUSH;'
+    ],
+    answer:[1]
+  },
+  {
+    n:45, type:'single', topic:'ROLLBACK / Transactions',
+    text:'Sonuncu COMMIT-dən sonra edilən dəyişiklikləri geri almaq üçün hansı komanda istifadə olunur?',
+    opts:[
+      'A. UNDO;',
+      'B. REVERT;',
+      'C. ROLLBACK;',
+      'D. CANCEL;'
+    ],
+    answer:[2]
+  },
+  {
+    n:46, type:'multi', topic:'Functions / Categories',
+    text:'Aşağıdakılardan hansı SINGLE-ROW functions-dır? (İki cavab düzgündür)',
+    opts:[
+      'A. COUNT()',
+      'B. UPPER()',
+      'C. SUM()',
+      'D. SUBSTR()',
+      'E. AVG()'
+    ],
+    answer:[1,3]
+  },
+  {
+    n:47, type:'multi', topic:'Functions / Categories',
+    text:'Aşağıdakılardan hansı AGGREGATE functions-dır? (İki cavab düzgündür)',
+    opts:[
+      'A. LENGTH()',
+      'B. COUNT()',
+      'C. ROUND()',
+      'D. MAX()',
+      'E. SUBSTR()'
+    ],
+    answer:[1,3]
+  },
+  {
+    n:48, type:'single', topic:'ALIAS / Column Alias',
+    text:'Sütun üçün dövrətən ad vermək üçün hansı keyword istifadə olunur?',
+    opts:[
+      'A. RENAME',
+      'B. AS',
+      'C. NAME',
+      'D. LABEL'
+    ],
+    answer:[1]
+  },
+  {
+    n:49, type:'single', topic:'ALIAS / Table Alias',
+    text:'Cədvəl üçün dövrətən ad vermək üçün hansı sintaksis istifadə olunur?',
+    opts:[
+      'A. SELECT * FROM employees ALIAS e;',
+      'B. SELECT * FROM employees AS e;',
+      'C. SELECT * FROM employees e;',
+      'D. B və C hər ikisi düzgündür'
+    ],
+    answer:[3]
+  },
+  {
+    n:50, type:'single', topic:'JOIN / ON vs WHERE',
+    text:'JOIN-dən sonra condition hissəsi harada yazılır?',
+    opts:[
+      'A. Hər ikisində yazıla bilər',
+      'B. ON clause-da',
+      'C. WHERE clause-da',
+      'D. FROM clause-da'
+    ],
+    answer:[0]
+  },
+  {
+    n:51, type:'single', topic:'Implicit Conversion / String to Number',
+    text:'Implicit conversion nədir?',
+    opts:[
+      'A. Açıq şəkildə data type dəyişməsi',
+      'B. Oracle-in avtomatik olaraq data type dəyişməsi',
+      'C. Əl ilə konversiya funksiyası istifadə etməsi',
+      'D. Konversiya etməmə'
+    ],
+    answer:[1]
+  },
+  {
+    n:52, type:'single', topic:'Explicit Conversion / TO_CHAR / TO_NUMBER',
+    text:'Explicit conversion nədir?',
+    opts:[
+      'A. Avtomatik data type dəyişməsi',
+      'B. Açıq şəkildə konversiya funksiyası (TO_CHAR, TO_NUMBER) istifadə etməsi',
+      'C. Konversiya etməmə',
+      'D. Oracle-in avtomatik seçməsi'
+    ],
+    answer:[1]
+  },
+  {
+    n:53, type:'single', topic:'Aggregate Functions / GROUP BY Syntax',
+    text:'GROUP BY-dən sonra SELECT-ə hansı sütunlar yazılmalıdır?',
+    opts:[
+      'A. Yalnız aggregate functions',
+      'B. Yalnız GROUP BY-də olan sütunlar və/və ya aggregate functions',
+      'C. İstənilən sütun',
+      'D. Hər sütun'
+    ],
+    answer:[1]
+  },
+  {
+    n:54, type:'single', topic:'WHERE vs HAVING',
+    text:'WHERE və HAVING arasındakı fərq nədir?',
+    opts:[
+      'A. WHERE əvvəl filtrasiya edir, HAVING GROUP BY-dən sonra filtrasiya edir',
+      'B. HAVING əvvəl filtrasiya edir, WHERE GROUP BY-dən sonra filtrasiya edir',
+      'C. Heç bir fərq yoxdur',
+      'D. WHERE yalnız text üçün, HAVING yalnız rəqəmlər üçün'
+    ],
+    answer:[0]
+  },
+  {
+    n:55, type:'single', topic:'JOIN / Equijoin vs Non-equijoin',
+    text:'Equijoin nədir?',
+    opts:[
+      'A. = operatorunu istifadə edən JOIN',
+      'B. > və < operatorlarını istifadə edən JOIN',
+      'C. Hər hansı operator istifadə edən JOIN',
+      'D. Operatorsuz JOIN'
+    ],
+    answer:[0]
+  },
+  {
+    n:56, type:'single', topic:'JOIN / Non-equijoin',
+    text:'Non-equijoin nədir?',
+    opts:[
+      'A. = operatorunu istifadə edən JOIN',
+      'B. >, <, BETWEEN kimi operatorları istifadə edən JOIN',
+      'C. Hər hansı operator istifadə edən JOIN',
+      'D. Operatorsuz JOIN'
+    ],
+    answer:[1]
+  },
+  {
+    n:57, type:'single', topic:'Aggregate Functions / COUNT / COUNT(*) vs COUNT(column)',
+    text:'COUNT(*) və COUNT(column) arasındakı fərq nədir?',
+    opts:[
+      'A. Heç bir fərq yoxdur',
+      'B. COUNT(*) bütün satırları sayır, COUNT(column) NULL olmayan dəyərləri sayır',
+      'C. COUNT(column) bütün satırları sayır, COUNT(*) NULL olmayan dəyərləri sayır',
+      'D. COUNT(*) daha sürətlidir'
+    ],
+    answer:[1]
+  },
+  {
+    n:58, type:'single', topic:'NATURAL JOIN',
+    text:'NATURAL JOIN nə demək?',
+    opts:[
+      'A. Hər iki cədvəldə eyni adlı sütunları avtomatik olaraq birləşdirmə',
+      'B. Manuel olarak ON clause yazmaq lazımdır',
+      'C. Bütün sütunları birləşdirmə',
+      'D. Yalnız first_name və last_name birləşdirmə'
+    ],
+    answer:[0]
+  },
+  {
+    n:59, type:'single', topic:'ORDER BY / Multiple Columns',
+    text:'İki sütun əsasında sıralamaq üçün düzgün sintaksis hansıdır?',
+    opts:[
+      'A. ORDER BY column1, column2;',
+      'B. ORDER BY column1 AND column2;',
+      'C. ORDER BY column1, column2 DESC;',
+      'D. A və C hər ikisi düzgündür'
+    ],
+    answer:[3]
+  },
+  {
+    n:60, type:'single', topic:'Arithmetic Operations',
+    text:'Maaşı 1.5 qat artırmaq üçün hansı ifadə istifadə olunur?',
+    opts:[
+      'A. SELECT salary + 1.5 FROM employees;',
+      'B. SELECT salary * 1.5 FROM employees;',
+      'C. SELECT salary ^ 1.5 FROM employees;',
+      'D. SELECT salary x 1.5 FROM employees;'
+    ],
+    answer:[1]
   }
 ];
 
+// ═══════════════════════════════════════════
 // STATE
+// ═══════════════════════════════════════════
+const PASS_SCORE = 36;
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTIK1Kf2v21b6kDnjNTIQeQjGLYticlZrM5D6udGmKXzGKOsGGx1y-kZ6ewjxIGZPy/exec';
+
 let studentName='', studentEmail='';
-let timeLeft = 60*60;
+let timeLeft = 120*60;
 let timerInterval = null;
 let startTime = null;
 let userAnswers = {};
-const PASS_SCORE = 21;
-const TOTAL_Q = questions.length;
 
 function $(id){ return document.getElementById(id); }
+function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); }
+function fmtTime(sec){ const m=Math.floor(sec/60),s=sec%60; return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
 
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  $(id).classList.add('active');
-}
-
-function fmtTime(sec){
-  const m = Math.floor(sec/60), s = sec%60;
-  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-
+// LOGIN
 function startExam(){
-  const name = $('inp-name').value.trim();
-  const surname = $('inp-surname').value.trim();
-  const email = $('inp-email').value.trim();
-  let ok = true;
-
-  $('err-name').style.display = name ? 'none' : 'block'; if(!name) ok=false;
-  $('err-surname').style.display = surname ? 'none' : 'block'; if(!surname) ok=false;
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  $('err-email').style.display = emailOk ? 'none' : 'block'; if(!emailOk) ok=false;
-
-  if(!ok) return;
-  studentName = name + ' ' + surname;
-  studentEmail = email;
-  buildExam();
-  showScreen('examScreen');
-  startTimer();
+  const name=$('inp-name').value.trim(), surname=$('inp-surname').value.trim(), email=$('inp-email').value.trim();
+  let ok=true;
+  $('err-name').style.display=name?'none':'block'; if(!name)ok=false;
+  $('err-surname').style.display=surname?'none':'block'; if(!surname)ok=false;
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  $('err-email').style.display=emailOk?'none':'block'; if(!emailOk)ok=false;
+  if(!ok)return;
+  studentName=name+' '+surname; studentEmail=email;
+  buildExam(); showScreen('examScreen'); startTimer();
 }
 
+// BUILD EXAM
 function buildExam(){
-  const body = $('examBody');
-  body.innerHTML = '';
-  questions.forEach((q, qi) => {
-    const card = document.createElement('div');
-    card.className = 'question-card';
-    const typeNote = q.type === 'multi' ? `<div class="q-note">⚠️ Birdən çox cavab seçin</div>` : '';
-    let optsHtml = q.opts.map((opt, oi) => {
-      const inputType = q.type === 'multi' ? 'checkbox' : 'radio';
-      const name = q.type === 'single' ? `name="q${qi}"` : '';
-      return `<label class="opt-label" id="opt-${qi}-${oi}">
-        <input type="${inputType}" ${name} value="${oi}" onchange="recordAnswer(${qi},${oi},this)">
-        <span>${opt}</span>
-      </label>`;
+  const body=$('examBody'); body.innerHTML='';
+  questions.forEach((q,qi)=>{
+    const card=document.createElement('div'); card.className='question-card'; card.id='qcard-'+qi;
+    const typeNote=q.type==='multi'?'<div class="q-note">⚠️ Birdən çox cavab seçin</div>':'';
+    let optsHtml=q.opts.map((opt,oi)=>{
+      const it=q.type==='multi'?'checkbox':'radio';
+      const nm=q.type==='single'?'name="q'+qi+'"':'';
+      return '<label class="opt-label" id="opt-'+qi+'-'+oi+'"><input type="'+it+'" '+nm+' value="'+oi+'" onchange="recordAnswer('+qi+','+oi+',this)"><span>'+opt.replace(/\n/g,'<br>')+'</span></label>';
     }).join('');
-
-    card.innerHTML = `
-      <div class="q-header">
-        <div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-            <div class="q-num">S-${q.n}</div>
-            <div class="q-topic">${q.topic}</div>
-          </div>
-          <div class="q-text">${q.text.replace(/\n/g,'<br>')}</div>
-          ${typeNote}
-        </div>
-      </div>
-      <div class="options">${optsHtml}</div>`;
+    card.innerHTML='<div class="q-header"><div class="q-num">S-'+q.n+'</div><div><div class="q-text">'+q.text.replace(/\n/g,'<br>')+'</div>'+typeNote+'</div></div><div class="options">'+optsHtml+'</div>';
     body.appendChild(card);
   });
 }
 
-function recordAnswer(qi, oi, el){
-  const q = questions[qi];
-  if(q.type === 'single'){
-    userAnswers[qi] = [oi];
-    q.opts.forEach((_,i)=>{
-      const lbl = document.getElementById(`opt-${qi}-${i}`);
-      if(lbl) lbl.classList.toggle('selected', i===oi);
-    });
+// RECORD ANSWER
+function recordAnswer(qi,oi,el){
+  const q=questions[qi];
+  if(q.type==='single'){
+    userAnswers[qi]=[oi];
+    q.opts.forEach((_,i)=>{ const l=document.getElementById('opt-'+qi+'-'+i); if(l)l.classList.toggle('selected',i===oi); });
   } else {
-    if(!userAnswers[qi]) userAnswers[qi]=[];
-    if(el.checked){ if(!userAnswers[qi].includes(oi)) userAnswers[qi].push(oi); }
-    else { userAnswers[qi] = userAnswers[qi].filter(x=>x!==oi); }
-    const lbl = document.getElementById(`opt-${qi}-${oi}`);
-    if(lbl) lbl.classList.toggle('selected', el.checked);
+    if(!userAnswers[qi])userAnswers[qi]=[];
+    if(el.checked){ if(!userAnswers[qi].includes(oi))userAnswers[qi].push(oi); }
+    else { userAnswers[qi]=userAnswers[qi].filter(x=>x!==oi); }
+    const l=document.getElementById('opt-'+qi+'-'+oi); if(l)l.classList.toggle('selected',el.checked);
   }
   updateProgress();
 }
 
 function updateProgress(){
-  const answered = Object.keys(userAnswers).filter(k=>userAnswers[k]&&userAnswers[k].length>0).length;
-  const pct = Math.round(answered/TOTAL_Q*100);
-  $('prog-text').textContent = `${answered} / ${TOTAL_Q} cavablandı`;
-  $('prog-pct').textContent = pct+'%';
-  $('prog-fill').style.width = pct+'%';
+  const answered=Object.keys(userAnswers).filter(k=>userAnswers[k]&&userAnswers[k].length>0).length;
+  const pct=Math.round(answered/questions.length*100);
+  $('prog-text').textContent=answered+' / '+questions.length+' cavablandı';
+  $('prog-pct').textContent=pct+'%';
+  $('prog-fill').style.width=pct+'%';
 }
 
+// TIMER
 function startTimer(){
-  startTime = Date.now();
-  timerInterval = setInterval(()=>{
+  startTime=Date.now();
+  timerInterval=setInterval(()=>{
     timeLeft--;
-    const tv = $('timer');
-    tv.textContent = fmtTime(timeLeft);
-    if(timeLeft<=300) tv.className='timer-val warn';
-    if(timeLeft<=60)  tv.className='timer-val danger';
-    if(timeLeft<=0){ clearInterval(timerInterval); submitExam(); }
+    const tv=$('timer'); tv.textContent=fmtTime(timeLeft);
+    if(timeLeft<=300)tv.className='timer-val warn';
+    if(timeLeft<=60)tv.className='timer-val danger';
+    if(timeLeft<=0){clearInterval(timerInterval);submitExam();}
   },1000);
 }
 
+// SUBMIT
 function confirmSubmit(){
-  const answered = Object.keys(userAnswers).filter(k=>userAnswers[k]&&userAnswers[k].length>0).length;
-  const unanswered = TOTAL_Q - answered;
-  const msg = unanswered > 0
-    ? `${unanswered} sual cavabsız qalıb. Yenə də bitirmək istəyirsiniz?`
-    : 'İmtahanı bitirmək istədiyinizə əminsinizmi?';
-  showModal(msg, submitExam);
+  const answered=Object.keys(userAnswers).filter(k=>userAnswers[k]&&userAnswers[k].length>0).length;
+  const unanswered=questions.length-answered;
+  showModal(unanswered>0?unanswered+' sual cavabsız qalıb. Yenə də bitirmək istəyirsiniz?':'İmtahanı bitirmək istədiyinizə əminsinizmi?',submitExam);
 }
 
-function showModal(msg, onConfirm){
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
-  overlay.innerHTML = `
-    <div style="background:#111827;border:1px solid #1e2d45;border-radius:16px;padding:32px;max-width:380px;width:90%;text-align:center;font-family:Syne,sans-serif;">
-      <div style="font-size:36px;margin-bottom:12px;">⚠️</div>
-      <p style="font-size:15px;line-height:1.6;margin-bottom:24px;color:#e8edf5;">${msg}</p>
-      <div style="display:flex;gap:12px;justify-content:center;">
-        <button onclick="this.closest('div[style]').remove()" style="padding:12px 24px;background:#1a2236;border:1px solid #1e2d45;border-radius:10px;color:#8899aa;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Ləğv et</button>
-        <button id="modal-confirm-btn" style="padding:12px 24px;background:linear-gradient(135deg,#ff6b35,#cc4400);border:none;border-radius:10px;color:#fff;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Bəli, bitir</button>
-      </div>
-    </div>`;
+function showModal(msg,onConfirm){
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);';
+  overlay.innerHTML='<div style="background:#111827;border:1px solid #1e2d45;border-radius:16px;padding:32px;max-width:380px;width:90%;text-align:center;font-family:Syne,sans-serif;"><div style="font-size:36px;margin-bottom:12px;">⚠️</div><p style="font-size:15px;line-height:1.6;margin-bottom:24px;color:#e8edf5;">'+msg+'</p><div style="display:flex;gap:12px;justify-content:center;"><button onclick="this.closest(\'div[style]\').remove()" style="padding:12px 24px;background:#1a2236;border:1px solid #1e2d45;border-radius:10px;color:#8899aa;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Ləğv et</button><button id="mc-btn" style="padding:12px 24px;background:linear-gradient(135deg,#a78bfa,#7c3aed);border:none;border-radius:10px;color:#fff;font-family:Syne,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Bəli, bitir</button></div></div>';
   document.body.appendChild(overlay);
-  document.getElementById('modal-confirm-btn').onclick = () => { overlay.remove(); onConfirm(); };
+  document.getElementById('mc-btn').onclick=()=>{overlay.remove();onConfirm();};
 }
 
 function submitExam(){
   clearInterval(timerInterval);
-  const elapsed = Math.round((Date.now()-startTime)/1000);
+  const elapsed=Math.round((Date.now()-startTime)/1000);
   buildResult(elapsed);
   showScreen('resultScreen');
   window.scrollTo(0,0);
   sendToSheets(elapsed);
 }
 
-function answersMatch(userAns, correctAns){
-  if(!userAns || userAns.length===0) return false;
-  const u = [...userAns].sort((a,b)=>a-b);
-  const c = [...correctAns].sort((a,b)=>a-b);
-  return u.length===c.length && u.every((v,i)=>v===c[i]);
-}
-
+// SEND TO SHEETS
 function sendToSheets(elapsed){
-  let correct=0, wrong=0, unanswered=0;
-  questions.forEach((q, qi)=>{
-    const ua = userAnswers[qi];
-    if(!ua||ua.length===0) unanswered++;
-    else if(answersMatch(ua,q.answer)) correct++;
+  let correct=0,wrong=0,unanswered=0;
+  questions.forEach((q,qi)=>{
+    const ua=userAnswers[qi];
+    if(!ua||ua.length===0)unanswered++;
+    else if(answersMatch(ua,q.answer))correct++;
     else wrong++;
   });
-  const passed = correct >= PASS_SCORE;
-  const mins = Math.floor(elapsed/60), secs = elapsed%60;
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTIK1Kf2v21b6kDnjNTIQeQjGLYticlZrM5D6udGmKXzGKOsGGx1y-kZ6ewjxIGZPy/exec';
-  fetch(SCRIPT_URL, {
-    method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ name:studentName, email:studentEmail, score:correct, passed, correct, wrong, unanswered, time: mins+':'+String(secs).padStart(2,'0') })
-  }).catch(()=>{});
+  const mins=Math.floor(elapsed/60),secs=elapsed%60;
+  fetch(SCRIPT_URL,{
+    method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:studentName,email:studentEmail,score:correct,passed:correct>=PASS_SCORE,correct:correct,wrong:wrong,unanswered:unanswered,time:mins+':'+String(secs).padStart(2,'0')})
+  }).catch(function(){});
+}
+
+// RESULT
+function answersMatch(ua,ca){
+  if(!ua||ua.length===0)return false;
+  const u=[...ua].sort((a,b)=>a-b),c=[...ca].sort((a,b)=>a-b);
+  return u.length===c.length&&u.every((v,i)=>v===c[i]);
 }
 
 function buildResult(elapsed){
-  let correct=0, wrong=0, unanswered=0;
-  const topicErrors = {};
-
-  questions.forEach((q, qi)=>{
-    const ua = userAnswers[qi];
-    if(!ua||ua.length===0){ unanswered++; }
-    else if(answersMatch(ua,q.answer)){ correct++; }
-    else {
-      wrong++;
-      if(!topicErrors[q.topic]) topicErrors[q.topic]=0;
-      topicErrors[q.topic]++;
-    }
+  let correct=0,wrong=0,unanswered=0;
+  const topicErrors={};
+  questions.forEach((q,qi)=>{
+    const ua=userAnswers[qi];
+    if(!ua||ua.length===0){unanswered++;}
+    else if(answersMatch(ua,q.answer)){correct++;}
+    else{wrong++;if(!topicErrors[q.topic])topicErrors[q.topic]=0;topicErrors[q.topic]++;}
   });
-
-  const pct = Math.round(correct/TOTAL_Q*100);
-  const pass = correct >= PASS_SCORE;
-
-  $('resStudentInfo').textContent = `${studentName}  ·  ${studentEmail}`;
-  $('scoreNum').textContent = `${correct}/${TOTAL_Q}`;
-  const sc = $('scoreCircle');
-  sc.className = 'score-circle '+(pass?'pass':'fail');
-  sc.style.setProperty('--pct', pct);
-
-  $('verdictText').className = 'verdict '+(pass?'pass':'fail');
-  $('verdictText').textContent = pass ? '✅ KEÇDİNİZ!' : '❌ KEÇƏ BİLMƏDİNİZ';
-
-  const motivations = {
-    pass: ["Əla iş! Dərs 1-7 mövzularını yaxşı mənimsəmisiniz. 🚀","Təbriklər! Davam edin! 🏆","Bravo! Növbəti dərslərdə də uğurlar! 🌟"],
-    fail: ["Narahat olmayın, zəif mövzuları təkrar edin! 💪","Bu bir başlanğıcdır. Geri dönüb oxuyun! 📚","Cəhd üçün əla! Növbəti dəfə keçəcəksiniz! 🎯"]
-  };
-  const pool = pass ? motivations.pass : motivations.fail;
-  $('motivateText').textContent = pool[Math.floor(Math.random()*pool.length)];
-
-  $('sCorrect').textContent = correct;
-  $('sWrong').textContent = wrong;
-  $('sUnanswered').textContent = unanswered;
-  $('sTime').textContent = fmtTime(elapsed);
-
-  const tg = $('topicsGrid');
-  tg.innerHTML = '';
-  if(Object.keys(topicErrors).length===0){
-    tg.innerHTML = '<p style="color:var(--success);font-weight:700">🎉 Bütün mövzularda uğurlu oldunuz!</p>';
-  } else {
-    Object.entries(topicErrors).sort((a,b)=>b[1]-a[1]).forEach(([topic,cnt])=>{
-      tg.innerHTML += `<div class="topic-chip"><div class="tc-name">📖 ${topic}</div><div class="tc-count">${cnt} səhv</div></div>`;
-    });
-  }
-
-  const rc = $('reviewContainer');
-  rc.innerHTML = '';
-  questions.forEach((q, qi)=>{
-    const ua = userAnswers[qi] || [];
-    const isCorrect = answersMatch(ua, q.answer);
-    const isUnanswered = ua.length===0;
-    const status = isUnanswered ? 'unanswered' : (isCorrect ? 'correct' : 'wrong');
-    const badge = isUnanswered
-      ? `<span class="review-badge badge-unanswered">Cavabsız</span>`
-      : isCorrect
-        ? `<span class="review-badge badge-correct">✓ Düzgün</span>`
-        : `<span class="review-badge badge-wrong">✗ Səhv</span>`;
-
-    let optsHtml = q.opts.map((opt,oi)=>{
-      const isCorrectOpt = q.answer.includes(oi);
-      const isSelected = ua.includes(oi);
-      let cls = '';
-      if(isCorrectOpt) cls = 'r-correct';
-      else if(isSelected && !isCorrectOpt) cls = 'r-wrong-sel';
-      const mark = isCorrectOpt ? '✓ ' : (isSelected ? '✗ ' : '');
-      return `<div class="review-opt ${cls}">${mark}${opt}</div>`;
+  const pct=Math.round(correct/questions.length*100),pass=correct>=PASS_SCORE;
+  $('resStudentInfo').textContent=studentName+' · '+studentEmail;
+  $('scoreNum').textContent=correct+'/'+questions.length;
+  const sc=$('scoreCircle');sc.className='score-circle '+(pass?'pass':'fail');sc.style.setProperty('--pct',pct);
+  $('verdictText').className='verdict '+(pass?'pass':'fail');
+  $('verdictText').textContent=pass?'✅ KEÇDİNİZ!':'❌ KEÇƏ BİLMƏDİNİZ';
+  const pool=pass?['Əla iş! Oracle SQL bilikləriniz möhkəmdir. 🚀','Təbriklər! Ciddi hazırlığınızın göstəricisidir. 🏆']:['Narahat olmayın — zəif mövzuları təkrar edin! 💪','Bu bir başlanğıcdır. Növbəti dəfə keçəcəksiniz! 📚'];
+  $('motivateText').textContent=pool[Math.floor(Math.random()*pool.length)];
+  $('sCorrect').textContent=correct;$('sWrong').textContent=wrong;$('sUnanswered').textContent=unanswered;
+  $('sTime').textContent=fmtTime(elapsed);
+  const tg=$('topicsGrid');tg.innerHTML='';
+  if(Object.keys(topicErrors).length===0){tg.innerHTML='<p style="color:var(--success);font-weight:700">🎉 Bütün mövzularda uğurlu oldunuz!</p>';}
+  else{Object.entries(topicErrors).sort((a,b)=>b[1]-a[1]).forEach(([t,c])=>{tg.innerHTML+='<div class="topic-chip"><div class="tc-name">📖 '+t+'</div><div class="tc-count">'+c+' səhv</div></div>';});}
+  const rc=$('reviewContainer');rc.innerHTML='';
+  questions.forEach((q,qi)=>{
+    const ua=userAnswers[qi]||[];
+    const isCorrect=answersMatch(ua,q.answer),isUnanswered=ua.length===0;
+    const status=isUnanswered?'unanswered':(isCorrect?'correct':'wrong');
+    const badge=isUnanswered?'<span class="review-badge badge-unanswered">Cavabsız</span>':isCorrect?'<span class="review-badge badge-correct">✓ Düzgün</span>':'<span class="review-badge badge-wrong">✗ Səhv</span>';
+    const optsHtml=q.opts.map((opt,oi)=>{
+      const isC=q.answer.includes(oi),isSel=ua.includes(oi);
+      let cls='';if(isC)cls='r-correct';else if(isSel&&!isC)cls='r-wrong-sel';
+      return '<div class="review-opt '+cls+'">'+(isC?'✓ ':(isSel?'✗ ':""))+opt+'</div>';
     }).join('');
-
-    rc.innerHTML += `<div class="review-card ${status}">
-      <div class="review-q-head">
-        ${badge}
-        <div class="review-q-text">S-${q.n} [${q.topic}]: ${q.text.replace(/\n/g,' ').substring(0,100)}${q.text.length>100?'…':''}</div>
-      </div>
-      <div class="review-opts">${optsHtml}</div>
-    </div>`;
+    rc.innerHTML+='<div class="review-card '+status+'"><div class="review-q-head">'+badge+'<div class="review-q-text">S-'+q.n+': '+q.text.replace(/\n/g,' ').substring(0,120)+(q.text.length>120?'…':'')+'</div></div><div class="review-opts">'+optsHtml+'</div></div>';
   });
 }
 </script>
