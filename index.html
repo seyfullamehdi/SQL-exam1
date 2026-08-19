@@ -222,665 +222,664 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
 // ═══════════════════════════════════════════
 const questions = [
   {
-    n:1, type:'single', topic:'SELECT / DISTINCT',
-    text:'Which statement is true about the DISTINCT keyword in a SELECT statement?',
+    n:1, type:'single', topic:'Hierarchical Queries / CONNECT BY',
+    text:'Examine the EMPLOYEES table, which has a MANAGER_ID column referencing EMPLOYEE_ID in the same table. Which clause displays employees in a hierarchical (org-chart) order, starting from the top-level manager?',
     opts:[
-      'A. DISTINCT can be applied to only one column in the SELECT list.',
-      'B. DISTINCT eliminates duplicate rows based on the combination of all selected columns.',
-      'C. DISTINCT and an aggregate function can never be used together.',
-      'D. DISTINCT is evaluated after the ORDER BY clause.'
+      'A. GROUP BY manager_id',
+      'B. CONNECT BY PRIOR employee_id = manager_id START WITH manager_id IS NULL',
+      'C. ORDER BY manager_id, employee_id',
+      'D. PARTITION BY manager_id'
     ],
     answer:[1]
   },
   {
-    n:2, type:'single', topic:'WHERE / Comparison Operators',
-    text:'Examine the PRODUCTS table with a column PRICE (NUMBER). Which WHERE clause correctly returns products priced between 50 and 100, inclusive?',
+    n:2, type:'single', topic:'Hierarchical Queries / START WITH',
+    text:'In a hierarchical query using CONNECT BY, what is the purpose of the START WITH clause?',
     opts:[
-      'A. WHERE price IN (50,100)',
-      'B. WHERE price BETWEEN 50 AND 100',
-      'C. WHERE price > 50 OR price < 100',
-      'D. WHERE price BETWEEN 100 AND 50'
+      'A. It specifies the sort order of the hierarchy.',
+      'B. It specifies the root row(s) from which the hierarchy traversal begins.',
+      'C. It limits the number of hierarchy levels returned.',
+      'D. It is required only when using the LEVEL pseudocolumn.'
     ],
     answer:[1]
   },
   {
-    n:3, type:'single', topic:'ORDER BY / NULLS FIRST / NULLS LAST',
-    text:'Examine the EMPLOYEES table, where COMMISSION_PCT may contain NULL values. Which query lists employees ordered by COMMISSION_PCT in ascending order, guaranteeing that NULL values appear last?',
+    n:3, type:'single', topic:'PIVOT',
+    text:'Which clause transforms rows of data into columns, for example turning yearly SALES rows into separate columns for each year?',
     opts:[
-      'A. SELECT * FROM employees ORDER BY commission_pct NULLS LAST;',
-      'B. SELECT * FROM employees ORDER BY commission_pct DESC NULLS FIRST;',
-      'C. SELECT * FROM employees ORDER BY NVL(commission_pct,0) DESC;',
-      'D. SELECT * FROM employees WHERE commission_pct IS NOT NULL ORDER BY commission_pct;'
-    ],
-    answer:[0]
-  },
-  {
-    n:4, type:'single', topic:'Character Functions / INITCAP',
-    text:'Which query converts the CUST_NAME column so that only the first letter of each word is capitalized?',
-    opts:[
-      'A. SELECT UPPER(cust_name) FROM customers;',
-      'B. SELECT LOWER(cust_name) FROM customers;',
-      'C. SELECT INITCAP(cust_name) FROM customers;',
-      'D. SELECT SUBSTR(cust_name,1,1) FROM customers;'
-    ],
-    answer:[2]
-  },
-  {
-    n:5, type:'single', topic:'Numeric Functions / ROUND',
-    text:'Which expression correctly rounds the value 128.657 to two decimal places?',
-    opts:[
-      'A. TRUNC(128.657, 2)',
-      'B. ROUND(128.657, 2)',
-      'C. MOD(128.657, 2)',
-      'D. CEIL(128.657)'
+      'A. UNPIVOT',
+      'B. PIVOT',
+      'C. ROLLUP',
+      'D. GROUPING SETS'
     ],
     answer:[1]
   },
   {
-    n:6, type:'single', topic:'Date Functions / ADD_MONTHS',
-    text:'Examine the CONTRACTS table with column START_DATE (DATE). Which function returns the date exactly 6 months after START_DATE?',
+    n:4, type:'single', topic:'UNPIVOT',
+    text:'Which clause transforms columns of data into rows, the reverse operation of PIVOT?',
     opts:[
-      'A. MONTHS_BETWEEN(start_date, 6)',
-      'B. ADD_MONTHS(start_date, 6)',
-      'C. NEXT_DAY(start_date, 6)',
-      'D. LAST_DAY(start_date) + 6'
+      'A. PIVOT',
+      'B. UNPIVOT',
+      'C. CUBE',
+      'D. CONNECT BY'
     ],
     answer:[1]
   },
   {
-    n:7, type:'single', topic:'Conversion Functions / TO_DATE',
-    text:"Which statement reliably converts the string '15-08-2024' (day-month-year) into a DATE value, regardless of the session's NLS_DATE_FORMAT setting?",
+    n:5, type:'single', topic:'GROUPING SETS',
+    text:'Which clause allows a single query to return multiple levels of aggregation (for example, totals by department, by job, and an overall total) in one result set?',
     opts:[
-      "A. TO_DATE('15-08-2024')",
-      "B. TO_DATE('15-08-2024', 'DD-MM-YYYY')",
-      "C. TO_CHAR('15-08-2024', 'DD-MM-YYYY')",
-      "D. CAST('15-08-2024' AS DATE)"
+      'A. GROUP BY department_id, job_id',
+      'B. GROUPING SETS ((department_id), (job_id), ())',
+      'C. ORDER BY department_id, job_id',
+      'D. HAVING department_id, job_id'
     ],
     answer:[1]
   },
   {
-    n:8, type:'single', topic:'NULL Functions / NVL2',
-    text:"Examine this expression: NVL2(commission_pct, 'Has Commission', 'No Commission'). What does it return for a row where COMMISSION_PCT is NULL?",
+    n:6, type:'multi', topic:'ROLLUP',
+    text:'Examine this query:\n\nSELECT department_id, job_id, SUM(salary) FROM employees GROUP BY ROLLUP(department_id, job_id);\n\nWhich TWO statements are true about the result?',
     opts:[
-      "A. 'Has Commission'",
-      "B. 'No Commission'",
-      'C. NULL',
-      'D. An error, because NVL2 requires numeric arguments only.'
-    ],
-    answer:[1]
-  },
-  {
-    n:9, type:'single', topic:'CASE Expressions',
-    text:"Which CASE expression correctly translates the GRADE column ('A','B','C') into descriptive text, defaulting to 'Unknown' for any other value?",
-    opts:[
-      "A. CASE grade WHEN 'A' THEN 'Excellent' WHEN 'B' THEN 'Good' WHEN 'C' THEN 'Average' ELSE 'Unknown' END",
-      "B. CASE WHEN grade THEN 'Excellent','Good','Average' ELSE 'Unknown' END",
-      "C. CASE grade IN ('A','B','C') THEN 'Excellent' END",
-      "D. DECODE(grade, 'Excellent', 'A', 'Good', 'B')"
-    ],
-    answer:[0]
-  },
-  {
-    n:10, type:'single', topic:'Group Functions / COUNT',
-    text:'Which statement is true about the COUNT(*) and COUNT(column_name) functions?',
-    opts:[
-      'A. COUNT(*) ignores rows where any column is NULL.',
-      'B. COUNT(column_name) counts only rows where COLUMN_NAME is not NULL.',
-      'C. COUNT(*) and COUNT(column_name) always return the same value.',
-      'D. COUNT(column_name) raises an error if COLUMN_NAME contains NULL values.'
-    ],
-    answer:[1]
-  },
-  {
-    n:11, type:'single', topic:'GROUP BY / HAVING',
-    text:'Examine the ORDERS table (customer_id, order_total). Which query lists customers whose combined order total exceeds 5000, along with that total?',
-    opts:[
-      'A. SELECT customer_id, SUM(order_total) FROM orders WHERE SUM(order_total) > 5000 GROUP BY customer_id;',
-      'B. SELECT customer_id, SUM(order_total) FROM orders GROUP BY customer_id HAVING SUM(order_total) > 5000;',
-      'C. SELECT customer_id, SUM(order_total) FROM orders HAVING SUM(order_total) > 5000 GROUP BY customer_id;',
-      'D. SELECT customer_id, order_total FROM orders GROUP BY customer_id HAVING order_total > 5000;'
-    ],
-    answer:[1]
-  },
-  {
-    n:12, type:'single', topic:'Joins / Inner Join',
-    text:'Examine the STUDENTS and ENROLLMENTS tables. Which join returns only students who have at least one enrollment record?',
-    opts:[
-      'A. SELECT s.* FROM students s LEFT JOIN enrollments e ON s.student_id = e.student_id;',
-      'B. SELECT s.* FROM students s JOIN enrollments e ON s.student_id = e.student_id;',
-      'C. SELECT s.* FROM students s FULL JOIN enrollments e ON s.student_id = e.student_id;',
-      'D. SELECT s.* FROM students s, enrollments e;'
-    ],
-    answer:[1]
-  },
-  {
-    n:13, type:'single', topic:'Joins / Outer Join',
-    text:'Examine the DEPARTMENTS and EMPLOYEES tables. Which query lists every department, including those with no employees, along with employee names where they exist?',
-    opts:[
-      'A. SELECT d.department_name, e.emp_name FROM departments d JOIN employees e ON d.department_id = e.department_id;',
-      'B. SELECT d.department_name, e.emp_name FROM departments d LEFT JOIN employees e ON d.department_id = e.department_id;',
-      'C. SELECT d.department_name, e.emp_name FROM departments d RIGHT JOIN employees e ON d.department_id = e.department_id;',
-      'D. SELECT d.department_name, e.emp_name FROM departments d, employees e WHERE d.department_id = e.department_id;'
-    ],
-    answer:[1]
-  },
-  {
-    n:14, type:'single', topic:'Joins / Full Outer Join',
-    text:'Which statement is true about a FULL OUTER JOIN between TABLE_A and TABLE_B?',
-    opts:[
-      'A. It returns only rows that match in both tables.',
-      'B. It returns all rows from TABLE_A and only matching rows from TABLE_B.',
-      'C. It returns all rows from both tables, with NULLs in place of missing matches on either side.',
-      'D. It requires both tables to have exactly the same number of rows.'
-    ],
-    answer:[2]
-  },
-  {
-    n:15, type:'single', topic:'Self Join',
-    text:"Examine the EMPLOYEES table, which has a MANAGER_ID column referencing EMPLOYEE_ID in the same table. Which query lists each employee together with their manager's name?",
-    opts:[
-      'A. SELECT e.emp_name, m.emp_name AS manager_name FROM employees e JOIN employees m ON e.manager_id = m.employee_id;',
-      'B. SELECT e.emp_name, m.emp_name FROM employees e, employees m WHERE e.employee_id = m.employee_id;',
-      'C. SELECT emp_name, manager_id FROM employees GROUP BY manager_id;',
-      'D. SELECT e.emp_name FROM employees e SELF JOIN employees m;'
-    ],
-    answer:[0]
-  },
-  {
-    n:16, type:'single', topic:'Cross Join',
-    text:'The COLORS table has 4 rows and the SIZES table has 3 rows. How many rows does the following query return?\n\nSELECT * FROM colors CROSS JOIN sizes;',
-    opts:[
-      'A. 3',
-      'B. 4',
-      'C. 7',
-      'D. 12'
-    ],
-    answer:[3]
-  },
-  {
-    n:17, type:'single', topic:'Non-Equijoin',
-    text:"Examine the EMPLOYEES table (salary) and the SALARY_GRADES table (grade, low_sal, high_sal). Which join condition correctly determines each employee's salary grade?",
-    opts:[
-      'A. ON e.salary = g.low_sal',
-      'B. ON e.salary BETWEEN g.low_sal AND g.high_sal',
-      'C. USING (salary)',
-      'D. ON e.salary = g.grade'
-    ],
-    answer:[1]
-  },
-  {
-    n:18, type:'single', topic:'Subqueries / Single-Row',
-    text:"Examine the EMPLOYEES table. Which query returns employees who earn more than the employee named 'King'?",
-    opts:[
-      "A. SELECT * FROM employees WHERE salary > (SELECT salary FROM employees WHERE last_name = 'King');",
-      "B. SELECT * FROM employees WHERE salary > ALL (SELECT last_name FROM employees);",
-      "C. SELECT * FROM employees WHERE salary IN (SELECT salary FROM employees) > 'King';",
-      "D. SELECT * FROM employees WHERE salary = (SELECT last_name FROM employees WHERE last_name = 'King');"
-    ],
-    answer:[0]
-  },
-  {
-    n:19, type:'multi', topic:'Subqueries / Multiple-Row (ANY / ALL)',
-    text:'Examine the EMPLOYEES table. Which TWO queries return employees whose salary is greater than the salary of every employee in department 10?',
-    opts:[
-      'A. SELECT * FROM employees WHERE salary > ALL (SELECT salary FROM employees WHERE department_id = 10);',
-      'B. SELECT * FROM employees WHERE salary > ANY (SELECT salary FROM employees WHERE department_id = 10);',
-      'C. SELECT * FROM employees WHERE salary > (SELECT MAX(salary) FROM employees WHERE department_id = 10);',
-      'D. SELECT * FROM employees WHERE salary IN (SELECT salary FROM employees WHERE department_id = 10);'
-    ],
-    answer:[0,2]
-  },
-  {
-    n:20, type:'single', topic:'Correlated Subqueries',
-    text:'Which statement is true about a correlated subquery?',
-    opts:[
-      'A. It is executed exactly once, before the outer query begins.',
-      'B. It references one or more columns from the outer query and is re-evaluated for each row processed by the outer query.',
-      'C. It cannot appear in a WHERE clause.',
-      'D. It must always return exactly one row.'
-    ],
-    answer:[1]
-  },
-  {
-    n:21, type:'single', topic:'EXISTS / NOT EXISTS',
-    text:'Examine the CUSTOMERS and ORDERS tables, where ORDERS.CUSTOMER_ID may contain NULL values. Which query safely returns customers who have never placed an order, regardless of any NULLs in ORDERS.CUSTOMER_ID?',
-    opts:[
-      'A. SELECT * FROM customers c WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id);',
-      'B. SELECT * FROM customers c WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id);',
-      'C. SELECT * FROM customers c WHERE customer_id NOT IN (SELECT customer_id FROM orders);',
-      'D. SELECT * FROM customers c WHERE customer_id != ALL (SELECT customer_id FROM orders);'
-    ],
-    answer:[1]
-  },
-  {
-    n:22, type:'single', topic:'Set Operators / UNION',
-    text:'Examine two queries returning EMPLOYEE_ID from ACTIVE_EMPLOYEES and FORMER_EMPLOYEES, combined with UNION. What happens to rows with a duplicate EMPLOYEE_ID appearing in both queries?',
-    opts:[
-      'A. They appear twice in the result.',
-      'B. They cause the query to fail.',
-      'C. They appear once in the result.',
-      'D. They are excluded entirely from the result.'
-    ],
-    answer:[2]
-  },
-  {
-    n:23, type:'single', topic:'Set Operators / UNION ALL',
-    text:'Which statement is true about UNION ALL compared to UNION?',
-    opts:[
-      'A. UNION ALL is generally faster because it does not have to eliminate duplicate rows.',
-      'B. UNION ALL always returns fewer rows than UNION.',
-      'C. UNION ALL requires both queries to already be sorted.',
-      'D. UNION ALL cannot be combined with an ORDER BY clause.'
-    ],
-    answer:[0]
-  },
-  {
-    n:24, type:'single', topic:'Set Operators / INTERSECT',
-    text:'Examine two queries: one returning PRODUCT_ID values from WAREHOUSE_A, another from WAREHOUSE_B. What does INTERSECT return when applied to these two queries?',
-    opts:[
-      'A. All product IDs from both warehouses combined.',
-      'B. Only product IDs that exist in both warehouses.',
-      'C. Only product IDs that exist in WAREHOUSE_A but not WAREHOUSE_B.',
-      'D. All product IDs from WAREHOUSE_A, regardless of WAREHOUSE_B.'
-    ],
-    answer:[1]
-  },
-  {
-    n:25, type:'single', topic:'Set Operators / MINUS',
-    text:'Examine two queries: one returning CUSTOMER_ID from ALL_CUSTOMERS, another from BLOCKED_CUSTOMERS. Which set operator returns customers who are NOT blocked?',
-    opts:[
-      'A. ALL_CUSTOMERS query UNION BLOCKED_CUSTOMERS query',
-      'B. ALL_CUSTOMERS query INTERSECT BLOCKED_CUSTOMERS query',
-      'C. ALL_CUSTOMERS query MINUS BLOCKED_CUSTOMERS query',
-      'D. BLOCKED_CUSTOMERS query MINUS ALL_CUSTOMERS query'
-    ],
-    answer:[2]
-  },
-  {
-    n:26, type:'single', topic:'Top-N Queries / FETCH FIRST',
-    text:'Which query correctly returns the 3 most expensive products from the PRODUCTS table?',
-    opts:[
-      'A. SELECT * FROM products ORDER BY price DESC FETCH FIRST 3 ROWS ONLY;',
-      'B. SELECT * FROM products FETCH FIRST 3 ROWS ONLY ORDER BY price DESC;',
-      'C. SELECT TOP 3 * FROM products ORDER BY price DESC;',
-      'D. SELECT * FROM products WHERE ROWNUM <= 3 ORDER BY price DESC;'
-    ],
-    answer:[0]
-  },
-  {
-    n:27, type:'single', topic:'Pagination / OFFSET FETCH',
-    text:'Which clause retrieves rows 11 through 20 of a result set ordered by ORDER_DATE?',
-    opts:[
-      'A. ORDER BY order_date OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY',
-      'B. ORDER BY order_date FETCH FIRST 10 ROWS ONLY OFFSET 10',
-      'C. ORDER BY order_date LIMIT 10, 20',
-      'D. ORDER BY order_date ROWNUM BETWEEN 11 AND 20'
-    ],
-    answer:[0]
-  },
-  {
-    n:28, type:'single', topic:'INSERT Statement',
-    text:'Examine the BOOKS table (book_id, title, price). Which statement correctly inserts a new row?',
-    opts:[
-      "A. INSERT INTO books VALUES (101, 'SQL Basics');",
-      "B. INSERT INTO books (book_id, title) VALUES (101, 'SQL Basics', 29.99);",
-      "C. INSERT INTO books (book_id, title, price) VALUES (101, 'SQL Basics', 29.99);",
-      "D. INSERT books (101, 'SQL Basics', 29.99);"
-    ],
-    answer:[2]
-  },
-  {
-    n:29, type:'single', topic:'INSERT with Subquery',
-    text:'Which statement correctly copies all rows from ACTIVE_ORDERS into ARCHIVE_ORDERS, assuming both tables have identical column structures?',
-    opts:[
-      'A. INSERT INTO archive_orders SELECT * FROM active_orders;',
-      'B. INSERT INTO archive_orders VALUES (SELECT * FROM active_orders);',
-      'C. COPY archive_orders FROM active_orders;',
-      'D. INSERT INTO archive_orders SET * = active_orders.*;'
-    ],
-    answer:[0]
-  },
-  {
-    n:30, type:'single', topic:'UPDATE Statement',
-    text:'Examine the EMPLOYEES table. Which statement gives a 10% raise to every employee in department 30?',
-    opts:[
-      'A. UPDATE employees SET salary = salary * 1.10 WHERE department_id = 30;',
-      'B. UPDATE employees SET salary = salary + 10 WHERE department_id = 30;',
-      'C. UPDATE employees SET salary * 1.10 WHERE department_id = 30;',
-      'D. UPDATE salary SET employees = employees * 1.10 WHERE department_id = 30;'
-    ],
-    answer:[0]
-  },
-  {
-    n:31, type:'multi', topic:'Correlated Subquery / UPDATE',
-    text:'Examine this statement:\n\nUPDATE departments d\nSET employee_count = (SELECT COUNT(*) FROM employees e WHERE e.department_id = d.department_id);\n\nWhich TWO statements are true?',
-    opts:[
-      'A. Every row in DEPARTMENTS is updated, even departments with zero matching employees.',
-      'B. Only departments that have at least one matching employee are updated.',
-      'C. The subquery is re-evaluated once for each row in DEPARTMENTS.',
-      'D. The subquery is evaluated only once, before the UPDATE begins.'
-    ],
-    answer:[0,2]
-  },
-  {
-    n:32, type:'single', topic:'DELETE Statement',
-    text:'Examine the ORDERS table. Which statement removes all orders placed before January 1, 2020, in a way that can still be rolled back if needed?',
-    opts:[
-      "A. TRUNCATE TABLE orders WHERE order_date < DATE '2020-01-01';",
-      "B. DELETE FROM orders WHERE order_date < DATE '2020-01-01';",
-      "C. DROP TABLE orders WHERE order_date < DATE '2020-01-01';",
-      "D. DELETE orders BEFORE DATE '2020-01-01';"
-    ],
-    answer:[1]
-  },
-  {
-    n:33, type:'single', topic:'MERGE Statement',
-    text:'Which statement best describes the purpose of the MERGE statement in Oracle?',
-    opts:[
-      'A. It permanently removes duplicate rows from a single table.',
-      'B. It combines an INSERT and an UPDATE (and optionally a DELETE) into a single statement, based on whether a matching row exists in the target table.',
-      'C. It merges two tables into one physical table and drops the originals.',
-      'D. It is used only to merge database schemas.'
-    ],
-    answer:[1]
-  },
-  {
-    n:34, type:'single', topic:'TCL / COMMIT and ROLLBACK',
-    text:'Which statement is true about the COMMIT statement?',
-    opts:[
-      'A. A COMMIT can be undone with a ROLLBACK statement issued afterward.',
-      'B. COMMIT makes all changes in the current transaction permanent and ends the transaction.',
-      'C. COMMIT is required after every SELECT statement.',
-      'D. COMMIT automatically creates a SAVEPOINT.'
-    ],
-    answer:[1]
-  },
-  {
-    n:35, type:'single', topic:'TCL / SAVEPOINT',
-    text:'Which statement is true regarding the SAVEPOINT clause?',
-    opts:[
-      'A. A savepoint permanently commits all changes made up to that point.',
-      'B. Rolling back to a savepoint undoes only the changes made after that savepoint, keeping the transaction open.',
-      'C. A transaction can contain at most one savepoint.',
-      'D. Savepoints are only available in read-only transactions.'
-    ],
-    answer:[1]
-  },
-  {
-    n:36, type:'single', topic:'CREATE TABLE',
-    text:'Which statement correctly creates a table named PROJECTS with a column that automatically generates sequential ID values (Oracle 12c+ IDENTITY column)?',
-    opts:[
-      'A. CREATE TABLE projects (project_id NUMBER GENERATED ALWAYS AS IDENTITY, project_name VARCHAR2(50));',
-      'B. CREATE TABLE projects (project_id NUMBER AUTOINCREMENT, project_name VARCHAR2(50));',
-      'C. CREATE TABLE projects (project_id SERIAL, project_name VARCHAR2(50));',
-      'D. CREATE TABLE projects (project_id NUMBER IDENTITY(1,1), project_name VARCHAR2(50));'
-    ],
-    answer:[0]
-  },
-  {
-    n:37, type:'multi', topic:'Constraints / PRIMARY KEY',
-    text:'Which TWO statements are true about a PRIMARY KEY constraint?',
-    opts:[
-      'A. A table can have more than one PRIMARY KEY constraint.',
-      'B. A PRIMARY KEY constraint enforces both uniqueness and NOT NULL on its column(s).',
-      'C. A PRIMARY KEY column can contain NULL values.',
-      'D. A PRIMARY KEY constraint can be defined on a combination of multiple columns (a composite key).'
-    ],
-    answer:[1,3]
-  },
-  {
-    n:38, type:'single', topic:'Constraints / FOREIGN KEY',
-    text:'Examine the ORDERS table, which has a FOREIGN KEY on CUSTOMER_ID referencing CUSTOMERS(CUSTOMER_ID). What happens if you attempt to insert an order with a CUSTOMER_ID that does not exist in CUSTOMERS?',
-    opts:[
-      'A. The row is inserted, and CUSTOMER_ID is automatically set to NULL.',
-      'B. The insert fails with an integrity constraint violation error.',
-      'C. The row is inserted, and a new customer is automatically created.',
-      'D. The foreign key constraint is silently ignored for INSERT statements.'
-    ],
-    answer:[1]
-  },
-  {
-    n:39, type:'single', topic:'Constraints / CHECK',
-    text:'Examine this constraint definition:\n\nCREATE TABLE products (price NUMBER CHECK (price > 0));\n\nWhich INSERT statement violates this constraint?',
-    opts:[
-      'A. INSERT INTO products (price) VALUES (10);',
-      'B. INSERT INTO products (price) VALUES (0.01);',
-      'C. INSERT INTO products (price) VALUES (-5);',
-      'D. INSERT INTO products (price) VALUES (NULL);'
-    ],
-    answer:[2]
-  },
-  {
-    n:40, type:'multi', topic:'Constraints / UNIQUE',
-    text:'Which TWO statements are true about a UNIQUE constraint in Oracle?',
-    opts:[
-      'A. A UNIQUE constraint allows multiple rows to have a NULL value in the constrained column.',
-      'B. A UNIQUE constraint automatically makes the column NOT NULL.',
-      'C. A table can have more than one UNIQUE constraint.',
-      'D. A UNIQUE constraint can only ever be defined on a single column, never on a combination of columns.'
-    ],
-    answer:[0,2]
-  },
-  {
-    n:41, type:'single', topic:'ALTER TABLE',
-    text:'Which statement correctly adds a new column named EMAIL to the CUSTOMERS table in Oracle?',
-    opts:[
-      'A. ALTER TABLE customers ADD COLUMN email VARCHAR2(100);',
-      'B. ALTER TABLE customers ADD email VARCHAR2(100);',
-      'C. ALTER TABLE customers INSERT email VARCHAR2(100);',
-      'D. MODIFY TABLE customers ADD email VARCHAR2(100);'
-    ],
-    answer:[1]
-  },
-  {
-    n:42, type:'single', topic:'DROP TABLE / Recycle Bin',
-    text:'In an Oracle database with the recycle bin enabled, what happens when you execute DROP TABLE employees; (without the PURGE option)?',
-    opts:[
-      'A. The table and its data are permanently and immediately removed.',
-      'B. The table is renamed and moved to the recycle bin, and can be recovered using FLASHBACK TABLE.',
-      "C. Only the table's data is removed; the table structure remains.",
-      'D. The statement fails unless PURGE is explicitly specified.'
-    ],
-    answer:[1]
-  },
-  {
-    n:43, type:'single', topic:'TRUNCATE TABLE',
-    text:'Which statement is true about TRUNCATE TABLE compared to DELETE (with no WHERE clause)?',
-    opts:[
-      'A. TRUNCATE TABLE can be rolled back, just like DELETE.',
-      'B. TRUNCATE TABLE fires any DELETE triggers defined on the table.',
-      'C. TRUNCATE TABLE is a DDL statement that implicitly commits and cannot be rolled back.',
-      "D. TRUNCATE TABLE removes the table's structure along with its data."
-    ],
-    answer:[2]
-  },
-  {
-    n:44, type:'single', topic:'Views / CREATE VIEW',
-    text:'Which statement correctly creates a view showing only employees in department 20?',
-    opts:[
-      'A. CREATE VIEW dept20_emp AS SELECT * FROM employees WHERE department_id = 20;',
-      'B. CREATE TABLE dept20_emp AS VIEW SELECT * FROM employees WHERE department_id = 20;',
-      'C. CREATE VIEW dept20_emp SELECT * FROM employees WHERE department_id = 20;',
-      'D. VIEW dept20_emp AS SELECT * FROM employees WHERE department_id = 20;'
-    ],
-    answer:[0]
-  },
-  {
-    n:45, type:'single', topic:'Views / WITH CHECK OPTION',
-    text:'Examine this view:\n\nCREATE VIEW high_earners AS\nSELECT * FROM employees WHERE salary > 8000\nWITH CHECK OPTION;\n\nWhich statement will be rejected because of the CHECK OPTION?',
-    opts:[
-      'A. SELECT * FROM high_earners;',
-      'B. UPDATE high_earners SET salary = 9000 WHERE salary = 8500;',
-      'C. UPDATE high_earners SET salary = 5000 WHERE salary = 8500;',
-      'D. DELETE FROM high_earners WHERE salary = 8500;'
-    ],
-    answer:[2]
-  },
-  {
-    n:46, type:'single', topic:'Views / Updatable Views',
-    text:'Which type of view is generally NOT updatable through simple DML statements?',
-    opts:[
-      'A. A view that selects all columns from a single table without any transformation.',
-      'B. A view whose defining query contains a GROUP BY clause or an aggregate function.',
-      'C. A view that renames columns using aliases.',
-      'D. A view that applies a WHERE clause to filter rows.'
-    ],
-    answer:[1]
-  },
-  {
-    n:47, type:'single', topic:'Sequences / CREATE SEQUENCE',
-    text:'Which statement correctly creates a sequence starting at 100 and incrementing by 5?',
-    opts:[
-      'A. CREATE SEQUENCE order_seq START 100 INCREMENT 5;',
-      'B. CREATE SEQUENCE order_seq START WITH 100 INCREMENT BY 5;',
-      'C. CREATE SEQUENCE order_seq FROM 100 STEP 5;',
-      'D. CREATE SEQUENCE order_seq (100, 5);'
-    ],
-    answer:[1]
-  },
-  {
-    n:48, type:'single', topic:'Sequences / NEXTVAL and CURRVAL',
-    text:'In a brand-new session, which condition must be met before ORDER_SEQ.CURRVAL can be referenced successfully?',
-    opts:[
-      'A. ORDER_SEQ.CURRVAL must be selected twice in a row.',
-      'B. ORDER_SEQ.NEXTVAL must be referenced at least once earlier in the same session.',
-      'C. The sequence must first be dropped and recreated.',
-      'D. CURRVAL can always be used without first calling NEXTVAL.'
-    ],
-    answer:[1]
-  },
-  {
-    n:49, type:'single', topic:'Synonyms',
-    text:'Which statement is true about a synonym in Oracle?',
-    opts:[
-      'A. A synonym physically duplicates the data of the object it refers to.',
-      'B. A synonym provides an alternative name for a table, view, sequence, or other object, simplifying object access.',
-      'C. A synonym can only be created by the SYS user.',
-      'D. A synonym automatically grants SELECT privileges on the underlying object to all users.'
-    ],
-    answer:[1]
-  },
-  {
-    n:50, type:'multi', topic:'Indexes',
-    text:'Which TWO statements are true about indexes in Oracle?',
-    opts:[
-      'A. Creating an index guarantees faster performance for every query on that table.',
-      'B. An index can speed up SELECT queries but may slow down INSERT, UPDATE, and DELETE operations because the index must also be maintained.',
-      'C. A table can have at most one index.',
-      'D. Indexes are automatically created on every column of a table.',
-      'E. A unique index enforces that all indexed values, except NULLs, are distinct.'
-    ],
-    answer:[1,4]
-  },
-  {
-    n:51, type:'single', topic:'Data Types / VARCHAR2 vs CHAR',
-    text:'Which statement is true about the difference between the VARCHAR2 and CHAR data types in Oracle?',
-    opts:[
-      'A. CHAR always stores variable-length data, while VARCHAR2 stores fixed-length data.',
-      'B. VARCHAR2 stores only the actual characters entered, while CHAR pads the stored value with spaces up to its defined length.',
-      'C. VARCHAR2 has no maximum length limit, while CHAR does.',
-      'D. CHAR and VARCHAR2 behave identically in every comparison.'
-    ],
-    answer:[1]
-  },
-  {
-    n:52, type:'single', topic:'Data Types / NUMBER Precision',
-    text:'A column is defined as PRICE NUMBER(7,2). What is the largest positive value that can be stored in this column?',
-    opts:[
-      'A. 99999.99',
-      'B. 9999999.99',
-      'C. 999999.99',
-      'D. 7.99'
-    ],
-    answer:[0]
-  },
-  {
-    n:53, type:'single', topic:'Data Types / DATE and TIMESTAMP',
-    text:'Which statement is true about the difference between the DATE and TIMESTAMP data types in Oracle?',
-    opts:[
-      'A. DATE stores fractional seconds, while TIMESTAMP does not.',
-      'B. TIMESTAMP can store fractional seconds of precision, while DATE stores only whole seconds.',
-      'C. DATE and TIMESTAMP are exactly interchangeable with no differences.',
-      'D. TIMESTAMP cannot store a time component, only a date.'
-    ],
-    answer:[1]
-  },
-  {
-    n:54, type:'single', topic:'NULL Handling in Comparisons',
-    text:'Examine this query:\n\nSELECT * FROM employees WHERE commission_pct = NULL;\n\nWhat is the result?',
-    opts:[
-      'A. It returns all employees whose COMMISSION_PCT is NULL.',
-      'B. It returns no rows, because NULL cannot be compared using the equality operator.',
-      'C. It raises a syntax error.',
-      'D. It returns every row in the table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:55, type:'single', topic:'Implicit vs Explicit Conversion',
-    text:"Examine this query:\n\nSELECT * FROM employees WHERE hire_date = '01-JAN-2020';\n\nAssuming the literal's format matches NLS_DATE_FORMAT, what type of conversion occurs?",
-    opts:[
-      'A. No conversion occurs; the comparison fails.',
-      'B. Explicit conversion, because TO_DATE must be called manually first.',
-      'C. Implicit conversion of the character literal to a DATE value.',
-      'D. Implicit conversion of HIRE_DATE to a character string.'
-    ],
-    answer:[2]
-  },
-  {
-    n:56, type:'single', topic:'String Aggregation / LISTAGG',
-    text:'Which statement correctly returns a single comma-separated string of all city names in the LOCATIONS table, sorted alphabetically?',
-    opts:[
-      "A. SELECT LISTAGG(city, ', ') WITHIN GROUP (ORDER BY city) FROM locations;",
-      "B. SELECT CONCAT(city, ', ') FROM locations ORDER BY city;",
-      "C. SELECT AGGREGATE(city, ', ') FROM locations;",
-      "D. SELECT city || ', ' FROM locations GROUP BY city;"
-    ],
-    answer:[0]
-  },
-  {
-    n:57, type:'multi', topic:'Analytic Functions / ROW_NUMBER and RANK',
-    text:'Examine the EMPLOYEES table. Which TWO statements are true about the ROW_NUMBER() and RANK() analytic functions when used with the same ORDER BY clause?',
-    opts:[
-      'A. ROW_NUMBER() always assigns a unique, sequential number to each row, even when tie values exist.',
-      'B. RANK() assigns the same rank to tied rows and may skip subsequent rank numbers.',
-      'C. Both functions can only be used inside a WHERE clause.',
-      'D. ROW_NUMBER() and RANK() always produce identical results, even when there are ties.'
+      'A. It includes a subtotal row for each DEPARTMENT_ID across all its JOB_ID values.',
+      'B. It includes a single grand total row summing all SALARY values.',
+      'C. It includes a subtotal row for each JOB_ID across all departments.',
+      'D. ROLLUP never produces more rows than a plain GROUP BY.'
     ],
     answer:[0,1]
   },
   {
-    n:58, type:'single', topic:'Regular Expressions / REGEXP_LIKE',
-    text:'Which condition correctly returns rows where the PHONE column contains exactly 10 digits and nothing else?',
+    n:7, type:'single', topic:'CUBE',
+    text:'How does GROUP BY CUBE(department_id, job_id) differ from GROUP BY ROLLUP(department_id, job_id)?',
     opts:[
-      "A. WHERE phone LIKE '__________'",
-      "B. WHERE REGEXP_LIKE(phone, '^[0-9]{10}$')",
-      'C. WHERE LENGTH(phone) = REGEXP_LIKE(phone)',
-      "D. WHERE phone = '0000000000'"
+      'A. CUBE returns fewer subtotal combinations than ROLLUP.',
+      'B. CUBE returns subtotals for every possible combination of the grouping columns, not just a hierarchical subset.',
+      'C. CUBE cannot be used with more than one column.',
+      'D. CUBE and ROLLUP always produce identical results.'
     ],
     answer:[1]
   },
   {
-    n:59, type:'single', topic:'Multitable INSERT / INSERT ALL',
-    text:'Which statement describes the purpose of an INSERT ALL statement in Oracle?',
+    n:8, type:'single', topic:'WITH Clause / CTE',
+    text:'Which statement is true about the WITH clause (Common Table Expression) in Oracle SQL?',
     opts:[
-      'A. It inserts the same row into a single table multiple times.',
-      'B. It allows a single statement to insert rows into multiple target tables based on data from one source query.',
-      'C. It inserts NULL values into all columns of a table.',
-      'D. It is simply another name for the MERGE statement.'
+      'A. It permanently stores its result set as a table in the database.',
+      'B. It defines a named subquery that can be referenced one or more times later in the same SQL statement.',
+      'C. It can only be used inside PL/SQL blocks, never in plain SQL.',
+      'D. It replaces the need for a FROM clause entirely.'
     ],
     answer:[1]
   },
   {
-    n:60, type:'single', topic:'Privileges / GRANT and REVOKE',
-    text:'Which statement correctly grants both the SELECT and INSERT privileges on the ORDERS table to the user ANA?',
+    n:9, type:'single', topic:'Bind Variables',
+    text:'Which statement is true about using bind variables in SQL statements?',
     opts:[
-      'A. GRANT SELECT, INSERT ON orders TO ana;',
-      'B. GRANT SELECT AND INSERT ON orders TO ana;',
-      'C. GIVE SELECT, INSERT ON orders TO ana;',
-      'D. GRANT ana SELECT, INSERT ON orders;'
+      'A. Bind variables force Oracle to hard-parse the statement every time it runs.',
+      'B. Bind variables allow the same parsed SQL statement to be reused with different input values, improving performance.',
+      'C. Bind variables can only be used with SELECT statements, never with DML.',
+      'D. Bind variables must always be of data type VARCHAR2.'
+    ],
+    answer:[1]
+  },
+  {
+    n:10, type:'single', topic:'Constraints / Composite Primary Key',
+    text:'Which statement correctly creates a table where the combination of ORDER_ID and PRODUCT_ID together forms the primary key?',
+    opts:[
+      'A. CREATE TABLE order_items (order_id NUMBER PRIMARY KEY, product_id NUMBER PRIMARY KEY, quantity NUMBER);',
+      'B. CREATE TABLE order_items (order_id NUMBER, product_id NUMBER, quantity NUMBER, PRIMARY KEY (order_id, product_id));',
+      'C. CREATE TABLE order_items (order_id NUMBER, product_id NUMBER, quantity NUMBER, PRIMARY KEY order_id, product_id);',
+      'D. CREATE TABLE order_items (order_id NUMBER, product_id NUMBER, quantity NUMBER) COMPOSITE KEY (order_id, product_id);'
+    ],
+    answer:[1]
+  },
+  {
+    n:11, type:'single', topic:'Constraints / ON DELETE CASCADE',
+    text:'Examine this constraint:\n\nALTER TABLE order_items ADD CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE;\n\nWhat happens when a row in ORDERS is deleted?',
+    opts:[
+      'A. The DELETE statement fails if any matching rows exist in ORDER_ITEMS.',
+      'B. Matching rows in ORDER_ITEMS are automatically deleted as well.',
+      'C. Matching rows in ORDER_ITEMS have their ORDER_ID set to NULL.',
+      'D. Nothing happens to ORDER_ITEMS; the constraint only affects INSERT statements.'
+    ],
+    answer:[1]
+  },
+  {
+    n:12, type:'single', topic:'Constraints / Enable and Disable',
+    text:'Which statement temporarily disables a constraint named FK_ORDER without dropping its definition?',
+    opts:[
+      'A. DROP CONSTRAINT fk_order;',
+      'B. ALTER TABLE order_items DISABLE CONSTRAINT fk_order;',
+      'C. ALTER TABLE order_items REMOVE CONSTRAINT fk_order;',
+      'D. UPDATE order_items SET fk_order = NULL;'
+    ],
+    answer:[1]
+  },
+  {
+    n:13, type:'single', topic:'Indexes / Composite Index',
+    text:'Which statement correctly creates an index on the combination of the LAST_NAME and FIRST_NAME columns of the EMPLOYEES table?',
+    opts:[
+      'A. CREATE INDEX emp_name_idx ON employees (last_name, first_name);',
+      'B. CREATE INDEX emp_name_idx ON employees (last_name) AND (first_name);',
+      'C. CREATE COMPOSITE INDEX emp_name_idx ON employees (last_name, first_name);',
+      'D. CREATE INDEX employees (last_name, first_name);'
     ],
     answer:[0]
+  },
+  {
+    n:14, type:'single', topic:'Indexes / Unique Index',
+    text:'Which statement is true about a UNIQUE index in Oracle?',
+    opts:[
+      'A. It allows multiple rows to have the same value in the indexed column(s), as long as those values are not NULL.',
+      'B. It ensures that no two rows have the same value in the indexed column(s), and is automatically created when a UNIQUE or PRIMARY KEY constraint is defined.',
+      'C. A UNIQUE index cannot be created explicitly; it can only be created implicitly by a constraint.',
+      'D. UNIQUE indexes cannot be created on more than one column.'
+    ],
+    answer:[1]
+  },
+  {
+    n:15, type:'single', topic:'Synonyms / Public vs Private',
+    text:'Which statement is true about the difference between a PUBLIC synonym and a private synonym in Oracle?',
+    opts:[
+      'A. A PUBLIC synonym is accessible to every user in the database, while a private synonym is accessible only to the user who owns it (unless explicitly granted).',
+      'B. A private synonym can be used by all database users automatically.',
+      'C. PUBLIC synonyms cannot reference views, only tables.',
+      'D. There is no functional difference between a PUBLIC and a private synonym.'
+    ],
+    answer:[0]
+  },
+  {
+    n:16, type:'single', topic:'Sequences / ALTER SEQUENCE',
+    text:'Which statement correctly changes the increment value of an existing sequence named ORDER_SEQ to 10?',
+    opts:[
+      'A. ALTER SEQUENCE order_seq INCREMENT BY 10;',
+      'B. UPDATE order_seq SET increment = 10;',
+      'C. ALTER SEQUENCE order_seq SET INCREMENT 10;',
+      'D. MODIFY SEQUENCE order_seq INCREMENT BY 10;'
+    ],
+    answer:[0]
+  },
+  {
+    n:17, type:'multi', topic:'Views / Inline View',
+    text:'Examine this query:\n\nSELECT dept_name, avg_sal\nFROM (SELECT department_id, AVG(salary) avg_sal FROM employees GROUP BY department_id) e,\n     departments d\nWHERE e.department_id = d.department_id;\n\nWhich TWO statements are true about the subquery in the FROM clause?',
+    opts:[
+      'A. It is commonly referred to as an inline view.',
+      'B. It must be assigned an alias to be referenced in the outer query.',
+      'C. It permanently creates a view object in the data dictionary.',
+      'D. It cannot contain a GROUP BY clause.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:18, type:'single', topic:'Subqueries / Scalar Subquery in SELECT List',
+    text:"Which statement correctly includes, for each employee, the average salary of their own department as an extra column, using a scalar subquery in the SELECT list?",
+    opts:[
+      'A. SELECT e.last_name, e.salary, (SELECT AVG(salary) FROM employees WHERE department_id = e.department_id) AS dept_avg FROM employees e;',
+      'B. SELECT e.last_name, e.salary, AVG(salary) AS dept_avg FROM employees e GROUP BY department_id;',
+      'C. SELECT e.last_name, e.salary, dept_avg FROM employees e, (SELECT AVG(salary) dept_avg FROM employees);',
+      'D. SELECT e.last_name, e.salary, AVG(salary) OVER () AS dept_avg FROM employees e WHERE department_id = e.department_id;'
+    ],
+    answer:[0]
+  },
+  {
+    n:19, type:'multi', topic:'Subqueries / Multi-Column Pairwise Comparison',
+    text:"Examine this query:\n\nSELECT * FROM employees\nWHERE (department_id, job_id) IN (SELECT department_id, job_id FROM employees WHERE last_name = 'Smith');\n\nWhich TWO statements are true?",
+    opts:[
+      'A. This is an example of a multi-column (pairwise) subquery comparison.',
+      "B. Both columns in the outer query's comparison list must match the corresponding columns in the subquery's SELECT list, in order.",
+      'C. The subquery can return only a single column, not two.',
+      'D. This syntax is invalid in Oracle SQL.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:20, type:'single', topic:'WITH Clause / Recursive CTE',
+    text:'Which statement is true about a recursive WITH clause (recursive CTE) in Oracle SQL?',
+    opts:[
+      'A. It can only be used to query a single row at a time.',
+      'B. It allows a query to reference itself, which is useful for traversing hierarchical data such as an organizational chart.',
+      'C. It is functionally identical to the DISTINCT keyword.',
+      'D. It cannot include a UNION ALL operator.'
+    ],
+    answer:[1]
+  },
+  {
+    n:21, type:'single', topic:'Set Operators / Column Naming and Data Type Rules',
+    text:'Which statement is true about the columns combined by a set operator such as UNION?',
+    opts:[
+      'A. Each SELECT statement in the compound query must return the same number of columns, with corresponding columns of compatible data types.',
+      'B. The columns in each SELECT statement can be of any number, as long as the total character count matches.',
+      'C. Column names in different SELECT statements involved in a UNION must be identical.',
+      'D. Set operators automatically convert all columns to VARCHAR2.'
+    ],
+    answer:[0]
+  },
+  {
+    n:22, type:'single', topic:'GROUP BY / Grouping by an Expression',
+    text:'Which query correctly groups employees by the year they were hired, showing the count of employees hired in each year?',
+    opts:[
+      'A. SELECT hire_date, COUNT(*) FROM employees GROUP BY hire_date;',
+      'B. SELECT EXTRACT(YEAR FROM hire_date), COUNT(*) FROM employees GROUP BY EXTRACT(YEAR FROM hire_date);',
+      'C. SELECT EXTRACT(YEAR FROM hire_date), COUNT(*) FROM employees GROUP BY hire_date;',
+      'D. SELECT COUNT(*) FROM employees GROUP BY YEAR;'
+    ],
+    answer:[1]
+  },
+  {
+    n:23, type:'single', topic:'HAVING without GROUP BY',
+    text:'Examine this query:\n\nSELECT AVG(salary) FROM employees HAVING AVG(salary) > 6000;\n\nWhich statement is true?',
+    opts:[
+      'A. This is invalid syntax; HAVING can never be used without a GROUP BY clause.',
+      'B. This is valid; when there is no GROUP BY clause, the entire result set is treated as a single group.',
+      'C. This query always returns every row from the EMPLOYEES table.',
+      'D. HAVING is silently ignored because there is no GROUP BY clause.'
+    ],
+    answer:[1]
+  },
+  {
+    n:24, type:'single', topic:'Joins / NATURAL JOIN',
+    text:'Which statement is true about a NATURAL JOIN between two tables?',
+    opts:[
+      'A. Oracle automatically joins the tables based on all columns that share the same name and compatible data type in both tables.',
+      'B. A NATURAL JOIN always requires an explicit ON clause.',
+      'C. A NATURAL JOIN can only be used between exactly two tables in the entire query.',
+      'D. A NATURAL JOIN ignores any columns with matching names.'
+    ],
+    answer:[0]
+  },
+  {
+    n:25, type:'single', topic:'Joins / USING Clause',
+    text:'Which statement is true about the USING clause in a join?',
+    opts:[
+      'A. USING allows you to specify which particular common column(s) to join on, and that column cannot be prefixed with a table alias in the SELECT list or WHERE clause.',
+      'B. USING requires listing every column of both tables.',
+      'C. USING can only be used with an OUTER JOIN, never with an inner join.',
+      'D. USING and ON can never be used together in the same query.'
+    ],
+    answer:[0]
+  },
+  {
+    n:26, type:'single', topic:'Joins / Old-Style Outer Join Operator (+)',
+    text:'Examine this old-style Oracle outer join syntax:\n\nSELECT d.department_name, e.last_name\nFROM departments d, employees e\nWHERE d.department_id = e.department_id (+);\n\nWhat kind of join does this represent?',
+    opts:[
+      'A. An inner join that excludes departments with no employees.',
+      'B. A join that returns all departments, including those with no employees.',
+      'C. A join that returns all employees, including those with no department.',
+      'D. A full outer join.'
+    ],
+    answer:[1]
+  },
+  {
+    n:27, type:'single', topic:'ROWID',
+    text:'Which statement is true about the ROWID pseudocolumn in Oracle?',
+    opts:[
+      "A. ROWID represents the physical storage address of a row and is unique for each row in a table.",
+      'B. ROWID is a sequential integer that increases with each newly inserted row.',
+      'C. ROWID changes automatically whenever a row is updated.',
+      "D. ROWID must be explicitly defined as a column when creating a table."
+    ],
+    answer:[0]
+  },
+  {
+    n:28, type:'single', topic:'ROWNUM vs ROW_NUMBER',
+    text:'Which statement is true about the difference between ROWNUM and the ROW_NUMBER() analytic function?',
+    opts:[
+      'A. ROWNUM is assigned to rows before any ORDER BY in the same query is applied, while ROW_NUMBER() can be based on a specified ORDER BY inside an OVER clause.',
+      'B. ROWNUM and ROW_NUMBER() always produce identical results.',
+      'C. ROW_NUMBER() can only be used in the WHERE clause, like ROWNUM.',
+      'D. ROWNUM is a function, while ROW_NUMBER() is a pseudocolumn.'
+    ],
+    answer:[0]
+  },
+  {
+    n:29, type:'single', topic:'Analytic Functions / LAG and LEAD',
+    text:'Which analytic function returns a value from a preceding row within the same result set, based on a specified ordering, without using a self-join?',
+    opts:[
+      'A. LEAD()',
+      'B. LAG()',
+      'C. FIRST_VALUE()',
+      'D. RANK()'
+    ],
+    answer:[1]
+  },
+  {
+    n:30, type:'single', topic:'Analytic Functions / FIRST_VALUE and LAST_VALUE',
+    text:'Examine this analytic function call:\n\nFIRST_VALUE(salary) OVER (PARTITION BY department_id ORDER BY hire_date)\n\nWhat does it return for each row?',
+    opts:[
+      'A. The lowest salary in the entire table.',
+      "B. The salary of the first-hired employee within that row's department, based on HIRE_DATE order.",
+      'C. The average salary for the department.',
+      'D. The salary of the current row only.'
+    ],
+    answer:[1]
+  },
+  {
+    n:31, type:'single', topic:'Analytic Functions / NTILE',
+    text:'What does the analytic function NTILE(4) do when applied to an ordered result set?',
+    opts:[
+      'A. It returns the top 4 rows only.',
+      'B. It divides the ordered rows into 4 roughly equal groups and assigns each row a group number from 1 to 4.',
+      "C. It multiplies each row's value by 4.",
+      'D. It returns the 4th row in each partition.'
+    ],
+    answer:[1]
+  },
+  {
+    n:32, type:'single', topic:'Analytic Functions / PARTITION BY Clause',
+    text:"In an analytic function's OVER clause, what is the purpose of the PARTITION BY clause?",
+    opts:[
+      'A. It filters out rows that do not match a condition, similar to WHERE.',
+      'B. It divides the result set into groups, and the analytic function is calculated independently within each group.',
+      'C. It sorts the entire result set in ascending order.',
+      'D. It permanently groups the rows in the underlying table.'
+    ],
+    answer:[1]
+  },
+  {
+    n:33, type:'single', topic:'String Functions / INSTR',
+    text:'Which function returns the numeric position of the first occurrence of a substring within a string?',
+    opts:[
+      'A. SUBSTR',
+      'B. INSTR',
+      'C. LENGTH',
+      'D. REPLACE'
+    ],
+    answer:[1]
+  },
+  {
+    n:34, type:'single', topic:'String Functions / LPAD and RPAD',
+    text:'Which function pads a string on the left side with a specified character until it reaches a given total length?',
+    opts:[
+      'A. RPAD',
+      'B. LPAD',
+      'C. TRIM',
+      'D. LTRIM'
+    ],
+    answer:[1]
+  },
+  {
+    n:35, type:'single', topic:'String Functions / CONCAT',
+    text:'Which statement is true about the CONCAT function in Oracle?',
+    opts:[
+      'A. CONCAT can join any number of strings passed as arguments.',
+      'B. CONCAT accepts exactly two string arguments; joining more than two requires nesting CONCAT calls or using the || operator.',
+      'C. CONCAT automatically inserts a space between the two strings.',
+      'D. CONCAT cannot be used with column values, only with literals.'
+    ],
+    answer:[1]
+  },
+  {
+    n:36, type:'single', topic:'String Functions / LENGTH',
+    text:"Examine this expression: LENGTH('  Oracle  ')  (with two leading and two trailing spaces). What does it return?",
+    opts:[
+      'A. 6',
+      'B. 8',
+      'C. 10',
+      'D. 12'
+    ],
+    answer:[2]
+  },
+  {
+    n:37, type:'single', topic:'Number Functions / POWER',
+    text:'Which expression correctly calculates 2 raised to the power of 5?',
+    opts:[
+      'A. POWER(2,5)',
+      'B. POWER(5,2)',
+      'C. MOD(2,5)',
+      'D. 2 ** 5'
+    ],
+    answer:[0]
+  },
+  {
+    n:38, type:'single', topic:'Number Functions / SIGN',
+    text:'What does the SIGN function return when applied to a negative number, such as SIGN(-45)?',
+    opts:[
+      'A. -45',
+      'B. -1',
+      'C. 0',
+      'D. 1'
+    ],
+    answer:[1]
+  },
+  {
+    n:39, type:'single', topic:'Number Functions / ABS',
+    text:'What does ABS(-17.5) return?',
+    opts:[
+      'A. -17.5',
+      'B. 17.5',
+      'C. -18',
+      'D. 18'
+    ],
+    answer:[1]
+  },
+  {
+    n:40, type:'single', topic:'Date Functions / LAST_DAY',
+    text:'Which function returns the date of the last day of the month that contains a given date?',
+    opts:[
+      'A. NEXT_DAY',
+      'B. LAST_DAY',
+      'C. ADD_MONTHS',
+      'D. ROUND'
+    ],
+    answer:[1]
+  },
+  {
+    n:41, type:'single', topic:'Date Functions / EXTRACT',
+    text:'Which expression correctly extracts just the year from a DATE column named ORDER_DATE?',
+    opts:[
+      'A. EXTRACT(YEAR FROM order_date)',
+      'B. SUBSTR(order_date, 1, 4)',
+      'C. TO_NUMBER(order_date)',
+      'D. YEAR(order_date)'
+    ],
+    answer:[0]
+  },
+  {
+    n:42, type:'single', topic:'Date Functions / ROUND and TRUNC on Dates',
+    text:'Which statement is true about applying ROUND and TRUNC to a DATE value?',
+    opts:[
+      'A. They can only be applied to NUMBER values, never to DATE values.',
+      'B. ROUND(date) rounds to the nearest day by default, while TRUNC(date) truncates the time portion, setting it to midnight.',
+      'C. TRUNC(date) always rounds up to the next day.',
+      'D. ROUND(date) and TRUNC(date) always return identical results.'
+    ],
+    answer:[1]
+  },
+  {
+    n:43, type:'single', topic:'Data Dictionary Views / USER_TABLES',
+    text:'Which data dictionary view would you query to see a list of all tables owned by the currently connected user?',
+    opts:[
+      'A. ALL_TABLES',
+      'B. DBA_TABLES',
+      'C. USER_TABLES',
+      'D. SYS_TABLES'
+    ],
+    answer:[2]
+  },
+  {
+    n:44, type:'single', topic:'Data Dictionary Views / USER_CONSTRAINTS',
+    text:"Which data dictionary view shows the constraints (PRIMARY KEY, FOREIGN KEY, CHECK, etc.) defined on the current user's own tables?",
+    opts:[
+      'A. USER_CONSTRAINTS',
+      'B. USER_INDEXES',
+      'C. USER_TRIGGERS',
+      'D. USER_SEQUENCES'
+    ],
+    answer:[0]
+  },
+  {
+    n:45, type:'single', topic:'Roles / CREATE ROLE',
+    text:'What is the primary purpose of creating a ROLE in Oracle?',
+    opts:[
+      'A. A role stores table data that can be queried like a view.',
+      'B. A role groups a set of privileges together so they can be granted to, or revoked from, multiple users at once.',
+      'C. A role automatically encrypts all data in the database.',
+      'D. A role is required before any table can be created.'
+    ],
+    answer:[1]
+  },
+  {
+    n:46, type:'single', topic:'Profiles / Password Management',
+    text:'Which database object is used to enforce password complexity rules and account lockout policies for Oracle users?',
+    opts:[
+      'A. A ROLE',
+      'B. A PROFILE',
+      'C. A SYNONYM',
+      'D. An INDEX'
+    ],
+    answer:[1]
+  },
+  {
+    n:47, type:'single', topic:'Auditing Basics',
+    text:'What is the general purpose of database auditing in Oracle?',
+    opts:[
+      'A. To automatically back up the database every night.',
+      'B. To record and track specific database actions, such as logins or DML on sensitive tables, for security and compliance purposes.',
+      'C. To improve query performance by creating additional indexes.',
+      'D. To compress data files to save disk space.'
+    ],
+    answer:[1]
+  },
+  {
+    n:48, type:'single', topic:'External Tables',
+    text:'What is the purpose of an EXTERNAL TABLE in Oracle?',
+    opts:[
+      'A. It allows data stored in operating system files (such as CSV files) to be queried using SQL as if it were a regular table, without first loading the data into the database.',
+      'B. It automatically synchronizes data between two separate Oracle databases.',
+      'C. It is a table that exists only in memory and is lost when the session ends.',
+      'D. It is another name for a materialized view.'
+    ],
+    answer:[0]
+  },
+  {
+    n:49, type:'multi', topic:'Materialized Views',
+    text:'Which TWO statements are true about materialized views in Oracle?',
+    opts:[
+      'A. A materialized view physically stores its result set on disk, unlike a regular view.',
+      'B. A materialized view can be refreshed to reflect changes in its underlying base tables.',
+      'C. A materialized view can never have an index.',
+      'D. Querying a materialized view always re-executes the underlying SELECT statement against the base tables.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:50, type:'single', topic:'Partitioned Tables',
+    text:'What is the main benefit of partitioning a large table in Oracle?',
+    opts:[
+      'A. Partitioning automatically encrypts the table\'s data.',
+      'B. Partitioning splits a table\'s data into smaller, more manageable pieces, which can improve query performance and simplify maintenance operations.',
+      'C. Partitioning removes the need for indexes entirely.',
+      'D. Partitioning is required before a table can have a primary key.'
+    ],
+    answer:[1]
+  },
+  {
+    n:51, type:'single', topic:'Flashback Query / AS OF',
+    text:'Which clause allows you to query a table as it existed at a specific point in time in the past?',
+    opts:[
+      "A. SELECT * FROM employees AS OF TIMESTAMP (SYSTIMESTAMP - INTERVAL '1' HOUR);",
+      'B. SELECT * FROM employees HISTORY;',
+      'C. SELECT * FROM employees ROLLBACK TO (SYSTIMESTAMP - 1);',
+      'D. SELECT * FROM employees PAST 1 HOUR;'
+    ],
+    answer:[0]
+  },
+  {
+    n:52, type:'single', topic:'DDL / DEFAULT Clause',
+    text:"Which statement correctly creates a table where the STATUS column automatically receives the value 'ACTIVE' whenever it is not specified in an INSERT statement?",
+    opts:[
+      "A. CREATE TABLE accounts (account_id NUMBER, status VARCHAR2(10) DEFAULT 'ACTIVE');",
+      "B. CREATE TABLE accounts (account_id NUMBER, status VARCHAR2(10) = 'ACTIVE');",
+      "C. CREATE TABLE accounts (account_id NUMBER, status VARCHAR2(10) SET DEFAULT 'ACTIVE');",
+      "D. CREATE TABLE accounts (account_id NUMBER, status VARCHAR2(10) INITIAL 'ACTIVE');"
+    ],
+    answer:[0]
+  },
+  {
+    n:53, type:'multi', topic:'ALTER TABLE / Adding a NOT NULL Constraint',
+    text:'Examine the CUSTOMERS table, which currently allows NULL values in the EMAIL column and already contains rows with NULL emails. Which TWO statements are true if you run:\n\nALTER TABLE customers MODIFY (email VARCHAR2(100) NOT NULL);',
+    opts:[
+      'A. The statement fails if any existing row currently has a NULL value in EMAIL.',
+      'B. Once successfully applied, all future INSERT statements must supply a non-null value for EMAIL.',
+      'C. The statement succeeds regardless of existing NULL values, and simply ignores them.',
+      'D. A NOT NULL constraint can never be added to a column after the table is created.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:54, type:'single', topic:'Data Dictionary Views / ALL_TAB_COLUMNS',
+    text:'Which data dictionary view would you query to see the column names and data types of a table, including tables owned by other users that you have been granted access to?',
+    opts:[
+      'A. USER_TAB_COLUMNS',
+      'B. ALL_TAB_COLUMNS',
+      'C. USER_TABLES',
+      'D. DBA_USERS'
+    ],
+    answer:[1]
+  },
+  {
+    n:55, type:'single', topic:'Conversion Functions / TO_CHAR with Number Format Models',
+    text:"Which expression formats the number 4500 to display as '$4,500.00'?",
+    opts:[
+      "A. TO_CHAR(4500, '$9,999.00')",
+      "B. TO_CHAR(4500, '9999')",
+      "C. TO_NUMBER(4500, '$9,999.00')",
+      "D. TO_CHAR('4500', '$9,999.00')"
+    ],
+    answer:[0]
+  },
+  {
+    n:56, type:'multi', topic:'Privileges / GRANT WITH GRANT OPTION and REVOKE',
+    text:'Which TWO statements are true about object privileges in Oracle?',
+    opts:[
+      'A. GRANT SELECT ON employees TO ana WITH GRANT OPTION; allows ANA to grant the SELECT privilege on EMPLOYEES to other users.',
+      'B. REVOKE SELECT ON employees FROM ana; removes the previously granted SELECT privilege from ANA.',
+      'C. Privileges granted WITH GRANT OPTION can never be revoked.',
+      'D. GRANT and REVOKE can only be used with system privileges, never with object privileges.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:57, type:'single', topic:'Locking / SELECT FOR UPDATE',
+    text:'What is the purpose of adding FOR UPDATE to a SELECT statement?',
+    opts:[
+      'A. It immediately commits any pending changes in the session.',
+      'B. It locks the selected rows, preventing other sessions from updating or deleting them until the transaction ends.',
+      'C. It automatically updates the selected rows with default values.',
+      'D. It converts the SELECT statement into an UPDATE statement.'
+    ],
+    answer:[1]
+  },
+  {
+    n:58, type:'multi', topic:'Object Privileges vs System Privileges',
+    text:'Which TWO statements correctly distinguish object privileges from system privileges in Oracle?',
+    opts:[
+      'A. SELECT, INSERT, UPDATE, and DELETE on a specific table are examples of object privileges.',
+      'B. CREATE SESSION and CREATE TABLE are examples of system privileges.',
+      'C. Object privileges can never be granted to a role, only directly to a user.',
+      'D. System privileges apply only to a specific row within a table.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:59, type:'single', topic:'COMMENT ON / Object Documentation',
+    text:'Which statement correctly adds a descriptive comment to the EMPLOYEES table for documentation purposes?',
+    opts:[
+      "A. COMMENT ON TABLE employees IS 'Stores employee records.';",
+      "B. ALTER TABLE employees ADD COMMENT 'Stores employee records.';",
+      "C. DESCRIBE employees AS 'Stores employee records.';",
+      "D. INSERT COMMENT INTO employees VALUES ('Stores employee records.');"
+    ],
+    answer:[0]
+  },
+  {
+    n:60, type:'single', topic:'RENAME Statement',
+    text:'Which statement correctly renames the table OLD_ORDERS to ARCHIVED_ORDERS?',
+    opts:[
+      'A. ALTER TABLE old_orders NAME archived_orders;',
+      'B. RENAME old_orders TO archived_orders;',
+      "C. UPDATE old_orders SET name = 'archived_orders';",
+      'D. MODIFY TABLE old_orders RENAME archived_orders;'
+    ],
+    answer:[1]
   }
 ];
 
