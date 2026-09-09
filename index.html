@@ -218,666 +218,666 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
 
 <script>
 // ═══════════════════════════════════════════
-// QUESTIONS — 60 sual (English, OCA-level, fresh set)
+// QUESTIONS — 60 sual (English, Oracle SQL, fresh set)
 // ═══════════════════════════════════════════
 const questions = [
   {
-    n:1, type:'single', topic:'SELECT / Arithmetic & NULL',
-    text:'Examine this query:\n\nSELECT last_name, salary, salary * NULL AS calc\nFROM employees;\n\nWhat is displayed in the CALC column for every row?',
+    n:1, type:'single', topic:'DUAL / Expressions',
+    text:'What is returned by this query?\n\nSELECT 10 + 5 * 2 - 4 / 2 FROM dual;',
     opts:[
-      'A. 0',
-      'B. The value of SALARY',
+      'A. 18',
+      'B. 16',
+      'C. 26',
+      'D. 13'
+    ],
+    answer:[0]
+  },
+  {
+    n:2, type:'single', topic:'NULL in Arithmetic',
+    text:'The EMPLOYEES table has a row where SALARY = 3000 and COMMISSION_PCT is NULL. What does this expression return for that row?\n\nSELECT salary + salary * commission_pct FROM employees;',
+    opts:[
+      'A. 3000',
+      'B. 6000',
       'C. NULL',
-      'D. An error is raised.'
+      'D. 0'
     ],
     answer:[2]
   },
   {
-    n:2, type:'single', topic:'Column Alias Rules',
-    text:'Which statement about column aliases is true?',
+    n:3, type:'single', topic:'DISTINCT',
+    text:'The JOBS table has these DEPARTMENT_ID values across its rows: 10, 20, 10, 30, 20, 10. How many rows does this query return?\n\nSELECT DISTINCT department_id FROM jobs;',
     opts:[
-      'A. A column alias can be used in the WHERE clause of the same SELECT statement.',
-      'B. A column alias containing spaces or preserving case must be enclosed in double quotation marks.',
-      'C. The AS keyword is mandatory when defining a column alias.',
-      'D. A column alias can be referenced in the GROUP BY clause but not in ORDER BY.'
-    ],
-    answer:[1]
-  },
-  {
-    n:3, type:'single', topic:'Concatenation Operator',
-    text:"Examine this query:\n\nSELECT first_name || ' earns ' || salary AS details\nFROM employees;\n\nWhich statement is true?",
-    opts:[
-      'A. It raises an error because SALARY is a number and cannot be concatenated.',
-      'B. It executes successfully; SALARY is implicitly converted to a character string.',
-      'C. It requires TO_NUMBER around SALARY to succeed.',
-      'D. It returns NULL for every row where SALARY is not NULL.'
-    ],
-    answer:[1]
-  },
-  {
-    n:4, type:'single', topic:'WHERE / LIKE with Escape',
-    text:"You must find products whose CODE column contains a literal underscore character. Which WHERE clause works correctly?",
-    opts:[
-      "A. WHERE code LIKE '%_%'",
-      "B. WHERE code LIKE '%\\_%' ESCAPE '\\'",
-      "C. WHERE code = '_'",
-      "D. WHERE code CONTAINS '_'"
-    ],
-    answer:[1]
-  },
-  {
-    n:5, type:'single', topic:'WHERE / IN and NULL',
-    text:'Examine this query:\n\nSELECT * FROM employees\nWHERE department_id IN (10, 20, NULL);\n\nWhich statement is true?',
-    opts:[
-      'A. It returns employees in departments 10, 20, or with a NULL department.',
-      'B. It returns employees in departments 10 or 20 only; the NULL in the list matches nothing.',
-      'C. It raises a syntax error because NULL is not allowed in an IN list.',
-      'D. It returns no rows at all.'
-    ],
-    answer:[1]
-  },
-  {
-    n:6, type:'single', topic:'Logical Operators / Precedence',
-    text:"Examine this query:\n\nSELECT * FROM employees\nWHERE job_id = 'SA_REP' OR job_id = 'AD_VP' AND salary > 15000;\n\nWhich statement is true about how the conditions are evaluated?",
-    opts:[
-      'A. OR is evaluated before AND.',
-      "B. AND has higher precedence than OR, so the salary condition applies only to job_id = 'AD_VP'.",
-      'C. Both conditions must be true for any row to be returned.',
-      'D. The query raises an error without parentheses.'
-    ],
-    answer:[1]
-  },
-  {
-    n:7, type:'single', topic:'ORDER BY / Multiple Columns',
-    text:'Examine this query:\n\nSELECT last_name, department_id, salary\nFROM employees\nORDER BY department_id ASC, salary DESC;\n\nWhich statement is true about the result order?',
-    opts:[
-      'A. Rows are sorted by SALARY descending, then by DEPARTMENT_ID ascending within equal salaries.',
-      'B. Rows are sorted by DEPARTMENT_ID ascending, and within each department by SALARY descending.',
-      'C. Only DEPARTMENT_ID affects the ordering; the second sort key is ignored.',
-      'D. It raises an error because ASC and DESC cannot be mixed in one ORDER BY.'
-    ],
-    answer:[1]
-  },
-  {
-    n:8, type:'single', topic:'Single-Row Functions / ROUND',
-    text:'What does ROUND(45.678, -1) return?',
-    opts:[
-      'A. 45.7',
-      'B. 46',
-      'C. 50',
-      'D. 40'
-    ],
-    answer:[2]
-  },
-  {
-    n:9, type:'single', topic:'Single-Row Functions / TRUNC',
-    text:'What does TRUNC(45.678, 1) return?',
-    opts:[
-      'A. 45.7',
-      'B. 45.6',
-      'C. 46',
-      'D. 40'
-    ],
-    answer:[1]
-  },
-  {
-    n:10, type:'single', topic:'Character Functions / SUBSTR',
-    text:"What does SUBSTR('DATABASE', 3, 4) return?",
-    opts:[
-      "A. 'TABA'",
-      "B. 'ATAB'",
-      "C. 'ABAS'",
-      "D. 'DATA'"
-    ],
-    answer:[0]
-  },
-  {
-    n:11, type:'single', topic:'Character Functions / INSTR',
-    text:"What does INSTR('MISSISSIPPI', 'S', 1, 3) return?",
-    opts:[
-      'A. 3',
-      'B. 4',
-      'C. 6',
-      'D. 7'
-    ],
-    answer:[2]
-  },
-  {
-    n:12, type:'single', topic:'Character Functions / TRIM',
-    text:"What does TRIM('x' FROM 'xxOraclexx') return?",
-    opts:[
-      "A. 'Oracle'",
-      "B. 'xxOracle'",
-      "C. 'Oraclexx'",
-      "D. 'xxOraclexx'"
-    ],
-    answer:[0]
-  },
-  {
-    n:13, type:'single', topic:'NULL Functions / COALESCE',
-    text:'Examine this expression:\n\nCOALESCE(commission_pct, bonus, base_rate, 0)\n\nWhich statement is true?',
-    opts:[
-      'A. It returns the last argument (0) only when every preceding argument is NULL.',
-      'B. It returns the first argument regardless of whether it is NULL.',
-      'C. It requires all arguments to be of different data types.',
-      'D. It always returns 0.'
-    ],
-    answer:[0]
-  },
-  {
-    n:14, type:'single', topic:'General Functions / NULLIF',
-    text:'What does NULLIF(100, 100) return?',
-    opts:[
-      'A. 100',
-      'B. 0',
-      'C. NULL',
+      'A. 6',
+      'B. 3',
+      'C. 2',
       'D. 1'
     ],
+    answer:[1]
+  },
+  {
+    n:4, type:'single', topic:'WHERE / BETWEEN',
+    text:'Which values of PRICE are returned by this condition?\n\nWHERE price BETWEEN 100 AND 200',
+    opts:[
+      'A. Prices strictly greater than 100 and strictly less than 200.',
+      'B. Prices from 100 up to and including 200 (both endpoints included).',
+      'C. Prices equal to either 100 or 200 only.',
+      'D. Prices greater than 200.'
+    ],
+    answer:[1]
+  },
+  {
+    n:5, type:'single', topic:'WHERE / IS NULL',
+    text:'Which condition correctly selects employees who have NOT been assigned a manager?',
+    opts:[
+      'A. WHERE manager_id = NULL',
+      'B. WHERE manager_id != NULL',
+      'C. WHERE manager_id IS NULL',
+      'D. WHERE manager_id = 0'
+    ],
     answer:[2]
   },
   {
-    n:15, type:'single', topic:'Conditional Expressions / CASE',
-    text:"Examine this query:\n\nSELECT last_name,\n  CASE WHEN salary < 5000 THEN 'Low'\n       WHEN salary < 10000 THEN 'Medium'\n       ELSE 'High'\n  END AS band\nFROM employees;\n\nWhat band is assigned to an employee whose salary is exactly 5000?",
+    n:6, type:'single', topic:'WHERE / LIKE Patterns',
+    text:"Which LAST_NAME values match this condition?\n\nWHERE last_name LIKE '_a%'",
     opts:[
-      "A. 'Low'",
-      "B. 'Medium'",
-      "C. 'High'",
+      "A. Names where 'a' is the first character.",
+      "B. Names where 'a' is the second character.",
+      "C. Names that end with 'a'.",
+      "D. Names that contain exactly two characters."
+    ],
+    answer:[1]
+  },
+  {
+    n:7, type:'single', topic:'ORDER BY / Column Position',
+    text:'Examine this query:\n\nSELECT last_name, salary FROM employees ORDER BY 2 DESC;\n\nWhat does "2" refer to?',
+    opts:[
+      'A. The second row of the result.',
+      'B. The second column in the SELECT list (SALARY).',
+      'C. A literal value of 2.',
+      'D. It raises an error; column positions are not allowed.'
+    ],
+    answer:[1]
+  },
+  {
+    n:8, type:'single', topic:'String Functions / UPPER & LOWER',
+    text:"What does this query return for a row where LAST_NAME is 'Smith'?\n\nSELECT UPPER(last_name) FROM employees;",
+    opts:[
+      "A. 'Smith'",
+      "B. 'smith'",
+      "C. 'SMITH'",
+      "D. 'Smith '"
+    ],
+    answer:[2]
+  },
+  {
+    n:9, type:'single', topic:'String Functions / LENGTH',
+    text:"What does LENGTH('Oracle SQL') return?",
+    opts:[
+      'A. 9',
+      'B. 10',
+      'C. 11',
+      'D. 12'
+    ],
+    answer:[1]
+  },
+  {
+    n:10, type:'single', topic:'String Functions / CONCAT vs ||',
+    text:"Which two expressions produce the same result of joining FIRST_NAME and LAST_NAME?\n\nI.  CONCAT(first_name, last_name)\nII. first_name || last_name",
+    opts:[
+      'A. Only I is valid.',
+      'B. Only II is valid.',
+      'C. Both I and II produce the same result.',
+      'D. Neither is valid Oracle syntax.'
+    ],
+    answer:[2]
+  },
+  {
+    n:11, type:'single', topic:'String Functions / REPLACE',
+    text:"What does REPLACE('2024-01-15', '-', '/') return?",
+    opts:[
+      "A. '2024-01-15'",
+      "B. '2024/01/15'",
+      "C. '20240115'",
+      "D. '2024 01 15'"
+    ],
+    answer:[1]
+  },
+  {
+    n:12, type:'single', topic:'Number Functions / MOD',
+    text:'What does MOD(17, 5) return?',
+    opts:[
+      'A. 2',
+      'B. 3',
+      'C. 3.4',
+      'D. 12'
+    ],
+    answer:[0]
+  },
+  {
+    n:13, type:'single', topic:'Number Functions / CEIL & FLOOR',
+    text:'What do CEIL(7.2) and FLOOR(7.8) return, respectively?',
+    opts:[
+      'A. 7 and 8',
+      'B. 8 and 7',
+      'C. 7 and 7',
+      'D. 8 and 8'
+    ],
+    answer:[1]
+  },
+  {
+    n:14, type:'single', topic:'Date Functions / SYSDATE Arithmetic',
+    text:'Which statement is true about SYSDATE + 1?',
+    opts:[
+      'A. It adds one hour to the current date and time.',
+      'B. It adds one day to the current date.',
+      'C. It adds one month to the current date.',
+      'D. It raises an error because you cannot add a number to a date.'
+    ],
+    answer:[1]
+  },
+  {
+    n:15, type:'single', topic:'Date Functions / ADD_MONTHS',
+    text:"What does ADD_MONTHS(TO_DATE('31-JAN-2024','DD-MON-YYYY'), 1) return?",
+    opts:[
+      "A. 31-FEB-2024",
+      "B. 29-FEB-2024",
+      "C. 28-FEB-2024",
+      "D. 01-MAR-2024"
+    ],
+    answer:[1]
+  },
+  {
+    n:16, type:'single', topic:'Conversion / TO_CHAR Number Format',
+    text:"What does TO_CHAR(1234.5, '9,999.99') return?",
+    opts:[
+      "A. '1,234.50'",
+      "B. '1234.5'",
+      "C. '1,234.5'",
+      "D. '01,234.50'"
+    ],
+    answer:[0]
+  },
+  {
+    n:17, type:'single', topic:'NULL Functions / NVL',
+    text:'The COMMISSION_PCT column is NULL for a certain employee. What does NVL(commission_pct, 0) return for that row?',
+    opts:[
+      'A. NULL',
+      'B. 0',
+      'C. The value of COMMISSION_PCT',
+      'D. An error'
+    ],
+    answer:[1]
+  },
+  {
+    n:18, type:'single', topic:'NULL Functions / NVL2',
+    text:"What does NVL2(commission_pct, salary + commission_pct, salary) return when COMMISSION_PCT is NOT NULL?",
+    opts:[
+      'A. salary',
+      'B. salary + commission_pct',
+      'C. NULL',
+      'D. commission_pct'
+    ],
+    answer:[1]
+  },
+  {
+    n:19, type:'single', topic:'CASE Expression',
+    text:"Examine this expression for an employee whose DEPARTMENT_ID is 20:\n\nCASE department_id\n  WHEN 10 THEN 'A'\n  WHEN 20 THEN 'B'\n  ELSE 'C'\nEND",
+    opts:[
+      "A. 'A'",
+      "B. 'B'",
+      "C. 'C'",
       'D. NULL'
     ],
     answer:[1]
   },
   {
-    n:16, type:'single', topic:'Conditional Expressions / DECODE',
-    text:"Examine this query:\n\nSELECT DECODE(department_id, 10, 'Admin', 20, 'Sales', 'Other') AS dept\nFROM employees;\n\nWhat is returned for an employee whose DEPARTMENT_ID is 30?",
+    n:20, type:'multi', topic:'Single-Row Functions / Nesting',
+    text:'Which TWO statements are true about single-row functions?',
     opts:[
-      "A. 'Admin'",
-      "B. 'Sales'",
-      "C. 'Other'",
-      'D. NULL'
+      'A. They execute once for each row returned by the query.',
+      'B. They can be nested, and the innermost function is evaluated first.',
+      'C. They always return a value of the same data type as the input.',
+      'D. They can only be used in the SELECT clause.'
     ],
-    answer:[2]
+    answer:[0,1]
   },
   {
-    n:17, type:'single', topic:'Date Functions / MONTHS_BETWEEN',
-    text:"What does MONTHS_BETWEEN(TO_DATE('01-MAR-2024','DD-MON-YYYY'), TO_DATE('01-JAN-2024','DD-MON-YYYY')) return?",
+    n:21, type:'single', topic:'Group Functions / COUNT',
+    text:'The EMPLOYEES table has 8 rows; COMMISSION_PCT is NULL in 3 of them. What does COUNT(commission_pct) return?',
     opts:[
-      'A. -2',
+      'A. 8',
+      'B. 5',
+      'C. 3',
+      'D. 0'
+    ],
+    answer:[1]
+  },
+  {
+    n:22, type:'single', topic:'Group Functions / SUM & MAX',
+    text:'Which statement is true about the SUM and MAX group functions?',
+    opts:[
+      'A. SUM can be applied to character columns.',
+      'B. MAX can be applied to numeric, character, and date columns.',
+      'C. Both SUM and MAX include NULL values in their calculation.',
+      'D. MAX can only be applied to numeric columns.'
+    ],
+    answer:[1]
+  },
+  {
+    n:23, type:'single', topic:'GROUP BY / Multiple Columns',
+    text:'Examine this query:\n\nSELECT department_id, job_id, SUM(salary)\nFROM employees\nGROUP BY department_id, job_id;\n\nWhat determines a single group in the result?',
+    opts:[
+      'A. Each distinct DEPARTMENT_ID value only.',
+      'B. Each distinct combination of DEPARTMENT_ID and JOB_ID.',
+      'C. Each distinct JOB_ID value only.',
+      'D. Each individual row of the table.'
+    ],
+    answer:[1]
+  },
+  {
+    n:24, type:'single', topic:'HAVING Clause',
+    text:'Examine this query:\n\nSELECT department_id, COUNT(*)\nFROM employees\nGROUP BY department_id\nHAVING COUNT(*) > 5;\n\nWhat does the HAVING clause do here?',
+    opts:[
+      'A. It filters individual rows before grouping.',
+      'B. It filters the grouped results, keeping only departments with more than 5 employees.',
+      'C. It sorts the departments by employee count.',
+      'D. It raises an error; COUNT cannot be used in HAVING.'
+    ],
+    answer:[1]
+  },
+  {
+    n:25, type:'single', topic:'WHERE vs HAVING',
+    text:'What is the key difference between the WHERE and HAVING clauses?',
+    opts:[
+      'A. WHERE filters grouped results; HAVING filters individual rows.',
+      'B. WHERE filters individual rows before grouping; HAVING filters groups after grouping.',
+      'C. They are interchangeable and produce identical results.',
+      'D. HAVING must always appear before WHERE.'
+    ],
+    answer:[1]
+  },
+  {
+    n:26, type:'multi', topic:'Joins / ANSI Syntax',
+    text:'Which TWO join clauses are valid ANSI SQL syntax in Oracle?',
+    opts:[
+      'A. FROM employees e JOIN departments d ON e.department_id = d.department_id',
+      'B. FROM employees e JOIN departments d USING (department_id)',
+      'C. FROM employees e JOIN departments d WHERE e.department_id = d.department_id',
+      'D. FROM employees e JOIN departments d ONLY (department_id)'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:27, type:'single', topic:'Joins / RIGHT OUTER JOIN',
+    text:'Examine this query:\n\nSELECT e.last_name, d.department_name\nFROM employees e RIGHT OUTER JOIN departments d\nON e.department_id = d.department_id;\n\nWhich rows are guaranteed to appear?',
+    opts:[
+      'A. All employees, even those without a department.',
+      'B. All departments, even those with no employees.',
+      'C. Only rows where employee and department match.',
+      'D. Every combination of employees and departments.'
+    ],
+    answer:[1]
+  },
+  {
+    n:28, type:'single', topic:'Joins / USING Restriction',
+    text:'When a join uses the USING (department_id) clause, which statement is true about referencing DEPARTMENT_ID elsewhere in the query?',
+    opts:[
+      'A. It must always be prefixed with a table alias.',
+      'B. It must NOT be prefixed with a table alias or table name.',
+      'C. It cannot be referenced in the SELECT list at all.',
+      'D. It must be prefixed only in the WHERE clause.'
+    ],
+    answer:[1]
+  },
+  {
+    n:29, type:'single', topic:'Joins / Three Tables',
+    text:'To join three tables A, B, and C in a single query, what is the minimum number of join conditions typically required?',
+    opts:[
+      'A. 1',
       'B. 2',
-      'C. 60',
-      'D. 0.2'
+      'C. 3',
+      'D. 4'
     ],
     answer:[1]
   },
   {
-    n:18, type:'single', topic:'Date Functions / NEXT_DAY',
-    text:"Which statement is true about NEXT_DAY(SYSDATE, 'MONDAY')?",
+    n:30, type:'single', topic:'Subqueries / WHERE Clause',
+    text:'Examine this query:\n\nSELECT last_name FROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);\n\nWhat does it return?',
     opts:[
-      'A. It returns the date of the most recent past Monday.',
-      'B. It returns the date of the first Monday strictly after SYSDATE.',
-      'C. It returns the current date if SYSDATE is a Monday.',
-      'D. It returns the number of days until the next Monday.'
+      'A. Employees whose salary equals the average salary.',
+      'B. Employees whose salary is above the overall average salary.',
+      'C. The average salary only.',
+      'D. All employees.'
     ],
     answer:[1]
   },
   {
-    n:19, type:'single', topic:'Conversion Functions / TO_CHAR Date Format',
-    text:"Which format model displays a date value as 'Monday, 15 January 2024'?",
+    n:31, type:'single', topic:'Subqueries / ALL Operator',
+    text:'What does salary > ALL (2000, 4000, 6000) evaluate to true for?',
     opts:[
-      "A. 'Day, DD Month YYYY'",
-      "B. 'DY, DD MON YYYY'",
-      "C. 'Day DD-MM-YYYY'",
-      "D. 'fmDay DD MON YY'"
+      'A. Salaries greater than 2000.',
+      'B. Salaries greater than 6000 (the maximum in the list).',
+      'C. Salaries greater than 4000 (the middle value).',
+      'D. Salaries greater than 2000 but less than 6000.'
+    ],
+    answer:[1]
+  },
+  {
+    n:32, type:'single', topic:'Subqueries / Correlated',
+    text:'What characterizes a correlated subquery?',
+    opts:[
+      'A. It executes only once before the outer query runs.',
+      'B. It references a column from the outer query and executes once per outer row.',
+      'C. It cannot use the EXISTS operator.',
+      'D. It must return more than one row.'
+    ],
+    answer:[1]
+  },
+  {
+    n:33, type:'single', topic:'Subqueries / EXISTS',
+    text:'Examine this query:\n\nSELECT d.department_name FROM departments d\nWHERE EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.department_id);\n\nWhat does it return?',
+    opts:[
+      'A. Departments that have no employees.',
+      'B. Departments that have at least one employee.',
+      'C. All departments regardless of employees.',
+      'D. The number 1 for each department.'
+    ],
+    answer:[1]
+  },
+  {
+    n:34, type:'single', topic:'Set Operators / UNION Column Rules',
+    text:'For a UNION between two SELECT statements to work, which condition must be met?',
+    opts:[
+      'A. Both queries must select from the same table.',
+      'B. Both queries must return the same number of columns with corresponding compatible data types.',
+      'C. The column names in both queries must be identical.',
+      'D. Both queries must include an ORDER BY clause.'
+    ],
+    answer:[1]
+  },
+  {
+    n:35, type:'single', topic:'Set Operators / MINUS',
+    text:'Examine this query:\n\nSELECT product_id FROM all_products\nMINUS\nSELECT product_id FROM discontinued_products;\n\nWhat does it return?',
+    opts:[
+      'A. Products that appear in both lists.',
+      'B. Products in ALL_PRODUCTS that are not in DISCONTINUED_PRODUCTS.',
+      'C. All products from both tables combined.',
+      'D. Products in DISCONTINUED_PRODUCTS only.'
+    ],
+    answer:[1]
+  },
+  {
+    n:36, type:'single', topic:'DML / INSERT Multiple Approaches',
+    text:'The PROJECTS table has columns PROJECT_ID, NAME (NOT NULL), and BUDGET. Which INSERT statement executes successfully?',
+    opts:[
+      "A. INSERT INTO projects (project_id, budget) VALUES (1, 5000);",
+      "B. INSERT INTO projects (project_id, name) VALUES (1, 'Alpha');",
+      "C. INSERT INTO projects VALUES (1, 'Alpha');",
+      "D. INSERT INTO projects (name) VALUES (NULL);"
+    ],
+    answer:[1]
+  },
+  {
+    n:37, type:'single', topic:'DML / UPDATE Multiple Columns',
+    text:'Which statement correctly updates both SALARY and COMMISSION_PCT for employee 100 in a single statement?',
+    opts:[
+      'A. UPDATE employees SET salary = 9000, commission_pct = 0.2 WHERE employee_id = 100;',
+      'B. UPDATE employees SET salary = 9000 AND commission_pct = 0.2 WHERE employee_id = 100;',
+      'C. UPDATE employees SET (salary, commission_pct) = 9000, 0.2 WHERE employee_id = 100;',
+      'D. UPDATE employees SET salary = 9000; SET commission_pct = 0.2 WHERE employee_id = 100;'
     ],
     answer:[0]
   },
   {
-    n:20, type:'single', topic:'Conversion Functions / TO_NUMBER',
-    text:"Which statement correctly converts the string '$1,250.50' into the number 1250.50?",
+    n:38, type:'single', topic:'DML / DELETE with Condition',
+    text:'What does this statement do?\n\nDELETE FROM employees WHERE department_id = 10;',
     opts:[
-      "A. TO_NUMBER('$1,250.50')",
-      "B. TO_NUMBER('$1,250.50', '$9,999.99')",
-      "C. TO_CHAR('$1,250.50', '$9,999.99')",
-      "D. CAST('$1,250.50' AS NUMBER)"
+      'A. Deletes the DEPARTMENT_ID column from the table.',
+      'B. Deletes all employee rows whose DEPARTMENT_ID is 10.',
+      'C. Deletes the entire EMPLOYEES table.',
+      'D. Sets DEPARTMENT_ID to NULL for department 10.'
     ],
     answer:[1]
   },
   {
-    n:21, type:'single', topic:'Nested Functions',
-    text:"Examine this query:\n\nSELECT NVL(TO_CHAR(commission_pct), 'No Commission') AS comm\nFROM employees;\n\nWhy is TO_CHAR applied to COMMISSION_PCT before NVL?",
+    n:39, type:'multi', topic:'TCL / Transaction Behavior',
+    text:'Which TWO statements about transactions in Oracle are true?',
     opts:[
-      'A. Because NVL cannot accept numeric arguments.',
-      "B. Because NVL requires both arguments to be of compatible data types, and the substitute value is a character string.",
-      'C. Because TO_CHAR removes NULL values automatically.',
-      'D. It is unnecessary; the query works identically without TO_CHAR.'
-    ],
-    answer:[1]
-  },
-  {
-    n:22, type:'single', topic:'Group Functions / AVG and NULL',
-    text:'The EMPLOYEES table has 10 rows, but COMMISSION_PCT is NULL for 4 of them. What does AVG(commission_pct) compute?',
-    opts:[
-      'A. The sum of COMMISSION_PCT divided by 10.',
-      'B. The sum of COMMISSION_PCT divided by 6 (only the non-null rows).',
-      'C. NULL, because some values are NULL.',
-      'D. 0.'
-    ],
-    answer:[1]
-  },
-  {
-    n:23, type:'multi', topic:'Group Functions / General Rules',
-    text:'Which TWO statements are true about group (aggregate) functions?',
-    opts:[
-      'A. Group functions ignore NULL values, except for COUNT(*).',
-      'B. Group functions can be nested more than two levels deep.',
-      'C. A group function can appear in a WHERE clause to filter rows.',
-      'D. MIN and MAX can be used with character and date data types, not just numbers.'
-    ],
-    answer:[0,3]
-  },
-  {
-    n:24, type:'single', topic:'GROUP BY / Rules',
-    text:'Examine this query:\n\nSELECT department_id, job_id, COUNT(*)\nFROM employees\nGROUP BY department_id;\n\nWhy does it raise an error?',
-    opts:[
-      'A. COUNT(*) cannot be used with GROUP BY.',
-      'B. JOB_ID appears in the SELECT list but is not in the GROUP BY clause and is not inside a group function.',
-      'C. DEPARTMENT_ID must also appear in a WHERE clause.',
-      'D. GROUP BY cannot reference DEPARTMENT_ID.'
-    ],
-    answer:[1]
-  },
-  {
-    n:25, type:'single', topic:'HAVING Clause',
-    text:'Examine this query:\n\nSELECT department_id, AVG(salary)\nFROM employees\nWHERE AVG(salary) > 8000\nGROUP BY department_id;\n\nWhy does it raise an error?',
-    opts:[
-      'A. AVG cannot be used in the SELECT list.',
-      'B. A group function cannot appear in a WHERE clause; the condition belongs in a HAVING clause.',
-      'C. GROUP BY must come before WHERE.',
-      'D. DEPARTMENT_ID must be aliased.'
-    ],
-    answer:[1]
-  },
-  {
-    n:26, type:'single', topic:'Clause Evaluation Order',
-    text:'In which logical order are the clauses of a SELECT statement evaluated?',
-    opts:[
-      'A. SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY',
-      'B. FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY',
-      'C. FROM, SELECT, WHERE, GROUP BY, ORDER BY, HAVING',
-      'D. WHERE, FROM, GROUP BY, SELECT, HAVING, ORDER BY'
-    ],
-    answer:[1]
-  },
-  {
-    n:27, type:'single', topic:'Joins / ANSI Inner Join',
-    text:'Examine this query:\n\nSELECT e.last_name, d.department_name\nFROM employees e JOIN departments d\nON e.department_id = d.department_id;\n\nWhich statement is true?',
-    opts:[
-      'A. It returns all employees, including those with a NULL DEPARTMENT_ID.',
-      'B. It returns only employees whose DEPARTMENT_ID matches a department, and all departments regardless of employees.',
-      'C. It returns only rows where an employee\'s DEPARTMENT_ID matches an existing department.',
-      'D. It returns every possible combination of employees and departments.'
-    ],
-    answer:[2]
-  },
-  {
-    n:28, type:'single', topic:'Joins / LEFT OUTER JOIN',
-    text:'Examine this query:\n\nSELECT e.last_name, d.department_name\nFROM employees e LEFT OUTER JOIN departments d\nON e.department_id = d.department_id;\n\nWhich rows are guaranteed to appear?',
-    opts:[
-      'A. Only employees who belong to a department.',
-      'B. All employees, including those whose DEPARTMENT_ID is NULL or does not match any department.',
-      'C. All departments, including those with no employees.',
-      'D. Only departments that have at least one employee.'
-    ],
-    answer:[1]
-  },
-  {
-    n:29, type:'single', topic:'Joins / NATURAL JOIN',
-    text:'Examine this query:\n\nSELECT * FROM employees NATURAL JOIN departments;\n\nAssuming both tables share the columns DEPARTMENT_ID and MANAGER_ID, which statement is true?',
-    opts:[
-      'A. The tables are joined only on DEPARTMENT_ID.',
-      'B. The tables are joined on both DEPARTMENT_ID and MANAGER_ID, because both are common columns.',
-      'C. It raises an error because NATURAL JOIN allows only one common column.',
-      'D. It performs a Cartesian product.'
-    ],
-    answer:[1]
-  },
-  {
-    n:30, type:'single', topic:'Joins / Self Join',
-    text:"Examine this query:\n\nSELECT e.last_name AS emp, m.last_name AS mgr\nFROM employees e JOIN employees m\nON e.manager_id = m.employee_id;\n\nWhich employees are excluded from the result?",
-    opts:[
-      'A. Employees whose salary is NULL.',
-      'B. Employees whose MANAGER_ID is NULL (typically top-level managers).',
-      'C. Employees in department 10.',
-      'D. No employees are excluded.'
-    ],
-    answer:[1]
-  },
-  {
-    n:31, type:'single', topic:'Joins / Cross Join',
-    text:'The EMPLOYEES table has 20 rows and the JOBS table has 5 rows. How many rows does SELECT * FROM employees CROSS JOIN jobs return?',
-    opts:[
-      'A. 20',
-      'B. 25',
-      'C. 100',
-      'D. 5'
-    ],
-    answer:[2]
-  },
-  {
-    n:32, type:'single', topic:'Subqueries / Single-Row Operators',
-    text:'Examine this query:\n\nSELECT last_name FROM employees\nWHERE salary = (SELECT MAX(salary) FROM employees WHERE department_id = 50);\n\nWhich statement is true?',
-    opts:[
-      'A. It fails because a subquery cannot be used with the = operator.',
-      'B. It executes successfully because the subquery returns a single value.',
-      'C. It requires the ANY operator to work.',
-      'D. It returns all employees in department 50.'
-    ],
-    answer:[1]
-  },
-  {
-    n:33, type:'single', topic:'Subqueries / Multiple-Row / ANY',
-    text:"Examine this query:\n\nSELECT last_name, salary FROM employees\nWHERE salary < ANY (SELECT salary FROM employees WHERE department_id = 60);\n\nWhat does < ANY mean in this context?",
-    opts:[
-      'A. Less than the maximum salary in department 60.',
-      'B. Less than the minimum salary in department 60.',
-      'C. Less than the average salary in department 60.',
-      'D. Less than every salary in department 60.'
-    ],
-    answer:[0]
-  },
-  {
-    n:34, type:'single', topic:'Subqueries / NOT IN with NULL',
-    text:'Examine this query:\n\nSELECT last_name FROM employees\nWHERE department_id NOT IN (SELECT department_id FROM departments);\n\nIf the subquery returns any NULL value, what is the result?',
-    opts:[
-      'A. It returns all employees.',
-      'B. It returns no rows, because NOT IN with a NULL in the list evaluates to UNKNOWN for every row.',
-      'C. It raises a syntax error.',
-      'D. It ignores the NULL and returns matching rows.'
-    ],
-    answer:[1]
-  },
-  {
-    n:35, type:'single', topic:'Set Operators / UNION vs UNION ALL',
-    text:'Which statement correctly distinguishes UNION from UNION ALL?',
-    opts:[
-      'A. UNION includes duplicate rows; UNION ALL removes them.',
-      'B. UNION removes duplicate rows and sorts the result; UNION ALL keeps all rows including duplicates and does not sort.',
-      'C. UNION ALL requires the queries to have different numbers of columns.',
-      'D. There is no difference between them.'
-    ],
-    answer:[1]
-  },
-  {
-    n:36, type:'single', topic:'Set Operators / INTERSECT',
-    text:'Which statement is true about the INTERSECT operator?',
-    opts:[
-      'A. It returns all rows from the first query that are not in the second.',
-      'B. It returns only the rows returned by both queries.',
-      'C. It combines all rows from both queries, including duplicates.',
-      'D. It requires the two queries to reference the same table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:37, type:'single', topic:'Set Operators / ORDER BY Placement',
-    text:'In a compound query using UNION, where can an ORDER BY clause be placed?',
-    opts:[
-      'A. After each individual SELECT statement.',
-      'B. Only once, at the very end of the entire compound query.',
-      'C. Anywhere, as many times as needed.',
-      'D. ORDER BY cannot be used with set operators.'
-    ],
-    answer:[1]
-  },
-  {
-    n:38, type:'single', topic:'DML / INSERT',
-    text:'Examine the DEPARTMENTS table with columns DEPARTMENT_ID, DEPARTMENT_NAME (NOT NULL), and MANAGER_ID. Which INSERT statement fails?',
-    opts:[
-      "A. INSERT INTO departments (department_id, department_name) VALUES (10, 'IT');",
-      "B. INSERT INTO departments VALUES (20, 'HR', NULL);",
-      "C. INSERT INTO departments (department_id, manager_id) VALUES (30, 100);",
-      "D. INSERT INTO departments VALUES (40, 'Finance', 200);"
-    ],
-    answer:[2]
-  },
-  {
-    n:39, type:'single', topic:'DML / UPDATE with Subquery',
-    text:'Examine this statement:\n\nUPDATE employees\nSET salary = (SELECT AVG(salary) FROM employees)\nWHERE department_id = 90;\n\nWhich statement is true?',
-    opts:[
-      'A. It fails because a subquery cannot be used in a SET clause.',
-      'B. It sets the salary of all employees in department 90 to the overall average salary.',
-      'C. It updates every row in the table.',
-      'D. It requires a correlated subquery to work.'
-    ],
-    answer:[1]
-  },
-  {
-    n:40, type:'single', topic:'DML / DELETE',
-    text:'Which statement is true about the DELETE statement?',
-    opts:[
-      'A. DELETE removes the table structure along with its rows.',
-      'B. DELETE without a WHERE clause removes all rows but keeps the table structure and can be rolled back before commit.',
-      'C. DELETE cannot be rolled back.',
-      'D. DELETE automatically commits the transaction.'
-    ],
-    answer:[1]
-  },
-  {
-    n:41, type:'single', topic:'DML / MERGE',
-    text:'What does the MERGE statement do?',
-    opts:[
-      'A. It permanently combines two tables into a single new table.',
-      'B. It performs a conditional INSERT or UPDATE on a target table based on whether matching rows exist in a source.',
-      'C. It merges two columns of a table into one.',
-      'D. It is used only to remove duplicate rows.'
-    ],
-    answer:[1]
-  },
-  {
-    n:42, type:'multi', topic:'TCL / COMMIT, ROLLBACK, SAVEPOINT',
-    text:'Which TWO statements are true about transaction control in Oracle?',
-    opts:[
-      'A. A COMMIT makes all pending changes permanent and ends the transaction.',
-      'B. ROLLBACK TO SAVEPOINT a undoes all changes made after savepoint a, but keeps the transaction active.',
-      'C. Once committed, changes can still be undone with a ROLLBACK.',
-      'D. Issuing a DDL statement rolls back all pending DML changes.'
+      'A. A COMMIT permanently saves all changes made since the last commit or rollback.',
+      'B. Issuing a DDL statement such as CREATE TABLE automatically commits the current transaction.',
+      'C. A ROLLBACK can undo changes even after a COMMIT.',
+      'D. SAVEPOINT permanently saves part of a transaction to disk.'
     ],
     answer:[0,1]
   },
   {
-    n:43, type:'single', topic:'DDL / CREATE TABLE Data Types',
-    text:'Which column definition is INVALID in an Oracle CREATE TABLE statement?',
+    n:40, type:'single', topic:'DDL / Data Types',
+    text:'Which data type is most appropriate for storing a fixed-length country code that is always exactly 2 characters?',
     opts:[
-      'A. hire_date DATE',
-      'B. salary NUMBER(8,2)',
-      'C. description VARCHAR2',
-      'D. code CHAR(3)'
-    ],
-    answer:[2]
-  },
-  {
-    n:44, type:'single', topic:'DDL / CREATE TABLE AS SELECT',
-    text:'Examine this statement:\n\nCREATE TABLE emp_copy AS\nSELECT employee_id, last_name, salary FROM employees;\n\nWhich statement is true about EMP_COPY?',
-    opts:[
-      'A. It inherits the PRIMARY KEY and FOREIGN KEY constraints of EMPLOYEES.',
-      'B. It is created with the selected data and the NOT NULL constraints, but not PRIMARY KEY, UNIQUE, or FOREIGN KEY constraints.',
-      'C. It is created empty, with no rows.',
-      'D. It fails because a subquery cannot be used in CREATE TABLE.'
+      'A. VARCHAR2(2)',
+      'B. CHAR(2)',
+      'C. NUMBER(2)',
+      'D. CLOB'
     ],
     answer:[1]
   },
   {
-    n:45, type:'single', topic:'DDL / ALTER TABLE ADD Column',
-    text:'Which statement correctly adds a new column PHONE (VARCHAR2(20)) to the CUSTOMERS table?',
+    n:41, type:'single', topic:'DDL / DEFAULT Value',
+    text:"A column is defined as STATUS VARCHAR2(10) DEFAULT 'NEW'. What value is stored when an INSERT omits the STATUS column?",
     opts:[
-      'A. ALTER TABLE customers ADD COLUMN phone VARCHAR2(20);',
-      'B. ALTER TABLE customers ADD phone VARCHAR2(20);',
-      'C. ALTER TABLE customers MODIFY phone VARCHAR2(20);',
-      'D. ALTER customers ADD (phone VARCHAR2(20));'
+      'A. NULL',
+      "B. 'NEW'",
+      "C. An empty string",
+      'D. The INSERT fails.'
     ],
     answer:[1]
   },
   {
-    n:46, type:'single', topic:'DDL / ALTER TABLE MODIFY Column',
-    text:'The PRODUCTS table has a column NAME VARCHAR2(50); the longest value currently stored is 40 characters. Which modification succeeds?',
+    n:42, type:'single', topic:'DDL / CREATE TABLE AS SELECT',
+    text:'Examine this statement:\n\nCREATE TABLE dept_backup AS SELECT * FROM departments WHERE 1 = 2;\n\nWhat is created?',
     opts:[
-      'A. Reducing NAME to VARCHAR2(30).',
-      'B. Increasing NAME to VARCHAR2(100).',
-      'C. Changing NAME to NUMBER.',
-      'D. Reducing NAME to VARCHAR2(10).'
+      'A. A copy of DEPARTMENTS with all its rows.',
+      'B. A new table with the same structure as DEPARTMENTS but no rows.',
+      'C. Nothing; the statement raises an error.',
+      'D. A view instead of a table.'
     ],
     answer:[1]
   },
   {
-    n:47, type:'single', topic:'DDL / DROP and FLASHBACK',
-    text:'In a database with the recycle bin enabled, which statement recovers a table that was dropped with DROP TABLE employees; (no PURGE)?',
+    n:43, type:'single', topic:'DDL / ALTER TABLE DROP Column',
+    text:'Which statement correctly removes the column PHONE from the CUSTOMERS table?',
     opts:[
-      'A. ROLLBACK;',
-      'B. FLASHBACK TABLE employees TO BEFORE DROP;',
-      'C. RESTORE TABLE employees;',
-      'D. UNDROP TABLE employees;'
+      'A. ALTER TABLE customers DELETE COLUMN phone;',
+      'B. ALTER TABLE customers DROP COLUMN phone;',
+      'C. ALTER TABLE customers REMOVE phone;',
+      'D. DROP COLUMN phone FROM customers;'
     ],
     answer:[1]
   },
   {
-    n:48, type:'single', topic:'DDL / TRUNCATE vs DELETE',
-    text:'Which statement is true when comparing TRUNCATE TABLE with DELETE (no WHERE clause)?',
+    n:44, type:'single', topic:'DDL / RENAME Column',
+    text:'Which statement correctly renames the column FNAME to FIRST_NAME in the EMPLOYEES table?',
     opts:[
-      'A. TRUNCATE can be rolled back, DELETE cannot.',
-      'B. TRUNCATE is a DDL statement that resets storage and issues an implicit commit, so it cannot be rolled back.',
-      'C. DELETE is faster than TRUNCATE for removing all rows.',
-      'D. TRUNCATE fires all DELETE triggers on the table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:49, type:'multi', topic:'Constraints / NOT NULL and CHECK',
-    text:'Which TWO statements about constraints are true?',
-    opts:[
-      'A. A NOT NULL constraint can only be defined at the column level, not the table level.',
-      'B. A CHECK constraint can reference other columns of the same row.',
-      'C. A CHECK constraint can reference the value of a column in a different table.',
-      'D. A NOT NULL constraint can be defined at both the column and table level equally.'
-    ],
-    answer:[0,1]
-  },
-  {
-    n:50, type:'single', topic:'Constraints / PRIMARY KEY',
-    text:'Which statement is true about a PRIMARY KEY constraint?',
-    opts:[
-      'A. A table can have several PRIMARY KEY constraints.',
-      'B. A PRIMARY KEY enforces uniqueness and prohibits NULLs, and a table can have at most one.',
-      'C. A PRIMARY KEY column allows one NULL value.',
-      'D. A PRIMARY KEY cannot span more than one column.'
-    ],
-    answer:[1]
-  },
-  {
-    n:51, type:'single', topic:'Constraints / FOREIGN KEY ON DELETE',
-    text:'A FOREIGN KEY is defined with ON DELETE SET NULL. What happens to child rows when the referenced parent row is deleted?',
-    opts:[
-      'A. The child rows are deleted.',
-      'B. The foreign key column in the child rows is set to NULL.',
-      'C. The parent DELETE is blocked.',
-      'D. The child rows are updated with a default value.'
-    ],
-    answer:[1]
-  },
-  {
-    n:52, type:'single', topic:'Constraints / UNIQUE',
-    text:'Which statement is true about a UNIQUE constraint?',
-    opts:[
-      'A. It disallows all NULL values in the constrained column.',
-      'B. It permits multiple NULL values, since NULLs are not considered equal to one another.',
-      'C. A table can have only one UNIQUE constraint.',
-      'D. It cannot be combined with a NOT NULL constraint on the same column.'
-    ],
-    answer:[1]
-  },
-  {
-    n:53, type:'single', topic:'Views / Simple vs Complex',
-    text:'Which statement is true about a complex view (one containing a group function, GROUP BY, or a join)?',
-    opts:[
-      'A. It always allows INSERT, UPDATE, and DELETE operations.',
-      'B. It generally does not allow DML operations that would modify the base tables in certain ways, unlike a simple view.',
-      'C. It stores the query result physically on disk.',
-      'D. It cannot be queried with a WHERE clause.'
-    ],
-    answer:[1]
-  },
-  {
-    n:54, type:'single', topic:'Views / WITH READ ONLY',
-    text:'A view is created WITH READ ONLY. What happens if a user issues an UPDATE against that view?',
-    opts:[
-      'A. The update succeeds and modifies the base table.',
-      'B. The update fails because DML is not permitted through a read-only view.',
-      'C. The update is silently ignored.',
-      'D. The view is automatically dropped.'
-    ],
-    answer:[1]
-  },
-  {
-    n:55, type:'single', topic:'Sequences / NEXTVAL and CACHE',
-    text:'Which statement is true about a sequence with the CACHE option in a single-instance database?',
-    opts:[
-      'A. Cached values that are not used are permanently reserved and reused on restart.',
-      'B. If the instance shuts down, unused cached sequence values are lost, which can create gaps.',
-      'C. CACHE guarantees that no gaps ever occur in the sequence.',
-      'D. CACHE prevents the sequence from ever being used by more than one session.'
-    ],
-    answer:[1]
-  },
-  {
-    n:56, type:'single', topic:'Indexes / Automatic Creation',
-    text:'For which constraint does Oracle automatically create a unique index (if one does not already exist)?',
-    opts:[
-      'A. A NOT NULL constraint.',
-      'B. A CHECK constraint.',
-      'C. A PRIMARY KEY or UNIQUE constraint.',
-      'D. A FOREIGN KEY constraint.'
-    ],
-    answer:[2]
-  },
-  {
-    n:57, type:'single', topic:'Data Dictionary Views',
-    text:'Which data dictionary view lists all tables owned by the currently connected user?',
-    opts:[
-      'A. ALL_TABLES',
-      'B. DBA_TABLES',
-      'C. USER_TABLES',
-      'D. V$TABLES'
-    ],
-    answer:[2]
-  },
-  {
-    n:58, type:'single', topic:'DCL / GRANT',
-    text:'Which statement grants the SELECT and INSERT object privileges on the ORDERS table to the user JOHN?',
-    opts:[
-      'A. GRANT SELECT, INSERT ON orders TO john;',
-      'B. GRANT orders TO john WITH SELECT, INSERT;',
-      'C. GRANT SELECT AND INSERT ON orders TO john;',
-      'D. ALLOW SELECT, INSERT ON orders TO john;'
+      'A. ALTER TABLE employees RENAME COLUMN fname TO first_name;',
+      'B. ALTER TABLE employees MODIFY fname TO first_name;',
+      'C. RENAME COLUMN employees.fname TO first_name;',
+      'D. ALTER TABLE employees CHANGE fname first_name;'
     ],
     answer:[0]
   },
   {
-    n:59, type:'single', topic:'DCL / Roles',
-    text:'What is the primary advantage of using a role to manage privileges?',
+    n:45, type:'single', topic:'DDL / TRUNCATE',
+    text:'What is the effect of TRUNCATE TABLE logs;?',
     opts:[
-      'A. A role stores data that can be queried like a table.',
-      'B. A role groups related privileges so they can be granted to, or revoked from, many users in a single operation.',
-      'C. A role encrypts the data in a table.',
-      'D. A role is required before any table can be created.'
+      'A. It removes all rows and can be rolled back before commit.',
+      'B. It removes all rows quickly, issues an implicit commit, and cannot be rolled back.',
+      'C. It removes the table structure entirely.',
+      'D. It removes only the first row of the table.'
     ],
     answer:[1]
   },
   {
-    n:60, type:'single', topic:'Data Types / Implicit Conversion',
-    text:"Examine this query:\n\nSELECT * FROM employees WHERE employee_id = '100';\n\nGiven that EMPLOYEE_ID is a NUMBER column, which statement is true?",
+    n:46, type:'multi', topic:'Constraints / Levels',
+    text:'Which TWO constraints can be defined at both the column level and the table level?',
     opts:[
-      "A. It raises an error because '100' is a character string.",
-      "B. It executes successfully; Oracle implicitly converts the string '100' to the number 100.",
-      "C. It converts EMPLOYEE_ID to a character string for the comparison.",
-      'D. It returns no rows because the data types do not match.'
+      'A. NOT NULL',
+      'B. PRIMARY KEY',
+      'C. FOREIGN KEY',
+      'D. A composite PRIMARY KEY on a single column only'
+    ],
+    answer:[1,2]
+  },
+  {
+    n:47, type:'single', topic:'Constraints / CHECK',
+    text:'A column is defined with CHECK (salary BETWEEN 1000 AND 50000). Which INSERT value is rejected?',
+    opts:[
+      'A. 1000',
+      'B. 25000',
+      'C. 50000',
+      'D. 500'
+    ],
+    answer:[3]
+  },
+  {
+    n:48, type:'single', topic:'Constraints / FOREIGN KEY',
+    text:'A FOREIGN KEY on EMPLOYEES.DEPARTMENT_ID references DEPARTMENTS.DEPARTMENT_ID. What happens if you try to delete a department that still has employees, with no ON DELETE option specified?',
+    opts:[
+      'A. The department and its employees are both deleted.',
+      "B. The DELETE fails because of the child records in EMPLOYEES.",
+      'C. The employees\' DEPARTMENT_ID is set to NULL.',
+      'D. The DELETE succeeds and leaves orphaned employee rows.'
+    ],
+    answer:[1]
+  },
+  {
+    n:49, type:'single', topic:'Views / Simple View DML',
+    text:'A simple view is created on a single table selecting a few columns without any functions or grouping. Which statement is true?',
+    opts:[
+      'A. DML operations through the view are never allowed.',
+      'B. DML operations through the view can modify the underlying base table, subject to the base table constraints.',
+      'C. The view stores a physical copy of the data.',
+      'D. The view cannot be queried with a WHERE clause.'
+    ],
+    answer:[1]
+  },
+  {
+    n:50, type:'single', topic:'Views / WITH CHECK OPTION',
+    text:'A view is created on employees WHERE department_id = 50 WITH CHECK OPTION. What happens if you try to UPDATE a row through the view, changing DEPARTMENT_ID to 60?',
+    opts:[
+      'A. The update succeeds and the row moves to department 60.',
+      'B. The update fails because the changed row would no longer be visible through the view.',
+      'C. The update succeeds but the view is dropped.',
+      'D. The update sets DEPARTMENT_ID to NULL.'
+    ],
+    answer:[1]
+  },
+  {
+    n:51, type:'single', topic:'Sequences / NEXTVAL',
+    text:'A sequence ORD_SEQ starts at 1 and increments by 1. You call ORD_SEQ.NEXTVAL three times and then ORD_SEQ.CURRVAL once. What does the CURRVAL call return?',
+    opts:[
+      'A. 1',
+      'B. 3',
+      'C. 4',
+      'D. NULL'
+    ],
+    answer:[1]
+  },
+  {
+    n:52, type:'single', topic:'Sequences / Gaps',
+    text:'Which action can cause a gap in the numbers generated by a sequence?',
+    opts:[
+      'A. Selecting NEXTVAL without inserting, or rolling back a transaction that used NEXTVAL.',
+      'B. Using CURRVAL more than once.',
+      'C. Creating the sequence with START WITH 1.',
+      'D. Sequences never produce gaps under any circumstance.'
+    ],
+    answer:[0]
+  },
+  {
+    n:53, type:'single', topic:'Indexes / Purpose',
+    text:'What is the primary purpose of creating an index on a column?',
+    opts:[
+      'A. To enforce that the column cannot contain NULL values.',
+      'B. To speed up the retrieval of rows based on the values of that column.',
+      'C. To automatically sort the physical rows of the table.',
+      'D. To reduce the storage size of the table.'
+    ],
+    answer:[1]
+  },
+  {
+    n:54, type:'single', topic:'Indexes / Trade-offs',
+    text:'Which statement is a correct trade-off of having many indexes on a table?',
+    opts:[
+      'A. Indexes speed up all operations, including INSERT and DELETE.',
+      'B. Indexes can speed up queries but add overhead to INSERT, UPDATE, and DELETE operations.',
+      'C. Indexes have no effect on DML performance.',
+      'D. Indexes prevent the table from being queried.'
+    ],
+    answer:[1]
+  },
+  {
+    n:55, type:'single', topic:'Synonyms',
+    text:'What does a synonym provide in Oracle?',
+    opts:[
+      'A. A physical copy of a table.',
+      'B. An alternative name for a database object such as a table or view.',
+      'C. A backup of the object.',
+      'D. A temporary in-memory table.'
+    ],
+    answer:[1]
+  },
+  {
+    n:56, type:'single', topic:'Data Dictionary / USER_ Views',
+    text:'Which query lists the names of all sequences owned by the current user?',
+    opts:[
+      'A. SELECT sequence_name FROM user_sequences;',
+      'B. SELECT sequence_name FROM all_tables;',
+      'C. SELECT * FROM v$sequences;',
+      'D. SELECT sequences FROM user_objects;'
+    ],
+    answer:[0]
+  },
+  {
+    n:57, type:'single', topic:'DCL / REVOKE',
+    text:'Which statement removes the previously granted UPDATE privilege on the ORDERS table from user MARIA?',
+    opts:[
+      'A. REVOKE UPDATE ON orders FROM maria;',
+      'B. REVOKE UPDATE ON orders TO maria;',
+      'C. DROP UPDATE ON orders FROM maria;',
+      'D. DENY UPDATE ON orders TO maria;'
+    ],
+    answer:[0]
+  },
+  {
+    n:58, type:'single', topic:'Implicit Conversion',
+    text:"The HIRE_DATE column is of type DATE, and NLS_DATE_FORMAT is 'DD-MON-YY'. What happens with this query?\n\nSELECT * FROM employees WHERE hire_date = '17-JUN-03';",
+    opts:[
+      "A. It fails because the string cannot be compared to a date.",
+      "B. It succeeds; the string is implicitly converted to a DATE.",
+      "C. It converts HIRE_DATE to a string for comparison.",
+      'D. It returns all rows regardless of HIRE_DATE.'
+    ],
+    answer:[1]
+  },
+  {
+    n:59, type:'single', topic:'DUAL / Constants',
+    text:'What is the DUAL table primarily used for?',
+    opts:[
+      'A. Storing user data permanently.',
+      'B. Selecting constant expressions, function results, or pseudocolumns that are not tied to a specific table.',
+      'C. Storing temporary session data.',
+      'D. Backing up other tables.'
+    ],
+    answer:[1]
+  },
+  {
+    n:60, type:'single', topic:'Pseudocolumns / ROWNUM',
+    text:'Examine this query:\n\nSELECT last_name FROM employees WHERE ROWNUM <= 5;\n\nWhich statement is true?',
+    opts:[
+      'A. It returns the 5 employees with the highest salaries.',
+      'B. It returns the first 5 rows retrieved, in no guaranteed order unless combined with an ordered subquery.',
+      'C. It returns exactly the 5th row of the table.',
+      'D. It raises an error because ROWNUM cannot be used in a WHERE clause.'
     ],
     answer:[1]
   }
