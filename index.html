@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oracle SQL İmtahan 2</title>
+<title>Oracle SQL İmtahan — Başlanğıc</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -32,19 +32,14 @@ body {
 }
 .screen { display:none; }
 .screen.active { display:block; }
-
-/* LOGIN */
 #loginScreen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
 #loginScreen.active { display:flex; }
-.login-card {
-  background:var(--surface); border:1px solid var(--border);
-  border-radius:20px; padding:48px 40px; width:100%; max-width:480px; position:relative; overflow:hidden;
-}
+.login-card { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:48px 40px; width:100%; max-width:480px; position:relative; overflow:hidden; }
 .login-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
 .logo-area { text-align:center; margin-bottom:36px; }
 .logo-icon { width:64px;height:64px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:16px; display:inline-flex; align-items:center; justify-content:center; font-size:28px; margin-bottom:16px; }
-.logo-area h1 { font-size:26px; font-weight:800; letter-spacing:-0.5px; }
-.logo-area p { color:var(--text2); font-size:14px; margin-top:6px; font-family:'Space Mono',monospace; }
+.logo-area h1 { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
+.logo-area p { color:var(--text2); font-size:13px; margin-top:6px; font-family:'Space Mono',monospace; }
 .form-group { margin-bottom:20px; }
 .form-group label { display:block; font-size:13px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; }
 .form-group input { width:100%; padding:14px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-family:'Syne',sans-serif; font-size:15px; outline:none; transition:border-color 0.2s; }
@@ -56,8 +51,6 @@ body {
 .btn-start { width:100%; padding:16px; background:linear-gradient(135deg,var(--accent),#7c3aed); border:none; border-radius:var(--radius); color:#fff; font-family:'Syne',sans-serif; font-size:16px; font-weight:800; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s; }
 .btn-start:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(167,139,250,0.3); }
 .err-msg { color:var(--danger); font-size:13px; margin-top:6px; display:none; }
-
-/* EXAM */
 #examScreen { padding:0; }
 #examScreen.active { display:block; }
 .exam-header { position:sticky; top:0; z-index:100; background:rgba(10,14,26,0.95); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
@@ -86,8 +79,6 @@ body {
 .submit-area { text-align:center; padding:20px; }
 .btn-submit { padding:16px 48px; background:linear-gradient(135deg,var(--accent2),#be185d); border:none; border-radius:var(--radius); color:#fff; font-family:'Syne',sans-serif; font-size:17px; font-weight:800; cursor:pointer; transition:transform 0.15s,box-shadow 0.15s; }
 .btn-submit:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(244,114,182,0.4); }
-
-/* RESULT */
 #resultScreen { padding:0; }
 #resultScreen.active { display:block; }
 .result-header { background:var(--surface); border-bottom:1px solid var(--border); padding:32px 24px; text-align:center; position:relative; overflow:hidden; }
@@ -139,13 +130,13 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
   <div class="login-card">
     <div class="logo-area">
       <div class="logo-icon">🗄️</div>
-      <h1>Oracle SQL İmtahan 2</h1>
-      <p>exam sql2 · advanced topics</p>
+      <h1>Oracle SQL İmtahan</h1>
+      <p>Başlanğıc · Dərs 1–7 + SUBSTR, MIN/MAX/AVG, CONNECT BY</p>
     </div>
     <div class="info-bar">
-      <div class="info-chip"><div class="val">60</div><div class="lbl">Sual</div></div>
-      <div class="info-chip"><div class="val">120</div><div class="lbl">Dəqiqə</div></div>
-      <div class="info-chip"><div class="val">42</div><div class="lbl">Keçid balı</div></div>
+      <div class="info-chip"><div class="val">30</div><div class="lbl">Sual</div></div>
+      <div class="info-chip"><div class="val">80</div><div class="lbl">Dəqiqə</div></div>
+      <div class="info-chip"><div class="val">21</div><div class="lbl">Keçid balı</div></div>
     </div>
     <div class="form-group">
       <label>Ad</label>
@@ -169,17 +160,17 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
 <!-- EXAM -->
 <div id="examScreen" class="screen">
   <div class="exam-header">
-    <div class="exam-title-sm">Oracle SQL 2</div>
+    <div class="exam-title-sm">Oracle SQL · Başlanğıc</div>
     <div class="progress-wrap">
       <div class="progress-info">
-        <span id="prog-text">0 / 60 cavablandı</span>
+        <span id="prog-text">0 / 30 cavablandı</span>
         <span id="prog-pct">0%</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
     <div class="timer-block">
       <span>⏱</span>
-      <span class="timer-val" id="timer">120:00</span>
+      <span class="timer-val" id="timer">80:00</span>
     </div>
   </div>
   <div class="exam-body" id="examBody"></div>
@@ -194,7 +185,7 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
     <div class="student-info-res" id="resStudentInfo"></div>
     <div class="score-circle" id="scoreCircle">
       <div class="score-inner">
-        <div class="score-num" id="scoreNum">0/60</div>
+        <div class="score-num" id="scoreNum">0/30</div>
         <div class="score-label">NƏTİCƏ</div>
       </div>
     </div>
@@ -218,562 +209,100 @@ pre { background:#0d1117; border:1px solid var(--border); border-radius:8px; pad
 
 <script>
 // ═══════════════════════════════════════════
-// QUESTIONS — 60 sual (English, Oracle SQL, fresh set)
+// QUESTIONS — 30 sual (Azərbaycan dili, Dərs 1-7 + SUBSTR/MIN-MAX-AVG/CONNECT BY)
 // ═══════════════════════════════════════════
 const questions = [
   {
-    n:1, type:'single', topic:'DUAL / Expressions',
-    text:'What is returned by this query?\n\nSELECT 10 + 5 * 2 - 4 / 2 FROM dual;',
+    n:1, type:'single', topic:'Dərs 1 — DDL / Əmr kateqoriyaları',
+    text:'Aşağıdakı əmrlərdən hansı DDL (Data Definition Language) kateqoriyasına aiddir?',
     opts:[
-      'A. 18',
-      'B. 16',
-      'C. 26',
-      'D. 13'
-    ],
-    answer:[0]
-  },
-  {
-    n:2, type:'single', topic:'NULL in Arithmetic',
-    text:'The EMPLOYEES table has a row where SALARY = 3000 and COMMISSION_PCT is NULL. What does this expression return for that row?\n\nSELECT salary + salary * commission_pct FROM employees;',
-    opts:[
-      'A. 3000',
-      'B. 6000',
-      'C. NULL',
-      'D. 0'
+      'A. INSERT',
+      'B. UPDATE',
+      'C. CREATE',
+      'D. SELECT'
     ],
     answer:[2]
   },
   {
-    n:3, type:'single', topic:'DISTINCT',
-    text:'The JOBS table has these DEPARTMENT_ID values across its rows: 10, 20, 10, 30, 20, 10. How many rows does this query return?\n\nSELECT DISTINCT department_id FROM jobs;',
+    n:2, type:'single', topic:'Dərs 1 — DDL / Data tipləri',
+    text:'Dəyişən uzunluqlu mətn məlumatı saxlamaq üçün ən uyğun data tipi hansıdır?',
     opts:[
-      'A. 6',
-      'B. 3',
-      'C. 2',
-      'D. 1'
+      'A. CHAR',
+      'B. VARCHAR2',
+      'C. NUMBER',
+      'D. DATE'
     ],
     answer:[1]
   },
   {
-    n:4, type:'single', topic:'WHERE / BETWEEN',
-    text:'Which values of PRICE are returned by this condition?\n\nWHERE price BETWEEN 100 AND 200',
+    n:3, type:'single', topic:'Dərs 1 — DDL / ALTER TABLE',
+    text:'CUSTOMERS cədvəlinə yeni PHONE VARCHAR2(20) sütunu əlavə etmək üçün hansı əmr düzgündür?',
     opts:[
-      'A. Prices strictly greater than 100 and strictly less than 200.',
-      'B. Prices from 100 up to and including 200 (both endpoints included).',
-      'C. Prices equal to either 100 or 200 only.',
-      'D. Prices greater than 200.'
+      'A. ALTER TABLE customers ADD COLUMN phone VARCHAR2(20);',
+      'B. ALTER TABLE customers ADD phone VARCHAR2(20);',
+      'C. ALTER TABLE customers MODIFY phone VARCHAR2(20);',
+      'D. ALTER TABLE customers INSERT phone VARCHAR2(20);'
     ],
     answer:[1]
   },
   {
-    n:5, type:'single', topic:'WHERE / IS NULL',
-    text:'Which condition correctly selects employees who have NOT been assigned a manager?',
+    n:4, type:'single', topic:'Dərs 2 — Constraint-lər / PRIMARY KEY',
+    text:'PRIMARY KEY constraint-i haqqında hansı ifadə DOĞRUDUR?',
     opts:[
-      'A. WHERE manager_id = NULL',
-      'B. WHERE manager_id != NULL',
-      'C. WHERE manager_id IS NULL',
-      'D. WHERE manager_id = 0'
-    ],
-    answer:[2]
-  },
-  {
-    n:6, type:'single', topic:'WHERE / LIKE Patterns',
-    text:"Which LAST_NAME values match this condition?\n\nWHERE last_name LIKE '_a%'",
-    opts:[
-      "A. Names where 'a' is the first character.",
-      "B. Names where 'a' is the second character.",
-      "C. Names that end with 'a'.",
-      "D. Names that contain exactly two characters."
+      'A. Bir cədvəldə bir neçə PRIMARY KEY ola bilər.',
+      'B. PRIMARY KEY həm unikallığı təmin edir, həm də NULL dəyərə icazə vermir; cədvəldə yalnız bir dənə ola bilər.',
+      'C. PRIMARY KEY sütunu bir NULL dəyərə icazə verir.',
+      'D. PRIMARY KEY yalnız bir sütun üzərində təyin oluna bilər.'
     ],
     answer:[1]
   },
   {
-    n:7, type:'single', topic:'ORDER BY / Column Position',
-    text:'Examine this query:\n\nSELECT last_name, salary FROM employees ORDER BY 2 DESC;\n\nWhat does "2" refer to?',
-    opts:[
-      'A. The second row of the result.',
-      'B. The second column in the SELECT list (SALARY).',
-      'C. A literal value of 2.',
-      'D. It raises an error; column positions are not allowed.'
-    ],
-    answer:[1]
-  },
-  {
-    n:8, type:'single', topic:'String Functions / UPPER & LOWER',
-    text:"What does this query return for a row where LAST_NAME is 'Smith'?\n\nSELECT UPPER(last_name) FROM employees;",
-    opts:[
-      "A. 'Smith'",
-      "B. 'smith'",
-      "C. 'SMITH'",
-      "D. 'Smith '"
-    ],
-    answer:[2]
-  },
-  {
-    n:9, type:'single', topic:'String Functions / LENGTH',
-    text:"What does LENGTH('Oracle SQL') return?",
-    opts:[
-      'A. 9',
-      'B. 10',
-      'C. 11',
-      'D. 12'
-    ],
-    answer:[1]
-  },
-  {
-    n:10, type:'single', topic:'String Functions / CONCAT vs ||',
-    text:"Which two expressions produce the same result of joining FIRST_NAME and LAST_NAME?\n\nI.  CONCAT(first_name, last_name)\nII. first_name || last_name",
-    opts:[
-      'A. Only I is valid.',
-      'B. Only II is valid.',
-      'C. Both I and II produce the same result.',
-      'D. Neither is valid Oracle syntax.'
-    ],
-    answer:[2]
-  },
-  {
-    n:11, type:'single', topic:'String Functions / REPLACE',
-    text:"What does REPLACE('2024-01-15', '-', '/') return?",
-    opts:[
-      "A. '2024-01-15'",
-      "B. '2024/01/15'",
-      "C. '20240115'",
-      "D. '2024 01 15'"
-    ],
-    answer:[1]
-  },
-  {
-    n:12, type:'single', topic:'Number Functions / MOD',
-    text:'What does MOD(17, 5) return?',
-    opts:[
-      'A. 2',
-      'B. 3',
-      'C. 3.4',
-      'D. 12'
-    ],
-    answer:[0]
-  },
-  {
-    n:13, type:'single', topic:'Number Functions / CEIL & FLOOR',
-    text:'What do CEIL(7.2) and FLOOR(7.8) return, respectively?',
-    opts:[
-      'A. 7 and 8',
-      'B. 8 and 7',
-      'C. 7 and 7',
-      'D. 8 and 8'
-    ],
-    answer:[1]
-  },
-  {
-    n:14, type:'single', topic:'Date Functions / SYSDATE Arithmetic',
-    text:'Which statement is true about SYSDATE + 1?',
-    opts:[
-      'A. It adds one hour to the current date and time.',
-      'B. It adds one day to the current date.',
-      'C. It adds one month to the current date.',
-      'D. It raises an error because you cannot add a number to a date.'
-    ],
-    answer:[1]
-  },
-  {
-    n:15, type:'single', topic:'Date Functions / ADD_MONTHS',
-    text:"What does ADD_MONTHS(TO_DATE('31-JAN-2024','DD-MON-YYYY'), 1) return?",
-    opts:[
-      "A. 31-FEB-2024",
-      "B. 29-FEB-2024",
-      "C. 28-FEB-2024",
-      "D. 01-MAR-2024"
-    ],
-    answer:[1]
-  },
-  {
-    n:16, type:'single', topic:'Conversion / TO_CHAR Number Format',
-    text:"What does TO_CHAR(1234.5, '9,999.99') return?",
-    opts:[
-      "A. '1,234.50'",
-      "B. '1234.5'",
-      "C. '1,234.5'",
-      "D. '01,234.50'"
-    ],
-    answer:[0]
-  },
-  {
-    n:17, type:'single', topic:'NULL Functions / NVL',
-    text:'The COMMISSION_PCT column is NULL for a certain employee. What does NVL(commission_pct, 0) return for that row?',
-    opts:[
-      'A. NULL',
-      'B. 0',
-      'C. The value of COMMISSION_PCT',
-      'D. An error'
-    ],
-    answer:[1]
-  },
-  {
-    n:18, type:'single', topic:'NULL Functions / NVL2',
-    text:"What does NVL2(commission_pct, salary + commission_pct, salary) return when COMMISSION_PCT is NOT NULL?",
-    opts:[
-      'A. salary',
-      'B. salary + commission_pct',
-      'C. NULL',
-      'D. commission_pct'
-    ],
-    answer:[1]
-  },
-  {
-    n:19, type:'single', topic:'CASE Expression',
-    text:"Examine this expression for an employee whose DEPARTMENT_ID is 20:\n\nCASE department_id\n  WHEN 10 THEN 'A'\n  WHEN 20 THEN 'B'\n  ELSE 'C'\nEND",
-    opts:[
-      "A. 'A'",
-      "B. 'B'",
-      "C. 'C'",
-      'D. NULL'
-    ],
-    answer:[1]
-  },
-  {
-    n:20, type:'multi', topic:'Single-Row Functions / Nesting',
-    text:'Which TWO statements are true about single-row functions?',
-    opts:[
-      'A. They execute once for each row returned by the query.',
-      'B. They can be nested, and the innermost function is evaluated first.',
-      'C. They always return a value of the same data type as the input.',
-      'D. They can only be used in the SELECT clause.'
-    ],
-    answer:[0,1]
-  },
-  {
-    n:21, type:'single', topic:'Group Functions / COUNT',
-    text:'The EMPLOYEES table has 8 rows; COMMISSION_PCT is NULL in 3 of them. What does COUNT(commission_pct) return?',
-    opts:[
-      'A. 8',
-      'B. 5',
-      'C. 3',
-      'D. 0'
-    ],
-    answer:[1]
-  },
-  {
-    n:22, type:'single', topic:'Group Functions / SUM & MAX',
-    text:'Which statement is true about the SUM and MAX group functions?',
-    opts:[
-      'A. SUM can be applied to character columns.',
-      'B. MAX can be applied to numeric, character, and date columns.',
-      'C. Both SUM and MAX include NULL values in their calculation.',
-      'D. MAX can only be applied to numeric columns.'
-    ],
-    answer:[1]
-  },
-  {
-    n:23, type:'single', topic:'GROUP BY / Multiple Columns',
-    text:'Examine this query:\n\nSELECT department_id, job_id, SUM(salary)\nFROM employees\nGROUP BY department_id, job_id;\n\nWhat determines a single group in the result?',
-    opts:[
-      'A. Each distinct DEPARTMENT_ID value only.',
-      'B. Each distinct combination of DEPARTMENT_ID and JOB_ID.',
-      'C. Each distinct JOB_ID value only.',
-      'D. Each individual row of the table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:24, type:'single', topic:'HAVING Clause',
-    text:'Examine this query:\n\nSELECT department_id, COUNT(*)\nFROM employees\nGROUP BY department_id\nHAVING COUNT(*) > 5;\n\nWhat does the HAVING clause do here?',
-    opts:[
-      'A. It filters individual rows before grouping.',
-      'B. It filters the grouped results, keeping only departments with more than 5 employees.',
-      'C. It sorts the departments by employee count.',
-      'D. It raises an error; COUNT cannot be used in HAVING.'
-    ],
-    answer:[1]
-  },
-  {
-    n:25, type:'single', topic:'WHERE vs HAVING',
-    text:'What is the key difference between the WHERE and HAVING clauses?',
-    opts:[
-      'A. WHERE filters grouped results; HAVING filters individual rows.',
-      'B. WHERE filters individual rows before grouping; HAVING filters groups after grouping.',
-      'C. They are interchangeable and produce identical results.',
-      'D. HAVING must always appear before WHERE.'
-    ],
-    answer:[1]
-  },
-  {
-    n:26, type:'multi', topic:'Joins / ANSI Syntax',
-    text:'Which TWO join clauses are valid ANSI SQL syntax in Oracle?',
-    opts:[
-      'A. FROM employees e JOIN departments d ON e.department_id = d.department_id',
-      'B. FROM employees e JOIN departments d USING (department_id)',
-      'C. FROM employees e JOIN departments d WHERE e.department_id = d.department_id',
-      'D. FROM employees e JOIN departments d ONLY (department_id)'
-    ],
-    answer:[0,1]
-  },
-  {
-    n:27, type:'single', topic:'Joins / RIGHT OUTER JOIN',
-    text:'Examine this query:\n\nSELECT e.last_name, d.department_name\nFROM employees e RIGHT OUTER JOIN departments d\nON e.department_id = d.department_id;\n\nWhich rows are guaranteed to appear?',
-    opts:[
-      'A. All employees, even those without a department.',
-      'B. All departments, even those with no employees.',
-      'C. Only rows where employee and department match.',
-      'D. Every combination of employees and departments.'
-    ],
-    answer:[1]
-  },
-  {
-    n:28, type:'single', topic:'Joins / USING Restriction',
-    text:'When a join uses the USING (department_id) clause, which statement is true about referencing DEPARTMENT_ID elsewhere in the query?',
-    opts:[
-      'A. It must always be prefixed with a table alias.',
-      'B. It must NOT be prefixed with a table alias or table name.',
-      'C. It cannot be referenced in the SELECT list at all.',
-      'D. It must be prefixed only in the WHERE clause.'
-    ],
-    answer:[1]
-  },
-  {
-    n:29, type:'single', topic:'Joins / Three Tables',
-    text:'To join three tables A, B, and C in a single query, what is the minimum number of join conditions typically required?',
+    n:5, type:'single', topic:'Dərs 2 — Constraint-lər / CHECK',
+    text:'Bir sütun CHECK (quantity > 0) constraint-i ilə təyin olunub. Hansı INSERT dəyəri rədd edilir?',
     opts:[
       'A. 1',
-      'B. 2',
-      'C. 3',
-      'D. 4'
+      'B. 50',
+      'C. 0',
+      'D. 100'
+    ],
+    answer:[2]
+  },
+  {
+    n:6, type:'single', topic:'Dərs 2 — Constraint-lər / FOREIGN KEY',
+    text:'EMPLOYEES.DEPARTMENT_ID sütununda DEPARTMENTS.DEPARTMENT_ID-ə istinad edən FOREIGN KEY var (ON DELETE seçimi yoxdur). Hələ işçiləri olan departamenti silməyə çalışsanız nə baş verir?',
+    opts:[
+      'A. Departament və işçiləri birlikdə silinir.',
+      'B. İşçi (child) sətirləri olduğu üçün DELETE xəta ilə dayanır.',
+      'C. İşçilərin DEPARTMENT_ID dəyəri NULL edilir.',
+      'D. DELETE icra olunur və işçilər sahibsiz qalır.'
     ],
     answer:[1]
   },
   {
-    n:30, type:'single', topic:'Subqueries / WHERE Clause',
-    text:'Examine this query:\n\nSELECT last_name FROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);\n\nWhat does it return?',
+    n:7, type:'single', topic:'Dərs 2 — Cədvəl Yaratma / Composite Key',
+    text:'ORDER_ID və PRODUCT_ID sütunlarının birlikdə primary key təşkil etməsi üçün hansı ifadə düzgündür?',
     opts:[
-      'A. Employees whose salary equals the average salary.',
-      'B. Employees whose salary is above the overall average salary.',
-      'C. The average salary only.',
-      'D. All employees.'
+      'A. ... (order_id NUMBER PRIMARY KEY, product_id NUMBER PRIMARY KEY, ...)',
+      'B. ... (order_id NUMBER, product_id NUMBER, ..., PRIMARY KEY (order_id, product_id))',
+      'C. ... (order_id NUMBER, product_id NUMBER, ..., PRIMARY KEY order_id, product_id)',
+      'D. ... (order_id NUMBER, product_id NUMBER, ...) COMPOSITE KEY (order_id, product_id)'
     ],
     answer:[1]
   },
   {
-    n:31, type:'single', topic:'Subqueries / ALL Operator',
-    text:'What does salary > ALL (2000, 4000, 6000) evaluate to true for?',
+    n:8, type:'single', topic:'Dərs 3 — SEQUENCE / Yaratma',
+    text:'100-dən başlayıb hər dəfə 5 artan sequence yaratmaq üçün hansı əmr düzgündür?',
     opts:[
-      'A. Salaries greater than 2000.',
-      'B. Salaries greater than 6000 (the maximum in the list).',
-      'C. Salaries greater than 4000 (the middle value).',
-      'D. Salaries greater than 2000 but less than 6000.'
+      'A. CREATE SEQUENCE ord_seq START 100 INCREMENT 5;',
+      'B. CREATE SEQUENCE ord_seq START WITH 100 INCREMENT BY 5;',
+      'C. CREATE SEQUENCE ord_seq FROM 100 STEP 5;',
+      'D. CREATE SEQUENCE ord_seq (100, 5);'
     ],
     answer:[1]
   },
   {
-    n:32, type:'single', topic:'Subqueries / Correlated',
-    text:'What characterizes a correlated subquery?',
-    opts:[
-      'A. It executes only once before the outer query runs.',
-      'B. It references a column from the outer query and executes once per outer row.',
-      'C. It cannot use the EXISTS operator.',
-      'D. It must return more than one row.'
-    ],
-    answer:[1]
-  },
-  {
-    n:33, type:'single', topic:'Subqueries / EXISTS',
-    text:'Examine this query:\n\nSELECT d.department_name FROM departments d\nWHERE EXISTS (SELECT 1 FROM employees e WHERE e.department_id = d.department_id);\n\nWhat does it return?',
-    opts:[
-      'A. Departments that have no employees.',
-      'B. Departments that have at least one employee.',
-      'C. All departments regardless of employees.',
-      'D. The number 1 for each department.'
-    ],
-    answer:[1]
-  },
-  {
-    n:34, type:'single', topic:'Set Operators / UNION Column Rules',
-    text:'For a UNION between two SELECT statements to work, which condition must be met?',
-    opts:[
-      'A. Both queries must select from the same table.',
-      'B. Both queries must return the same number of columns with corresponding compatible data types.',
-      'C. The column names in both queries must be identical.',
-      'D. Both queries must include an ORDER BY clause.'
-    ],
-    answer:[1]
-  },
-  {
-    n:35, type:'single', topic:'Set Operators / MINUS',
-    text:'Examine this query:\n\nSELECT product_id FROM all_products\nMINUS\nSELECT product_id FROM discontinued_products;\n\nWhat does it return?',
-    opts:[
-      'A. Products that appear in both lists.',
-      'B. Products in ALL_PRODUCTS that are not in DISCONTINUED_PRODUCTS.',
-      'C. All products from both tables combined.',
-      'D. Products in DISCONTINUED_PRODUCTS only.'
-    ],
-    answer:[1]
-  },
-  {
-    n:36, type:'single', topic:'DML / INSERT Multiple Approaches',
-    text:'The PROJECTS table has columns PROJECT_ID, NAME (NOT NULL), and BUDGET. Which INSERT statement executes successfully?',
-    opts:[
-      "A. INSERT INTO projects (project_id, budget) VALUES (1, 5000);",
-      "B. INSERT INTO projects (project_id, name) VALUES (1, 'Alpha');",
-      "C. INSERT INTO projects VALUES (1, 'Alpha');",
-      "D. INSERT INTO projects (name) VALUES (NULL);"
-    ],
-    answer:[1]
-  },
-  {
-    n:37, type:'single', topic:'DML / UPDATE Multiple Columns',
-    text:'Which statement correctly updates both SALARY and COMMISSION_PCT for employee 100 in a single statement?',
-    opts:[
-      'A. UPDATE employees SET salary = 9000, commission_pct = 0.2 WHERE employee_id = 100;',
-      'B. UPDATE employees SET salary = 9000 AND commission_pct = 0.2 WHERE employee_id = 100;',
-      'C. UPDATE employees SET (salary, commission_pct) = 9000, 0.2 WHERE employee_id = 100;',
-      'D. UPDATE employees SET salary = 9000; SET commission_pct = 0.2 WHERE employee_id = 100;'
-    ],
-    answer:[0]
-  },
-  {
-    n:38, type:'single', topic:'DML / DELETE with Condition',
-    text:'What does this statement do?\n\nDELETE FROM employees WHERE department_id = 10;',
-    opts:[
-      'A. Deletes the DEPARTMENT_ID column from the table.',
-      'B. Deletes all employee rows whose DEPARTMENT_ID is 10.',
-      'C. Deletes the entire EMPLOYEES table.',
-      'D. Sets DEPARTMENT_ID to NULL for department 10.'
-    ],
-    answer:[1]
-  },
-  {
-    n:39, type:'multi', topic:'TCL / Transaction Behavior',
-    text:'Which TWO statements about transactions in Oracle are true?',
-    opts:[
-      'A. A COMMIT permanently saves all changes made since the last commit or rollback.',
-      'B. Issuing a DDL statement such as CREATE TABLE automatically commits the current transaction.',
-      'C. A ROLLBACK can undo changes even after a COMMIT.',
-      'D. SAVEPOINT permanently saves part of a transaction to disk.'
-    ],
-    answer:[0,1]
-  },
-  {
-    n:40, type:'single', topic:'DDL / Data Types',
-    text:'Which data type is most appropriate for storing a fixed-length country code that is always exactly 2 characters?',
-    opts:[
-      'A. VARCHAR2(2)',
-      'B. CHAR(2)',
-      'C. NUMBER(2)',
-      'D. CLOB'
-    ],
-    answer:[1]
-  },
-  {
-    n:41, type:'single', topic:'DDL / DEFAULT Value',
-    text:"A column is defined as STATUS VARCHAR2(10) DEFAULT 'NEW'. What value is stored when an INSERT omits the STATUS column?",
-    opts:[
-      'A. NULL',
-      "B. 'NEW'",
-      "C. An empty string",
-      'D. The INSERT fails.'
-    ],
-    answer:[1]
-  },
-  {
-    n:42, type:'single', topic:'DDL / CREATE TABLE AS SELECT',
-    text:'Examine this statement:\n\nCREATE TABLE dept_backup AS SELECT * FROM departments WHERE 1 = 2;\n\nWhat is created?',
-    opts:[
-      'A. A copy of DEPARTMENTS with all its rows.',
-      'B. A new table with the same structure as DEPARTMENTS but no rows.',
-      'C. Nothing; the statement raises an error.',
-      'D. A view instead of a table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:43, type:'single', topic:'DDL / ALTER TABLE DROP Column',
-    text:'Which statement correctly removes the column PHONE from the CUSTOMERS table?',
-    opts:[
-      'A. ALTER TABLE customers DELETE COLUMN phone;',
-      'B. ALTER TABLE customers DROP COLUMN phone;',
-      'C. ALTER TABLE customers REMOVE phone;',
-      'D. DROP COLUMN phone FROM customers;'
-    ],
-    answer:[1]
-  },
-  {
-    n:44, type:'single', topic:'DDL / RENAME Column',
-    text:'Which statement correctly renames the column FNAME to FIRST_NAME in the EMPLOYEES table?',
-    opts:[
-      'A. ALTER TABLE employees RENAME COLUMN fname TO first_name;',
-      'B. ALTER TABLE employees MODIFY fname TO first_name;',
-      'C. RENAME COLUMN employees.fname TO first_name;',
-      'D. ALTER TABLE employees CHANGE fname first_name;'
-    ],
-    answer:[0]
-  },
-  {
-    n:45, type:'single', topic:'DDL / TRUNCATE',
-    text:'What is the effect of TRUNCATE TABLE logs;?',
-    opts:[
-      'A. It removes all rows and can be rolled back before commit.',
-      'B. It removes all rows quickly, issues an implicit commit, and cannot be rolled back.',
-      'C. It removes the table structure entirely.',
-      'D. It removes only the first row of the table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:46, type:'multi', topic:'Constraints / Levels',
-    text:'Which TWO constraints can be defined at both the column level and the table level?',
-    opts:[
-      'A. NOT NULL',
-      'B. PRIMARY KEY',
-      'C. FOREIGN KEY',
-      'D. A composite PRIMARY KEY on a single column only'
-    ],
-    answer:[1,2]
-  },
-  {
-    n:47, type:'single', topic:'Constraints / CHECK',
-    text:'A column is defined with CHECK (salary BETWEEN 1000 AND 50000). Which INSERT value is rejected?',
-    opts:[
-      'A. 1000',
-      'B. 25000',
-      'C. 50000',
-      'D. 500'
-    ],
-    answer:[3]
-  },
-  {
-    n:48, type:'single', topic:'Constraints / FOREIGN KEY',
-    text:'A FOREIGN KEY on EMPLOYEES.DEPARTMENT_ID references DEPARTMENTS.DEPARTMENT_ID. What happens if you try to delete a department that still has employees, with no ON DELETE option specified?',
-    opts:[
-      'A. The department and its employees are both deleted.',
-      "B. The DELETE fails because of the child records in EMPLOYEES.",
-      'C. The employees\' DEPARTMENT_ID is set to NULL.',
-      'D. The DELETE succeeds and leaves orphaned employee rows.'
-    ],
-    answer:[1]
-  },
-  {
-    n:49, type:'single', topic:'Views / Simple View DML',
-    text:'A simple view is created on a single table selecting a few columns without any functions or grouping. Which statement is true?',
-    opts:[
-      'A. DML operations through the view are never allowed.',
-      'B. DML operations through the view can modify the underlying base table, subject to the base table constraints.',
-      'C. The view stores a physical copy of the data.',
-      'D. The view cannot be queried with a WHERE clause.'
-    ],
-    answer:[1]
-  },
-  {
-    n:50, type:'single', topic:'Views / WITH CHECK OPTION',
-    text:'A view is created on employees WHERE department_id = 50 WITH CHECK OPTION. What happens if you try to UPDATE a row through the view, changing DEPARTMENT_ID to 60?',
-    opts:[
-      'A. The update succeeds and the row moves to department 60.',
-      'B. The update fails because the changed row would no longer be visible through the view.',
-      'C. The update succeeds but the view is dropped.',
-      'D. The update sets DEPARTMENT_ID to NULL.'
-    ],
-    answer:[1]
-  },
-  {
-    n:51, type:'single', topic:'Sequences / NEXTVAL',
-    text:'A sequence ORD_SEQ starts at 1 and increments by 1. You call ORD_SEQ.NEXTVAL three times and then ORD_SEQ.CURRVAL once. What does the CURRVAL call return?',
+    n:9, type:'single', topic:'Dərs 3 — SEQUENCE / NEXTVAL & CURRVAL',
+    text:'ORD_SEQ sequence-i 1-dən başlayır, 1 artır. NEXTVAL üç dəfə çağırılır, sonra bir dəfə CURRVAL. CURRVAL nə qaytarır?',
     opts:[
       'A. 1',
       'B. 3',
@@ -783,114 +312,246 @@ const questions = [
     answer:[1]
   },
   {
-    n:52, type:'single', topic:'Sequences / Gaps',
-    text:'Which action can cause a gap in the numbers generated by a sequence?',
+    n:10, type:'single', topic:'Dərs 3 — DML / INSERT',
+    text:'PROJECTS cədvəlində PROJECT_ID, NAME (NOT NULL) və BUDGET sütunları var. Hansı INSERT əmri uğurla icra olunur?',
     opts:[
-      'A. Selecting NEXTVAL without inserting, or rolling back a transaction that used NEXTVAL.',
-      'B. Using CURRVAL more than once.',
-      'C. Creating the sequence with START WITH 1.',
-      'D. Sequences never produce gaps under any circumstance.'
+      "A. INSERT INTO projects (project_id, budget) VALUES (1, 5000);",
+      "B. INSERT INTO projects (project_id, name) VALUES (1, 'Alpha');",
+      "C. INSERT INTO projects VALUES (1, 'Alpha');",
+      "D. INSERT INTO projects (name) VALUES (NULL);"
+    ],
+    answer:[1]
+  },
+  {
+    n:11, type:'single', topic:'Dərs 3 — DML / UPDATE',
+    text:'Aşağıdakı əmr nə edir?\n\nUPDATE employees SET salary = salary * 1.10 WHERE department_id = 60;',
+    opts:[
+      'A. Bütün işçilərə 10% artım verir.',
+      'B. Yalnız 60 nömrəli departamentdəki işçilərə 10% artım verir.',
+      'C. Bütün maaşları 1.10 edir.',
+      'D. Xəta verir, çünki SET-də ifadə istifadə edilə bilməz.'
+    ],
+    answer:[1]
+  },
+  {
+    n:12, type:'single', topic:'Dərs 4 — TCL / COMMIT',
+    text:'COMMIT əmri haqqında hansı ifadə DOĞRUDUR?',
+    opts:[
+      'A. COMMIT sonradan verilən ROLLBACK ilə geri qaytarıla bilər.',
+      'B. COMMIT cari tranzaksiyanın bütün dəyişikliklərini daimi edir və tranzaksiyanı bitirir.',
+      'C. Hər SELECT-dən sonra COMMIT tələb olunur.',
+      'D. COMMIT avtomatik SAVEPOINT yaradır.'
+    ],
+    answer:[1]
+  },
+  {
+    n:13, type:'single', topic:'Dərs 4 — TCL / SAVEPOINT',
+    text:'Aşağıdakı ardıcıllıq icra olunur:\n\nINSERT ... (sətir A);\nSAVEPOINT s1;\nINSERT ... (sətir B);\nROLLBACK TO s1;\nCOMMIT;\n\nTranzaksiyadan sonra hansı sətirlər qalır?',
+    opts:[
+      'A. Yalnız sətir A.',
+      'B. Yalnız sətir B.',
+      'C. Həm A, həm B.',
+      'D. Heç biri.'
     ],
     answer:[0]
   },
   {
-    n:53, type:'single', topic:'Indexes / Purpose',
-    text:'What is the primary purpose of creating an index on a column?',
+    n:14, type:'single', topic:'Dərs 4 — TCL / TRUNCATE vs DELETE',
+    text:'TRUNCATE TABLE logs; ilə DELETE FROM logs; müqayisəsində hansı ifadə DOĞRUDUR?',
     opts:[
-      'A. To enforce that the column cannot contain NULL values.',
-      'B. To speed up the retrieval of rows based on the values of that column.',
-      'C. To automatically sort the physical rows of the table.',
-      'D. To reduce the storage size of the table.'
+      'A. TRUNCATE geri qaytarıla (rollback) bilər, DELETE isə bilməz.',
+      'B. TRUNCATE DDL əmridir, avtomatik commit verir və geri qaytarıla bilməz.',
+      'C. DELETE bütün sətirləri silməkdə TRUNCATE-dən sürətlidir.',
+      'D. TRUNCATE cədvəlin strukturunu da silir.'
     ],
     answer:[1]
   },
   {
-    n:54, type:'single', topic:'Indexes / Trade-offs',
-    text:'Which statement is a correct trade-off of having many indexes on a table?',
+    n:15, type:'single', topic:'Dərs 5 — SELECT / WHERE & NULL',
+    text:'Menecer təyin edilməmiş işçiləri (MANAGER_ID boş olanları) seçmək üçün hansı şərt düzgündür?',
     opts:[
-      'A. Indexes speed up all operations, including INSERT and DELETE.',
-      'B. Indexes can speed up queries but add overhead to INSERT, UPDATE, and DELETE operations.',
-      'C. Indexes have no effect on DML performance.',
-      'D. Indexes prevent the table from being queried.'
+      'A. WHERE manager_id = NULL',
+      'B. WHERE manager_id != NULL',
+      'C. WHERE manager_id IS NULL',
+      'D. WHERE manager_id = 0'
     ],
-    answer:[1]
+    answer:[2]
   },
   {
-    n:55, type:'single', topic:'Synonyms',
-    text:'What does a synonym provide in Oracle?',
+    n:16, type:'single', topic:'Dərs 5 — SELECT / LIKE',
+    text:"WHERE last_name LIKE '_a%' şərti hansı adları seçir?",
     opts:[
-      'A. A physical copy of a table.',
-      'B. An alternative name for a database object such as a table or view.',
-      'C. A backup of the object.',
-      'D. A temporary in-memory table.'
-    ],
-    answer:[1]
-  },
-  {
-    n:56, type:'single', topic:'Data Dictionary / USER_ Views',
-    text:'Which query lists the names of all sequences owned by the current user?',
-    opts:[
-      'A. SELECT sequence_name FROM user_sequences;',
-      'B. SELECT sequence_name FROM all_tables;',
-      'C. SELECT * FROM v$sequences;',
-      'D. SELECT sequences FROM user_objects;'
+      "A. İkinci simvolu 'a' olan adları.",
+      "B. Birinci simvolu 'a' olan adları.",
+      "C. 'a' ilə bitən adları.",
+      "D. Yalnız iki simvoldan ibarət adları."
     ],
     answer:[0]
   },
   {
-    n:57, type:'single', topic:'DCL / REVOKE',
-    text:'Which statement removes the previously granted UPDATE privilege on the ORDERS table from user MARIA?',
+    n:17, type:'single', topic:'Dərs 5 — SELECT / ORDER BY',
+    text:'Aşağıdakı sorğu nəticələri necə sıralayır?\n\nSELECT last_name, salary FROM employees\nORDER BY salary DESC, last_name ASC;',
     opts:[
-      'A. REVOKE UPDATE ON orders FROM maria;',
-      'B. REVOKE UPDATE ON orders TO maria;',
-      'C. DROP UPDATE ON orders FROM maria;',
-      'D. DENY UPDATE ON orders TO maria;'
+      'A. Əvvəlcə LAST_NAME-ə görə, sonra SALARY-ə görə.',
+      'B. Əvvəlcə SALARY-ə görə azalan, bərabər maaşlarda LAST_NAME-ə görə artan.',
+      'C. Yalnız SALARY-ə görə; ikinci açar nəzərə alınmır.',
+      'D. Xəta verir.'
+    ],
+    answer:[1]
+  },
+  {
+    n:18, type:'single', topic:'SUBSTR funksiyası',
+    text:"SUBSTR('ORACLE', 1, 3) nə qaytarır?",
+    opts:[
+      "A. 'ORA'",
+      "B. 'RAC'",
+      "C. 'CLE'",
+      "D. 'ORACLE'"
     ],
     answer:[0]
   },
   {
-    n:58, type:'single', topic:'Implicit Conversion',
-    text:"The HIRE_DATE column is of type DATE, and NLS_DATE_FORMAT is 'DD-MON-YY'. What happens with this query?\n\nSELECT * FROM employees WHERE hire_date = '17-JUN-03';",
+    n:19, type:'single', topic:'SUBSTR funksiyası',
+    text:"SUBSTR('DATABASE', 5, 3) nə qaytarır?",
     opts:[
-      "A. It fails because the string cannot be compared to a date.",
-      "B. It succeeds; the string is implicitly converted to a DATE.",
-      "C. It converts HIRE_DATE to a string for comparison.",
-      'D. It returns all rows regardless of HIRE_DATE.'
+      "A. 'ABA'",
+      "B. 'BAS'",
+      "C. 'TAB'",
+      "D. 'ASE'"
     ],
     answer:[1]
   },
   {
-    n:59, type:'single', topic:'DUAL / Constants',
-    text:'What is the DUAL table primarily used for?',
+    n:20, type:'single', topic:'SUBSTR funksiyası / Mənfi indeks',
+    text:"SUBSTR('NAXCIVAN', -3, 2) nə qaytarır?",
     opts:[
-      'A. Storing user data permanently.',
-      'B. Selecting constant expressions, function results, or pseudocolumns that are not tied to a specific table.',
-      'C. Storing temporary session data.',
-      'D. Backing up other tables.'
+      "A. 'AN'",
+      "B. 'VA'",
+      "C. 'VAN'",
+      "D. 'IV'"
     ],
     answer:[1]
   },
   {
-    n:60, type:'single', topic:'Pseudocolumns / ROWNUM',
-    text:'Examine this query:\n\nSELECT last_name FROM employees WHERE ROWNUM <= 5;\n\nWhich statement is true?',
+    n:21, type:'single', topic:'Qrup funksiyaları / AVG və NULL',
+    text:'EMPLOYEES cədvəlində 10 sətir var; COMMISSION_PCT onlardan 4-ündə NULL-dur. AVG(commission_pct) neçəyə bölür?',
     opts:[
-      'A. It returns the 5 employees with the highest salaries.',
-      'B. It returns the first 5 rows retrieved, in no guaranteed order unless combined with an ordered subquery.',
-      'C. It returns exactly the 5th row of the table.',
-      'D. It raises an error because ROWNUM cannot be used in a WHERE clause.'
+      'A. COMMISSION_PCT cəmini 10-a bölür.',
+      'B. COMMISSION_PCT cəmini yalnız 6 (NULL olmayan) sətrə bölür.',
+      'C. NULL qaytarır.',
+      'D. 0 qaytarır.'
+    ],
+    answer:[1]
+  },
+  {
+    n:22, type:'single', topic:'Qrup funksiyaları / MIN & MAX',
+    text:'MIN və MAX funksiyaları haqqında hansı ifadə DOĞRUDUR?',
+    opts:[
+      'A. Yalnız ədədi (NUMBER) sütunlara tətbiq oluna bilər.',
+      'B. Ədədi, simvol (mətn) və tarix (DATE) sütunlarına tətbiq oluna bilər.',
+      'C. NULL dəyərləri hesablamaya daxil edir.',
+      'D. GROUP BY olmadan istifadə edilə bilməz.'
+    ],
+    answer:[1]
+  },
+  {
+    n:23, type:'multi', topic:'Qrup funksiyaları / Ümumi qaydalar',
+    text:'Qrup (aggregate) funksiyaları haqqında hansı İKİ ifadə doğrudur?',
+    opts:[
+      'A. COUNT(*) istisna olmaqla, bütün qrup funksiyaları NULL dəyərləri nəzərə almır.',
+      'B. AVG və SUM yalnız ədədi data tipləri ilə işləyir.',
+      'C. Qrup funksiyası birbaşa WHERE bölməsində istifadə oluna bilər.',
+      'D. MAX heç vaxt tarix sütunlarına tətbiq oluna bilməz.'
+    ],
+    answer:[0,1]
+  },
+  {
+    n:24, type:'single', topic:'Qrup funksiyaları / GROUP BY & HAVING',
+    text:'Hər departament üzrə orta maaşı 5000-dən çox olan departamentləri qaytaran düzgün sorğu hansıdır?',
+    opts:[
+      'A. SELECT department_id, AVG(salary) FROM employees WHERE AVG(salary) > 5000 GROUP BY department_id;',
+      'B. SELECT department_id, AVG(salary) FROM employees GROUP BY department_id HAVING AVG(salary) > 5000;',
+      'C. SELECT department_id, AVG(salary) FROM employees HAVING AVG(salary) > 5000;',
+      'D. SELECT department_id, AVG(salary) FROM employees GROUP BY AVG(salary);'
+    ],
+    answer:[1]
+  },
+  {
+    n:25, type:'single', topic:'CONNECT BY LEVEL / Sətir generasiyası',
+    text:'Aşağıdakı sorğu neçə sətir qaytarır?\n\nSELECT LEVEL FROM dual CONNECT BY LEVEL <= 5;',
+    opts:[
+      'A. 1',
+      'B. 4',
+      'C. 5',
+      'D. 0'
+    ],
+    answer:[2]
+  },
+  {
+    n:26, type:'single', topic:'CONNECT BY LEVEL / LEVEL pseudocolumn',
+    text:'SELECT LEVEL FROM dual CONNECT BY LEVEL <= 3; sorğusunda LEVEL sütunu hansı dəyərləri qaytarır?',
+    opts:[
+      'A. 0, 1, 2',
+      'B. 1, 2, 3',
+      'C. 3, 3, 3',
+      'D. Yalnız 3'
+    ],
+    answer:[1]
+  },
+  {
+    n:27, type:'single', topic:'CONNECT BY / İerarxik sorğu',
+    text:'EMPLOYEES cədvəlində MANAGER_ID sütunu eyni cədvəldə EMPLOYEE_ID-ə istinad edir. İşçiləri ən yuxarı rəhbərdən başlayaraq ierarxik sıralamaq üçün hansı ifadə düzgündür?',
+    opts:[
+      'A. GROUP BY manager_id',
+      'B. START WITH manager_id IS NULL CONNECT BY PRIOR employee_id = manager_id',
+      'C. ORDER BY manager_id, employee_id',
+      'D. CONNECT BY LEVEL <= manager_id'
+    ],
+    answer:[1]
+  },
+  {
+    n:28, type:'single', topic:'CONNECT BY ... WHERE / Filtrləmə',
+    text:'İerarxik sorğuda (CONNECT BY) WHERE bölməsi nə zaman tətbiq olunur?',
+    opts:[
+      'A. İerarxiya qurulmadan ƏVVƏL, başlanğıc sətirlərini seçmək üçün.',
+      'B. İerarxiya (CONNECT BY) qurulduqdan SONRA — sətirləri süzgəcdən keçirir, lakin digər sətirlərin LEVEL hesabına təsir etmədən.',
+      'C. WHERE CONNECT BY ilə birlikdə ümumiyyətlə istifadə oluna bilməz.',
+      'D. WHERE yalnız START WITH-i əvəz edir.'
+    ],
+    answer:[1]
+  },
+  {
+    n:29, type:'single', topic:'Dərs 6 — RANK vs DENSE_RANK',
+    text:'Maaşlar 5000, 5000, 4000 kimi azalan sıralandıqda RANK() bu üç sətrə hansı sıra nömrələrini verir?',
+    opts:[
+      'A. 1, 1, 2',
+      'B. 1, 2, 3',
+      'C. 1, 1, 3',
+      'D. 1, 1, 1'
+    ],
+    answer:[2]
+  },
+  {
+    n:30, type:'single', topic:'Dərs 7 — NVL & CASE',
+    text:"COMMISSION_PCT dəyəri NULL olan işçi üçün NVL(commission_pct, 0) nə qaytarır?",
+    opts:[
+      'A. NULL',
+      'B. 0',
+      'C. COMMISSION_PCT-in dəyəri',
+      'D. Xəta'
     ],
     answer:[1]
   }
 ];
 
 // ═══════════════════════════════════════════
-// STATE
+// STATE (nəzarət qatı YOXDUR)
 // ═══════════════════════════════════════════
-const PASS_SCORE = 42;
+const PASS_SCORE = 21;
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTIK1Kf2v21b6kDnjNTIQeQjGLYticlZrM5D6udGmKXzGKOsGGx1y-kZ6ewjxIGZPy/exec';
 
 let studentName='', studentEmail='';
-let timeLeft = 120*60;
+let timeLeft = 80*60;
 let timerInterval = null;
 let startTime = null;
 let userAnswers = {};
@@ -899,7 +560,6 @@ function $(id){ return document.getElementById(id); }
 function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $(id).classList.add('active'); }
 function fmtTime(sec){ const m=Math.floor(sec/60),s=sec%60; return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
 
-// LOGIN
 function startExam(){
   const name=$('inp-name').value.trim(), surname=$('inp-surname').value.trim(), email=$('inp-email').value.trim();
   let ok=true;
@@ -912,7 +572,6 @@ function startExam(){
   buildExam(); showScreen('examScreen'); startTimer();
 }
 
-// BUILD EXAM
 function buildExam(){
   const body=$('examBody'); body.innerHTML='';
   questions.forEach((q,qi)=>{
@@ -928,7 +587,6 @@ function buildExam(){
   });
 }
 
-// RECORD ANSWER
 function recordAnswer(qi,oi,el){
   const q=questions[qi];
   if(q.type==='single'){
@@ -951,7 +609,6 @@ function updateProgress(){
   $('prog-fill').style.width=pct+'%';
 }
 
-// TIMER
 function startTimer(){
   startTime=Date.now();
   timerInterval=setInterval(()=>{
@@ -963,7 +620,6 @@ function startTimer(){
   },1000);
 }
 
-// SUBMIT
 function confirmSubmit(){
   const answered=Object.keys(userAnswers).filter(k=>userAnswers[k]&&userAnswers[k].length>0).length;
   const unanswered=questions.length-answered;
@@ -987,7 +643,6 @@ function submitExam(){
   sendToSheets(elapsed);
 }
 
-// SEND TO SHEETS
 function sendToSheets(elapsed){
   let correct=0,wrong=0,unanswered=0;
   questions.forEach((q,qi)=>{
@@ -1003,7 +658,6 @@ function sendToSheets(elapsed){
   }).catch(function(){});
 }
 
-// RESULT
 function answersMatch(ua,ca){
   if(!ua||ua.length===0)return false;
   const u=[...ua].sort((a,b)=>a-b),c=[...ca].sort((a,b)=>a-b);
